@@ -1,0 +1,10 @@
+{
+  "name": "type-io",
+  "version": "0.1.0",
+  "description": "Typescript decorator-based encoding/decoding transformation for IO",
+  "main": "dist/index.js",
+  "repository": "https://github.com/hernantas/type-io.git",
+  "author": "Zulfikar Raditya Hernanta <hernantas@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
