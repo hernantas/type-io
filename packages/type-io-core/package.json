@@ -6,6 +6,16 @@
   "author": "Zulfikar Raditya Hernanta <hernantas@gmail.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "test": "mocha -r ts-node/register test/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.1",
+    "chai": "^4.3.0",
+    "mocha": "^8.3.0",
+    "ts-node": "^9.1.1"
+  },
   "dependencies": {
     "reflect-metadata": "^0.1.13"
   }
