@@ -9,6 +9,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "core": "yarn workspace type-io-core"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",

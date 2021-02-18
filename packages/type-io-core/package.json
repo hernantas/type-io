@@ -1,0 +1,9 @@
+{
+  "name": "type-io-core",
+  "version": "0.1.0",
+  "description": "Core package for `type-io`",
+  "main": "dist/index.js",
+  "author": "Zulfikar Raditya Hernanta <hernantas@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
