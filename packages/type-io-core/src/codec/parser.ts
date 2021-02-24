@@ -20,6 +20,7 @@ export abstract class Parser {
       const propDefs = Metadata.getTypeDef(Type)
 
       for (const propDef of propDefs) {
+        const defType = Array.isArray(propDef.type) ? propDef.type[0] : propDef.type
         const inPropName = propDef.inName as keyof I
         const outPropName = propDef.name as keyof T
 
@@ -29,11 +30,23 @@ export abstract class Parser {
           : [propDef.name]
 
         if (inPropName in input) {
-          output[outPropName] = this.decode(
-            input[inPropName],
-            propDef.type,
-            propTraces
-          ) as T[keyof T]
+          if (Array.isArray(propDef.type)) {
+            const outProp = []
+            for (const index in input[inPropName]) {
+              outProp[index as number] = this.decode(
+                input[inPropName][index],
+                defType,
+                propTraces.concat(index)
+              )
+            }
+            output[outPropName] = outProp as any
+          } else {
+            output[outPropName] = this.decode(
+              input[inPropName],
+              defType,
+              propTraces
+            ) as T[keyof T]
+          }
         } else if (!propDef.optional) {
           throw new Error(`${propTraces.join('.')} property is required but do not exist in given input when decoding`)
         }
@@ -63,6 +76,7 @@ export abstract class Parser {
       const propDefs = Metadata.getTypeDef(Type)
 
       for (const propDef of propDefs) {
+        const defType = Array.isArray(propDef.type) ? propDef.type[0] : propDef.type
         const inPropName = propDef.name as keyof T
         const outPropName = propDef.outName
 
@@ -72,11 +86,25 @@ export abstract class Parser {
           : [propDef.name]
 
         if (inPropName in input) {
-          output[outPropName] = this.encode(
-            input[inPropName],
-            propDef.type,
-            propTraces
-          ) as T[keyof T]
+          if (Array.isArray(propDef.type)) {
+            // when array
+            const outProp = []
+            for (const index in input[inPropName]) {
+              outProp[index as number] = this.encode(
+                input[inPropName][index],
+                defType,
+                propTraces.concat(index)
+              )
+            }
+            output[outPropName] = outProp as any
+          } else {
+            // when non array
+            output[outPropName] = this.encode(
+              input[inPropName],
+              defType,
+              propTraces
+            ) as T[keyof T]
+          }
         } else if (!propDef.optional) {
           throw new Error(`${propTraces.join('.')} property is required but do not exist in given object when encoding`)
         }

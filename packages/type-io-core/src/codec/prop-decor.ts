@@ -18,7 +18,7 @@ export function Prop (options?: PropOption): PropertyDecorator {
         ignore: options?.ignore !== undefined ? options.ignore : false
       }
 
-      if (def.type === undefined || def.type === Object) {
+      if (def.type === undefined || def.type === Object || def.type === Array) {
         throw new Error(`${def.name} has unknown type, make sure to specify the type`)
       }
 
