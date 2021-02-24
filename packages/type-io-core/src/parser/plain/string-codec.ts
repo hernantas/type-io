@@ -1,0 +1,25 @@
+import { Codec } from '../../codec/codec'
+
+export class StringCodec implements Codec<string> {
+  type = String
+
+  decode (val: unknown): string {
+    if (typeof val === 'string') {
+      return val
+    }
+
+    if (typeof val === 'number') {
+      return String(val)
+    }
+
+    if (typeof val === 'boolean') {
+      return val ? 'true' : 'false'
+    }
+
+    return ''
+  }
+
+  encode (val: string): string {
+    return val
+  }
+}
