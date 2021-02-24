@@ -28,5 +28,10 @@ export class Metadata {
 
 function isTypeDefinition (obj: unknown): obj is PropDefinition {
   const def = obj as PropDefinition
-  return def.type !== undefined
+  return def.type !== undefined ||
+    def.name !== undefined ||
+    def.inName !== undefined ||
+    def.outName !== undefined ||
+    def.optional !== undefined ||
+    def.ignore !== undefined
 }
