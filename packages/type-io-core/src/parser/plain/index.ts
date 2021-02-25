@@ -1,1 +1,5 @@
 export * from './plain-parser'
+export { BooleanCodec as BooleanPlainCodec } from './boolean-codec'
+export { NumberCodec as NumberPlainCodec } from './number-codec'
+export { StringCodec as StringPlainCodec } from './string-codec'
+export { DateCodec as DatePlainCodec } from './date-codec'
