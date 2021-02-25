@@ -5,5 +5,4 @@ export interface PropOption {
   optional?: boolean
   inName?: string
   outName?: string
-  ignore?: boolean
 }

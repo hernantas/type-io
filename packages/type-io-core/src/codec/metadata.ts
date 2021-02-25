@@ -32,6 +32,5 @@ function isTypeDefinition (obj: unknown): obj is PropDefinition {
     def.name !== undefined ||
     def.inName !== undefined ||
     def.outName !== undefined ||
-    def.optional !== undefined ||
-    def.ignore !== undefined
+    def.optional !== undefined
 }

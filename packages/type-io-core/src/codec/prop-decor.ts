@@ -14,8 +14,7 @@ export function Prop (options?: PropOption): PropertyDecorator {
         type: options?.type !== undefined ? options.type : designType,
         optional: options?.optional !== undefined ? options.optional : false,
         inName: options?.inName !== undefined ? options.inName : propertyKey,
-        outName: options !== undefined ? (options.outName !== undefined ? options.outName : (options.inName !== undefined ? options.inName : propertyKey)) : propertyKey,
-        ignore: options?.ignore !== undefined ? options.ignore : false
+        outName: options !== undefined ? (options.outName !== undefined ? options.outName : (options.inName !== undefined ? options.inName : propertyKey)) : propertyKey
       }
 
       if (def.type === undefined || def.type === Object || def.type === Array) {
