@@ -13,7 +13,14 @@ export abstract class Parser {
     const codec = this.findCodec(Type)
 
     if (codec !== undefined) {
-      return codec.decode(input)
+      try {
+        return codec.decode(input)
+      } catch (e) {
+        throw new Error(traces !== undefined
+          ? `Error when decoding '${traces.join('.')}' property. Reason: ${e}`
+          : `Error when decoding value. Reason: ${e}`
+        )
+      }
     } else if (typeof input === 'object' && input !== null) {
       // codec is not found but its an object
       const output = this.createDecodeObject(Type)
