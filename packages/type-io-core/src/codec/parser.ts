@@ -55,14 +55,14 @@ export abstract class Parser {
             ) as T[keyof T]
           }
         } else if (!propDef.optional) {
-          throw new Error(`${propTraces.join('.')} property is required but do not exist in given input when decoding`)
+          throw new Error(`'${propTraces.join('.')}' property is required but do not exist in given input when decoding`)
         }
       }
 
       return output
     } else {
       throw new Error(traces !== undefined
-        ? `No codec found for property ${traces.join('.')} when decoding`
+        ? `No codec found for property '${traces.join('.')}' when decoding`
         : 'No codec found for given input when decoding'
       )
     }
@@ -113,14 +113,14 @@ export abstract class Parser {
             ) as T[keyof T]
           }
         } else if (!propDef.optional) {
-          throw new Error(`${propTraces.join('.')} property is required but do not exist in given object when encoding`)
+          throw new Error(`'${propTraces.join('.')}' property is required but do not exist in given object when encoding`)
         }
       }
 
       return output
     } else {
       throw new Error(traces !== undefined
-        ? `No codec found for property ${traces.join('.')} when encoding`
+        ? `No codec found for property '${traces.join('.')}' when encoding`
         : 'No codec found for given object when encoding'
       )
     }
