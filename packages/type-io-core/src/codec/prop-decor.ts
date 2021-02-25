@@ -6,15 +6,27 @@ import { AnyParamConstructor } from '../type'
 export function Prop (options?: PropOption): PropertyDecorator {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return (target: Object, propertyKey: string | symbol): void => {
-    const designType = Metadata.getDesignType(target, propertyKey) as AnyParamConstructor
-
     if (typeof propertyKey === 'string') {
+      const designType = Metadata.getDesignType(target, propertyKey) as AnyParamConstructor
+      let inName = propertyKey
+      let outName = propertyKey
+
+      if (options !== undefined) {
+        inName = options.inName !== undefined
+          ? options.inName
+          : (options.outName !== undefined ? options.outName : propertyKey)
+
+        outName = options.outName !== undefined
+          ? options.outName
+          : (options.inName !== undefined ? options.inName : propertyKey)
+      }
+
       const def: PropDefinition = {
         name: propertyKey,
         type: options?.type !== undefined ? options.type : designType,
         optional: options?.optional !== undefined ? options.optional : false,
-        inName: options?.inName !== undefined ? options.inName : propertyKey,
-        outName: options !== undefined ? (options.outName !== undefined ? options.outName : (options.inName !== undefined ? options.inName : propertyKey)) : propertyKey
+        inName: inName,
+        outName: outName
       }
 
       if (def.type === undefined || def.type === Object || def.type === Array) {
