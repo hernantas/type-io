@@ -61,4 +61,41 @@ describe('Basic functionality', () => {
     expect(encode).to.have.property('typeNumber', plain.typeNumber)
     expect(encode).to.have.property('typeBoolean', plain.typeBoolean)
   })
+
+  class WithDate {
+    @Prop()
+    created: Date
+
+    constructor () {
+      this.created = new Date()
+    }
+  }
+
+  it('Decode from plain object with Date', () => {
+    const plain = {
+      created: new Date()
+    }
+
+    const decode = parser.decode(plain, WithDate)
+    expect(decode).to.have.property('created', plain.created)
+  })
+
+  it('Decode from plain object with Date from string/number', () => {
+    const plainStr = {
+      created: 'October 13, 2014 11:13:00'
+    }
+    const plainNum = {
+      created: 1614235210802
+    }
+
+    const dateStr = new Date(plainStr.created)
+    const dateNum = new Date(plainNum.created)
+
+    const decodeStr = parser.decode(plainStr, WithDate)
+    const decodeNum = parser.decode(plainNum, WithDate)
+    expect(decodeStr).to.have.property('created')
+    expect(decodeStr.created.getTime()).to.be.eq(dateStr.getTime())
+    expect(decodeNum).to.have.property('created')
+    expect(decodeNum.created.getTime()).to.be.eq(dateNum.getTime())
+  })
 })
