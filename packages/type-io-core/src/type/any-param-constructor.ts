@@ -1,1 +1,1 @@
-export type AnyParamConstructor<T = unknown> = new (...args: unknown[]) => T
+export type AnyParamConstructor<T = unknown> = new (...args: any[]) => T
