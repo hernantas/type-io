@@ -46,7 +46,7 @@ export abstract class Parser {
                 propTraces.concat(index)
               )
             }
-            output[outPropName] = outProp as any
+            output[outPropName] = outProp as unknown as T[keyof T]
           } else {
             output[outPropName] = this.decode(
               input[inPropName],
@@ -103,7 +103,7 @@ export abstract class Parser {
                 propTraces.concat(index)
               )
             }
-            output[outPropName] = outProp as any
+            output[outPropName] = outProp as unknown as T[keyof T]
           } else {
             // when non array
             output[outPropName] = this.encode(
