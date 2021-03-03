@@ -1,5 +1,5 @@
 {
-  "name": "type-io-core",
+  "name": "@type-io/core",
   "version": "0.1.0",
   "description": "Core package for `type-io`",
   "main": "dist/index.js",
