@@ -53,5 +53,6 @@ describe('Parse array', () => {
     const encode = parser.encode(decode, Basic)
     expect(decode).to.be.eql([])
     expect(encode).to.be.eql([])
+    expect(() => parser.encode([])).to.throws()
   })
 })
