@@ -84,4 +84,21 @@ describe('Basic functionality', () => {
     expect(decode).to.have.property('typeDate').and.equalTime(plain.typeDate)
     expect(encode).to.to.have.property('typeDate').and.equalTime(plain.typeDate)
   })
+
+  it('Decode/Encode from/to plain with excess input property', () => {
+    const plain = {
+      typeString: 'This is String',
+      typeNumber: 33,
+      typeBoolean: true
+    }
+
+    const decode = parser.decode(plain, WithString)
+    const encode = parser.encode(decode)
+    expect(decode).to.have.property('typeString', plain.typeString)
+    expect(decode).to.not.have.property('typeNumber')
+    expect(decode).to.not.have.property('typeBoolean')
+    expect(encode).to.have.property('typeString', plain.typeString)
+    expect(encode).to.not.have.property('typeNumber')
+    expect(encode).to.not.have.property('typeBoolean')
+  })
 })
