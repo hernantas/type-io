@@ -1,7 +1,7 @@
 import { AnyParamConstructor } from '../type'
 
 export interface PropOption {
-  type?: AnyParamConstructor | AnyParamConstructor[]
+  type?: AnyParamConstructor
   optional?: boolean
   inName?: string
   outName?: string
