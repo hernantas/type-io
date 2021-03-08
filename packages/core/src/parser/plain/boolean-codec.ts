@@ -1,4 +1,3 @@
-import { AnyParamConstructor } from 'core/src/type'
 import { Codec } from '../../codec/codec'
 
 export class BooleanCodec implements Codec<boolean> {
