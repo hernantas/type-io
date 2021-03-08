@@ -2,7 +2,7 @@ import { Metadata } from './metadata'
 import { AnyObject, AnyParamConstructor } from '../type'
 import { Codec } from './codec'
 
-export abstract class Parser {
+export class Parser {
   codecs: Codec<unknown>[]
 
   constructor (codecs: AnyParamConstructor<Codec<unknown>>[]) {
@@ -32,7 +32,7 @@ export abstract class Parser {
       }
     } else if (typeof input === 'object' && input !== null) {
       // codec is not found but its an object
-      const output = this.createDecodeObject(Type)
+      const output = new Type()
       const propDefs = Metadata.getTypeDef(Type)
 
       for (const propDef of propDefs) {
@@ -91,7 +91,7 @@ export abstract class Parser {
       }
     } else if (typeof input === 'object' && input !== null) {
       // codec is not found but its an object
-      const output = this.createEncodeObject(Type)
+      const output: AnyObject = {}
       const propDefs = Metadata.getTypeDef(Type)
 
       for (const propDef of propDefs) {
@@ -122,9 +122,6 @@ export abstract class Parser {
       )
     }
   }
-
-  abstract createDecodeObject <T> (Type: AnyParamConstructor<T>): T
-  abstract createEncodeObject <T> (Type: AnyParamConstructor<T>): AnyObject
 
   private findInputConstructor <T> (input: T | T[]): AnyParamConstructor<T> {
     if (input instanceof Array) {
