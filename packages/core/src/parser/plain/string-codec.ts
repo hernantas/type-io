@@ -16,7 +16,7 @@ export class StringCodec implements Codec<string> {
       return val ? 'true' : 'false'
     }
 
-    return ''
+    return String(val)
   }
 
   encode (val: string): string {
