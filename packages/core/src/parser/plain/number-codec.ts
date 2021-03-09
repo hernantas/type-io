@@ -16,7 +16,7 @@ export class NumberCodec implements Codec<number> {
       return val ? 1 : 0
     }
 
-    return 0
+    throw new Error('Unknown value type')
   }
 
   encode (val: number): number {
