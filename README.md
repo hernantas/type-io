@@ -36,7 +36,7 @@ And when you `fetch` it from API server:
 
 ```ts
 fetch('/api/users').then((users: User[]) => {
-  // here you can use user and type hinting will work
+  // here you can use `user.id` and type hinting will work
   // however, its not an class instance
 })
 ```
