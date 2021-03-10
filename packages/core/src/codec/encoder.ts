@@ -8,6 +8,11 @@ export interface Encoder<T, O = T> {
   readonly type: AnyParamConstructor
 
   /**
+   * Supported type in `string` from property of data model
+   */
+  readonly typeName: string
+
+  /**
    * Encode given value into `<O>` type
    *
    * @param value value to be encoded

@@ -8,6 +8,11 @@ export interface Decoder<T, I = unknown> {
   readonly type: AnyParamConstructor
 
   /**
+   * Supported type in `string` from property of data model
+   */
+   readonly typeName: string
+
+  /**
    * Decode given value into `<T>` type
    *
    * @param value value to be decoded

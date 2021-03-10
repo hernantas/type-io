@@ -10,56 +10,56 @@ export class Parser {
     this.codecs = codecs.map(CodecConstructor => new CodecConstructor())
   }
 
-  decode <T, I> (input: I[], Type: AnyParamConstructor<T>, options?: CodecOption): T[]
-  decode <T, I> (input: I, Type: AnyParamConstructor<T>, options?: CodecOption): T
-  decode <T, I> (input: I | I[], Type: AnyParamConstructor<T>, options?: CodecOption): T | T[] {
+  decode <T, I> (input: I[], type: AnyParamConstructor<T> | string, options?: CodecOption): T[]
+  decode <T, I> (input: I, type: AnyParamConstructor<T> | string, options?: CodecOption): T
+  decode <T, I> (input: I | I[], type: AnyParamConstructor<T> | string, options?: CodecOption): T | T[] {
     if (Array.isArray(input)) {
-      const output: T[] = []
-      for (const element of input) {
-        output.push(this.decode(element, Type, options))
-      }
-      return output
+      return input.map(element => this.decode(element, type, options))
     }
 
-    const codec = this.findCodec(Type)
+    const codec = this.findCodec(type)
     return codec.decode(input, options)
   }
 
-  encode <T> (input: T[], Type?: AnyParamConstructor<T>, options?: CodecOption): unknown[]
-  encode <T> (input: T, Type?: AnyParamConstructor<T>, options?: CodecOption): unknown
-  encode <T> (input: T | T[], Type?: AnyParamConstructor<T>, options?: CodecOption): unknown | unknown[] {
-    if (Type === undefined) {
-      Type = findInputConstructor(input)
+  encode <T> (input: T[], type?: AnyParamConstructor<T> | string, options?: CodecOption): unknown[]
+  encode <T> (input: T, type?: AnyParamConstructor<T> | string, options?: CodecOption): unknown
+  encode <T> (input: T | T[], type?: AnyParamConstructor<T> | string, options?: CodecOption): unknown | unknown[] {
+    if (type === undefined) {
+      type = findInputConstructor(input)
     }
 
     if (Array.isArray(input)) {
-      const output = []
-      for (const element of input) {
-        output.push(this.encode(element, Type, options))
-      }
-      return output
+      return input.map(element => this.encode(element, type, options))
     }
 
-    const codec = this.findCodec(Type)
+    const codec = this.findCodec(type)
     return codec.encode(input, options)
   }
 
-  private findCodec <T> (Type: AnyParamConstructor<T>): Codec<T, unknown> {
-    for (const codec of this.codecs) {
-      if (codec.type === Type) {
-        return codec as Codec<T, unknown>
-      }
+  private findCodec <T> (type: AnyParamConstructor<T> | string): Codec<T, unknown> {
+    const codecs = this.codecs.filter(codec => typeof type === 'string'
+      ? codec.typeName === type
+      : codec.type === type
+    ) as Codec<T, unknown>[]
+
+    if (codecs.length > 0) {
+      return codecs[0]
     }
 
-    const codec = this.createCodec(Type)
-    this.codecs.push(codec)
-    return codec
+    if (typeof type !== 'string') {
+      const codec = this.createCodec(type)
+      this.codecs.push(codec)
+      return codec
+    }
+
+    throw new Error(`No Codec found for type '${type}'`)
   }
 
   private createCodec <T, I extends AnyObject> (Type: AnyParamConstructor<T>): Codec<T, AnyObject, I> {
     const propDefs = Metadata.getTypeDef(Type)
     return {
       type: Type,
+      typeName: Type.name,
       decode: (input: I): T => {
         const output = new Type()
         for (const propDef of propDefs) {
@@ -81,7 +81,7 @@ export class Parser {
           const outPropName = propDef.outName
 
           if (inPropName in input) {
-            output[outPropName] = this.encode(input[inPropName], propDef.type, propDef.option) as T[keyof T]
+            output[outPropName] = this.encode(input[inPropName], propDef.type, propDef.option)
           } else if (!propDef.optional) {
             throw new Error(`'${propDef.name}' property is required but do not exist in given input when encoding`)
           }

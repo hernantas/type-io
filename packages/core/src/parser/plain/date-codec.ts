@@ -2,6 +2,7 @@ import { Codec } from '../../codec'
 
 export class DateCodec implements Codec<Date> {
   type = Date
+  typeName = 'date'
 
   decode (value: unknown): Date {
     if (value instanceof Date) {

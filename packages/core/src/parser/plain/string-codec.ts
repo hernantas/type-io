@@ -2,6 +2,7 @@ import { Codec } from '../../codec/codec'
 
 export class StringCodec implements Codec<string> {
   type = String
+  typeName = 'string'
 
   decode (val: unknown): string {
     if (typeof val === 'string') {
