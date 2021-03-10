@@ -143,13 +143,13 @@ const parser = new Parser([
 
 This way when you need to parse from/to `DB` type, you can use appropiate DB parser. When you need to parse to `Plain` type, you can use plain parser
 
-# Package
+## Package
 
 This packages is designed to be as portable as possible so model should be able to be defined on both client (web) or server (node)
 
-However, `Parser` is not as portable since some require to be run on specific environment.
+However, `Parser` is not as portable since some parser require to be run on specific environment.
 
-## `@type-io/core`
+### `@type-io/core`
 
 Used to define our data model. This package can be run anywhere. In addition it also contain:
 
@@ -159,12 +159,12 @@ Used to define our data model. This package can be run anywhere. In addition it 
 - `NumberPlainCodec`: codec for `number` plain object
 - `DatePlainCodec`: codec for `Date` plain object
 
-# To Do
+## To Do
 
 - Circular type
 - Enum
 
-## `@type-io/bson`
+### `@type-io/bson`
 
 Used to transform object from/to BSON object.
 
@@ -180,7 +180,7 @@ Used to transform object from/to BSON object.
 - `ObjectIdBSONCodec`: codec for `ObjectId` BSON
 - `BinaryBSONCodec`: codec for `Binary` BSON
 
-## `@type-io/mongo`
+### `@type-io/mongo`
 
 Used to transform object from/to MongoDb object.
 
