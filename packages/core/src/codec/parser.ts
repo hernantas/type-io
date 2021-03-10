@@ -1,6 +1,7 @@
 import { Metadata } from './metadata'
 import { AnyObject, AnyParamConstructor } from '../type'
 import { Codec } from './codec'
+import { CodecOption } from './codec-option'
 
 export class Parser {
   private codecs: Codec<unknown>[]
@@ -9,24 +10,24 @@ export class Parser {
     this.codecs = codecs.map(CodecConstructor => new CodecConstructor())
   }
 
-  decode <T, I> (input: I[], Type: AnyParamConstructor<T>): T[]
-  decode <T, I> (input: I, Type: AnyParamConstructor<T>): T
-  decode <T, I> (input: I | I[], Type: AnyParamConstructor<T>): T | T[] {
+  decode <T, I> (input: I[], Type: AnyParamConstructor<T>, options?: CodecOption): T[]
+  decode <T, I> (input: I, Type: AnyParamConstructor<T>, options?: CodecOption): T
+  decode <T, I> (input: I | I[], Type: AnyParamConstructor<T>, options?: CodecOption): T | T[] {
     if (Array.isArray(input)) {
       const output: T[] = []
       for (const element of input) {
-        output.push(this.decode(element, Type))
+        output.push(this.decode(element, Type, options))
       }
       return output
     }
 
     const codec = this.findCodec(Type)
-    return codec.decode(input)
+    return codec.decode(input, options)
   }
 
-  encode <T> (input: T[], Type?: AnyParamConstructor<T>): unknown[]
-  encode <T> (input: T, Type?: AnyParamConstructor<T>): unknown
-  encode <T> (input: T | T[], Type?: AnyParamConstructor<T>): unknown | unknown[] {
+  encode <T> (input: T[], Type?: AnyParamConstructor<T>, options?: CodecOption): unknown[]
+  encode <T> (input: T, Type?: AnyParamConstructor<T>, options?: CodecOption): unknown
+  encode <T> (input: T | T[], Type?: AnyParamConstructor<T>, options?: CodecOption): unknown | unknown[] {
     if (Type === undefined) {
       Type = findInputConstructor(input)
     }
@@ -34,13 +35,13 @@ export class Parser {
     if (Array.isArray(input)) {
       const output = []
       for (const element of input) {
-        output.push(this.encode(element, Type))
+        output.push(this.encode(element, Type, options))
       }
       return output
     }
 
     const codec = this.findCodec(Type)
-    return codec.encode(input)
+    return codec.encode(input, options)
   }
 
   private findCodec <T> (Type: AnyParamConstructor<T>): Codec<T, unknown> {
@@ -66,7 +67,7 @@ export class Parser {
           const outPropName = propDef.name as keyof T
 
           if (inPropName in input) {
-            output[outPropName] = this.decode(input[inPropName], propDef.type) as T[keyof T]
+            output[outPropName] = this.decode(input[inPropName], propDef.type, propDef.option) as T[keyof T]
           } else if (!propDef.optional) {
             throw new Error(`'${propDef.inName}' property is required but do not exist in given input when decoding`)
           }
@@ -80,7 +81,7 @@ export class Parser {
           const outPropName = propDef.outName
 
           if (inPropName in input) {
-            output[outPropName] = this.encode(input[inPropName], propDef.type) as T[keyof T]
+            output[outPropName] = this.encode(input[inPropName], propDef.type, propDef.option) as T[keyof T]
           } else if (!propDef.optional) {
             throw new Error(`'${propDef.name}' property is required but do not exist in given input when encoding`)
           }

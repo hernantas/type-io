@@ -1,4 +1,5 @@
 import { AnyParamConstructor } from '../type'
+import { CodecOption } from './codec-option'
 
 export interface Encoder<T, O = T> {
   /**
@@ -11,5 +12,5 @@ export interface Encoder<T, O = T> {
    *
    * @param value value to be encoded
    */
-  encode(value: T): O
+  encode(value: T, options?: CodecOption): O
 }

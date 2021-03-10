@@ -1,4 +1,5 @@
 import { AnyParamConstructor } from '../type'
+import { CodecOption } from './codec-option'
 
 export interface Decoder<T, I = unknown> {
   /**
@@ -11,5 +12,5 @@ export interface Decoder<T, I = unknown> {
    *
    * @param value value to be decoded
    */
-  decode(value: I): T
+  decode(value: I, options?: CodecOption): T
 }
