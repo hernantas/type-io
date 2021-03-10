@@ -68,7 +68,7 @@ export class Parser {
   encode <T> (input: T, Type?: AnyParamConstructor<T>, traces?: string[]): unknown
   encode <T> (input: T | T[], Type?: AnyParamConstructor<T>, traces?: string[]): unknown | unknown[] {
     if (Type === undefined) {
-      Type = this.findInputConstructor(input)
+      Type = findInputConstructor(input)
     }
 
     if (Array.isArray(input)) {
@@ -123,18 +123,6 @@ export class Parser {
     }
   }
 
-  private findInputConstructor <T> (input: T | T[]): AnyParamConstructor<T> {
-    if (input instanceof Array) {
-      if (input.length > 0) {
-        return Object.getPrototypeOf(input[0]).constructor as AnyParamConstructor<T>
-      } else {
-        throw new Error('Must specify `Type` parameter when encoding empty array')
-      }
-    }
-
-    return Object.getPrototypeOf(input).constructor as AnyParamConstructor<T>
-  }
-
   private findCodec <T> (type: AnyParamConstructor<T>): Codec<T, unknown> | undefined {
     for (const codec of this.codecs) {
       if (codec.type === type) {
@@ -142,4 +130,16 @@ export class Parser {
       }
     }
   }
+}
+
+function findInputConstructor <T> (input: T | T[]): AnyParamConstructor<T> {
+  if (input instanceof Array) {
+    if (input.length > 0) {
+      return Object.getPrototypeOf(input[0]).constructor as AnyParamConstructor<T>
+    } else {
+      throw new Error('Must specify `Type` parameter when encoding empty array')
+    }
+  }
+
+  return Object.getPrototypeOf(input).constructor as AnyParamConstructor<T>
 }
