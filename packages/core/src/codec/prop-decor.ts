@@ -7,30 +7,24 @@ export function Prop (options?: PropOption): PropertyDecorator {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return (target: Object, propertyKey: string | symbol): void => {
     if (typeof propertyKey === 'string') {
-      const designType = Metadata.getDesignType(target, propertyKey) as AnyParamConstructor
-      let inName = propertyKey
-      let outName = propertyKey
-
-      if (options !== undefined) {
-        inName = options.inName !== undefined
-          ? options.inName
-          : (options.outName !== undefined ? options.outName : propertyKey)
-
-        outName = options.outName !== undefined
-          ? options.outName
-          : (options.inName !== undefined ? options.inName : propertyKey)
-      }
-
       const def: PropDefinition = {
         name: propertyKey,
-        type: options?.type !== undefined ? options.type : designType,
-        optional: options?.optional !== undefined ? options.optional : false,
-        inName: inName,
-        outName: outName,
-        option: options?.option !== undefined ? options.option : {}
+        designType: Metadata.getDesignType(target, propertyKey),
+        optional: false,
+        inName: propertyKey,
+        outName: propertyKey
       }
 
-      if (def.type === undefined || def.type === Object || def.type === Array) {
+      if (options !== undefined) {
+        def.type = options.type
+        def.option = options.option
+
+        def.optional = options.optional ?? false
+        def.inName = options.inName ?? options.outName ?? def.name
+        def.outName = options.outName ?? options.inName ?? def.name
+      }
+
+      if ((def.designType === Object || def.designType === Array) && def.type === undefined) {
         throw new Error(`${def.name} has unknown type, make sure to specify the type`)
       }
 
