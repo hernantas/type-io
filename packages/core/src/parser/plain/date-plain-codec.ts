@@ -1,6 +1,6 @@
 import { Codec } from '../../codec'
 
-export class DateCodec implements Codec<Date> {
+export class DatePlainCodec implements Codec<Date> {
   type = Date
   typeName = 'date'
 

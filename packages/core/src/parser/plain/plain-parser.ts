@@ -1,17 +1,17 @@
 import { AnyParamConstructor } from '../../type'
 import { Codec, Parser } from '../../codec'
-import { BooleanCodec } from './boolean-codec'
-import { NumberCodec } from './number-codec'
-import { StringCodec } from './string-codec'
-import { DateCodec } from './date-codec'
+import { BooleanPlainCodec } from './boolean-plain-codec'
+import { NumberPlainCodec } from './number-plain-codec'
+import { StringPlainCodec } from './string-plain-codec'
+import { DatePlainCodec } from './date-plain-codec'
 
 export class PlainParser extends Parser {
   constructor (codecs?: AnyParamConstructor<Codec<unknown>>[]) {
     super((codecs !== undefined ? codecs : []).concat([
-      BooleanCodec,
-      NumberCodec,
-      StringCodec,
-      DateCodec
+      BooleanPlainCodec,
+      NumberPlainCodec,
+      StringPlainCodec,
+      DatePlainCodec
     ]))
   }
 }

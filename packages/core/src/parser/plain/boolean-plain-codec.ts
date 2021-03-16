@@ -1,6 +1,6 @@
 import { Codec } from '../../codec/codec'
 
-export class BooleanCodec implements Codec<boolean> {
+export class BooleanPlainCodec implements Codec<boolean> {
   type = Boolean
   typeName = 'boolean'
 
