@@ -5,7 +5,7 @@ export function findInputConstructor <T> (input: T | T[]): AnyParamConstructor<T
     if (input.length > 0) {
       return Object.getPrototypeOf(input[0]).constructor as AnyParamConstructor<T>
     } else {
-      throw new Error('Must specify `Type` parameter when encoding empty array')
+      throw new Error('Cannot find target type from empty array')
     }
   }
 
