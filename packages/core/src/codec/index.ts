@@ -1,5 +1,7 @@
 export * from './codec-option'
 export * from './codec'
+export * from './decoder'
+export * from './encoder'
 export * from './parser'
 export * from './prop-decor'
 export * from './prop-option'
