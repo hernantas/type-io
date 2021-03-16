@@ -7,7 +7,7 @@ const METADATA_KEY_TYPE = 'typeio:type'
 
 export class Metadata {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  static getDesignType (target: Object, propertyKey: string | symbol): unknown {
+  static getDesignType (target: Object, propertyKey: string | symbol): AnyParamConstructor {
     return Reflect.getMetadata(METADATA_KEY_DESIGN_TYPE, target, propertyKey)
   }
 
