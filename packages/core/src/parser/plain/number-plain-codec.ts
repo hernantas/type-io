@@ -2,7 +2,6 @@ import { Codec } from '../../codec/codec'
 
 export class NumberPlainCodec implements Codec<number> {
   type = Number
-  typeName = 'number'
 
   decode (val: unknown): number {
     if (typeof val === 'number') {
