@@ -1,3 +1,4 @@
+export * from './codec-option'
 export * from './codec'
 export * from './parser'
 export * from './prop-decor'
