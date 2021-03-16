@@ -11,3 +11,10 @@ export function findInputConstructor <T> (input: T | T[]): AnyParamConstructor<T
 
   return Object.getPrototypeOf(input).constructor as AnyParamConstructor<T>
 }
+
+export function arrayOf <T> (type: AnyParamConstructor<T>): TargetType<T[]> {
+  return {
+    type: Array,
+    subType: type
+  }
+}
