@@ -1,9 +1,11 @@
-import { AnyParamConstructor } from '../type'
+import { AnyParamConstructor, TargetType } from '../type'
 
-export function findInputConstructor <T> (input: T | T[]): AnyParamConstructor<T> {
+export function findTargetType <T> (input: T[]): TargetType<T[]>
+export function findTargetType <T> (input: T): TargetType<T>
+export function findTargetType <T> (input: T | T[]): TargetType<T> | TargetType<T[]> {
   if (Array.isArray(input)) {
     if (input.length > 0) {
-      return Object.getPrototypeOf(input[0]).constructor as AnyParamConstructor<T>
+      return arrayOf(Object.getPrototypeOf(input[0]).constructor as AnyParamConstructor<T>)
     } else {
       throw new Error('Cannot find target type from empty array')
     }

@@ -2,7 +2,7 @@ import { Metadata } from './metadata'
 import { AnyObject, AnyParamConstructor } from '../type'
 import { Codec } from './codec'
 import { CodecOption } from './codec-option'
-import { findInputConstructor } from './utils'
+import { findTargetType } from './utils'
 
 export class Parser {
   private codecs: Codec<unknown>[]
@@ -26,7 +26,7 @@ export class Parser {
   encode <T> (input: T, type?: AnyParamConstructor<T> | string, options?: CodecOption): unknown
   encode <T> (input: T | T[], type?: AnyParamConstructor<T> | string, options?: CodecOption): unknown | unknown[] {
     if (type === undefined) {
-      type = findInputConstructor(input)
+      type = findTargetType(input)
     }
 
     if (Array.isArray(input)) {
