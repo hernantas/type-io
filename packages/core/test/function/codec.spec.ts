@@ -4,7 +4,6 @@ import { Codec, Parser, Prop } from '../../src/'
 describe('Codec functionality', () => {
   class StringCodec implements Codec<string> {
     type = String
-    typeName = 'string'
 
     decode (val: unknown): string {
       if (typeof val === 'string') {
@@ -20,8 +19,7 @@ describe('Codec functionality', () => {
 
   class StringNumberCodec implements Codec<string, number> {
     type = String
-
-    typeName = 'string_number'
+    subType = Number
 
     decode (value: unknown): string {
       const str = this.decodeToString(value)
@@ -45,7 +43,7 @@ describe('Codec functionality', () => {
     @Prop()
     typeString: string
 
-    @Prop({ type: 'string_number' })
+    @Prop({ type: Number })
     typeStringNumber: string
 
     constructor () {

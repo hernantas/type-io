@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { PlainParser, Prop } from '../../src'
+import { arrayOf, PlainParser, Prop } from '../../src'
 
 describe('Parse array', () => {
   class WithArray {
@@ -42,15 +42,15 @@ describe('Parse array', () => {
       { typeString: 'This is second string' },
       { typeString: 'This is third string' }
     ]
-    const decode = parser.decode(plains, Basic)
+    const decode = parser.decode(plains, arrayOf(Basic))
     const encode = parser.encode(decode)
     expect(decode).to.deep.members(plains)
     expect(encode).to.deep.members(plains)
   })
 
   it('Decode/Encode from empty array', () => {
-    const decode = parser.decode([], Basic)
-    const encode = parser.encode(decode, Basic)
+    const decode = parser.decode([], arrayOf(Basic))
+    const encode = parser.encode(decode, arrayOf(Basic))
     expect(decode).to.be.eql([])
     expect(encode).to.be.eql([])
     expect(() => parser.encode([])).to.throws()
