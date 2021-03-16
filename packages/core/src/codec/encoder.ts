@@ -8,9 +8,9 @@ export interface Encoder<T, O = T> {
   readonly type: AnyParamConstructor
 
   /**
-   * Supported type in `string` from property of data model
+   * Supported sub-type from property of data model
    */
-  readonly typeName: string
+  readonly subType?: AnyParamConstructor
 
   /**
    * Encode given value into `<O>` type
