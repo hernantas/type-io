@@ -1,7 +1,7 @@
 {
   "name": "@type-io/bson",
   "version": "0.1.0",
-  "description": "BSON support for Type-IO ",
+  "description": "BSON support for Type-IO",
   "main": "dist/index.js",
   "license": "MIT",
   "private": true,
