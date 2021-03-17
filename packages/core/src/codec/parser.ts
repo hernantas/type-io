@@ -20,6 +20,15 @@ export class Parser extends CodecManager {
     return codec.decode(input, options)
   }
 
+  decodeArray <T, I> (input: I[], type: TargetType<T>, options?: CodecOption): T[] {
+    if (!TargetTypes.isValid(type)) {
+      throw new Error('Invalid target type')
+    }
+
+    const codec = this.findOrCreate(type)
+    return input.map(elm => codec.decode(elm, options))
+  }
+
   encode <T> (input: T, type?: TargetType<T>, options?: CodecOption): unknown {
     if (type === undefined) {
       type = TargetTypes.find(input)
@@ -27,6 +36,15 @@ export class Parser extends CodecManager {
 
     const codec = this.findOrCreate(type)
     return codec.encode(input, options)
+  }
+
+  encodeArray <T> (input: T[], type?: TargetType<T>, options?: CodecOption): unknown[] {
+    if (type === undefined) {
+      type = TargetTypes.unArray(TargetTypes.find(input))
+    }
+
+    const codec = this.findOrCreate(type)
+    return input.map(elm => codec.decode(elm, options))
   }
 
   private findOrCreate <T> (type: TargetType<T>): Codec<T, unknown> {
@@ -97,13 +115,14 @@ export class Parser extends CodecManager {
       decode: (input: unknown): T[] => {
         if (Array.isArray(input)) {
           const unarrayType = TargetTypes.unArray(type)
-          return input.map(value => this.decode(value, unarrayType))
+          return this.decodeArray(input, unarrayType)
         }
 
         throw new Error('Unknown input value type, must be an array')
       },
       encode: (input: T[]): unknown[] => {
-        return input.map(value => this.encode(value))
+        const unarrayType = TargetTypes.unArray(type)
+        return this.encodeArray(input, unarrayType)
       }
     }
   }
