@@ -48,6 +48,18 @@ describe('Parse array', () => {
     expect(encode).to.deep.members(plains)
   })
 
+  it('Decode/Encode from plain array using decodeArray/encodeArray', () => {
+    const plains = [
+      { typeString: 'This is first string' },
+      { typeString: 'This is second string' },
+      { typeString: 'This is third string' }
+    ]
+    const decode = parser.decodeArray(plains, Basic)
+    const encode = parser.encodeArray(decode)
+    expect(decode).to.deep.members(plains)
+    expect(encode).to.deep.members(plains)
+  })
+
   it('Decode/Encode from empty array', () => {
     const decode = parser.decode([], TargetTypes.array(Basic))
     const encode = parser.encode(decode, TargetTypes.array(Basic))
@@ -55,4 +67,23 @@ describe('Parse array', () => {
     expect(encode).to.be.eql([])
     expect(() => parser.encode([])).to.throws()
   })
+
+  it('Decode/Encode from empty array using decodeArray/encodeArray', () => {
+    const decode = parser.decodeArray([], Basic)
+    const encode = parser.encodeArray(decode, Basic)
+    expect(decode).to.be.eql([])
+    expect(encode).to.be.eql([])
+    expect(() => parser.encodeArray([])).to.throws()
+  })
+
+  it('Define class with array property without specify type', () => expect(() => {
+    class WithArrayNoSpecify {
+      @Prop()
+      typeStrings: string[]
+
+      constructor () {
+        this.typeStrings = []
+      }
+    }
+  }).to.throws())
 })
