@@ -43,7 +43,7 @@ export class Parser extends CodecManager {
       return codec
     }
 
-    throw new Error('No Codec found')
+    throw new Error('No Codec was found and cannot dynamically create codec for given target type')
   }
 
   private createCodec <T, I extends AnyObject> (Type: AnyParamConstructor<T>): Codec<T, AnyObject, I> {
