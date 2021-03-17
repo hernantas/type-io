@@ -3,16 +3,16 @@ import { AnyObject, AnyParamConstructor, TargetType } from '../type'
 import { Codec } from './codec'
 import { CodecOption } from './codec-option'
 import { findTargetType } from './utils'
+import { CodecManager } from './codec-manager'
 
-export class Parser {
-  private codecs: Codec<unknown>[]
-
+export class Parser extends CodecManager {
+  // eslint-disable-next-line no-useless-constructor
   constructor (codecCtors: AnyParamConstructor<Codec<unknown>>[]) {
-    this.codecs = codecCtors.map(CodecCtor => new CodecCtor())
+    super(codecCtors)
   }
 
   decode <T, I> (input: I, type: TargetType<T>, options?: CodecOption): T {
-    const codec = this.findCodec(type)
+    const codec = this.findOrCreate(type)
     return codec.decode(input, options)
   }
 
@@ -21,21 +21,16 @@ export class Parser {
       type = findTargetType(input)
     }
 
-    const codec = this.findCodec(type)
+    const codec = this.findOrCreate(type)
     return codec.encode(input, options)
   }
 
-  private findCodec <T> (type: TargetType<T>): Codec<T, unknown> {
-    const codecs = this.codecs.filter(codec => typeof type === 'function'
-      ? codec.type === type
-      : codec.type === type.type && codec.subType === type.subType
-    ) as Codec<T, unknown>[]
+  private findOrCreate <T> (type: TargetType<T>): Codec<T, unknown> {
+    let codec = this.find(type)
 
-    if (codecs.length > 0) {
-      return codecs[0]
+    if (codec !== undefined) {
+      return codec
     }
-
-    let codec
 
     if (typeof type === 'function') {
       codec = this.createCodec(type)
@@ -44,7 +39,7 @@ export class Parser {
     }
 
     if (codec !== undefined) {
-      this.codecs.push(codec)
+      this.push(codec)
       return codec
     }
 
