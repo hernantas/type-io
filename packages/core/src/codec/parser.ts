@@ -7,8 +7,8 @@ import { findTargetType } from './utils'
 export class Parser {
   private codecs: Codec<unknown>[]
 
-  constructor (codecs: AnyParamConstructor<Codec<unknown>>[]) {
-    this.codecs = codecs.map(CodecConstructor => new CodecConstructor())
+  constructor (codecCtors: AnyParamConstructor<Codec<unknown>>[]) {
+    this.codecs = codecCtors.map(CodecCtor => new CodecCtor())
   }
 
   decode <T, I> (input: I, type: TargetType<T>, options?: CodecOption): T {
