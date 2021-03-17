@@ -18,8 +18,7 @@ describe('Codec functionality', () => {
   }
 
   class StringNumberCodec implements Codec<string, number> {
-    type = String
-    subType = Number
+    type = [String, Number]
 
     decode (value: unknown): string {
       const str = this.decodeToString(value)

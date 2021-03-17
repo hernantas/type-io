@@ -1,16 +1,10 @@
-import { AnyParamConstructor } from '../type'
+import { TargetType } from '../type'
 import { CodecOption } from './codec-option'
 
-export interface ReqPropOption {
+export interface PropOption {
+  type?: TargetType
   optional?: boolean
   inName?: string
   outName?: string
-}
-
-export interface OptPropOption {
-  type?: AnyParamConstructor
   option?: CodecOption
-}
-
-export interface PropOption extends OptPropOption, ReqPropOption {
 }

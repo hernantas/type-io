@@ -1,16 +1,11 @@
-import { AnyParamConstructor } from '../type'
+import { TargetType } from '../type'
 import { CodecOption } from './codec-option'
 
 export interface Encoder<T, O = T> {
   /**
    * Supported type from property of data model
    */
-  readonly type: AnyParamConstructor
-
-  /**
-   * Supported sub-type from property of data model
-   */
-  readonly subType?: AnyParamConstructor
+  readonly type: TargetType
 
   /**
    * Encode given value into `<O>` type

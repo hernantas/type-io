@@ -2,8 +2,8 @@ import { Metadata } from './metadata'
 import { AnyObject, AnyParamConstructor, TargetType } from '../type'
 import { Codec } from './codec'
 import { CodecOption } from './codec-option'
-import { findTargetType } from './utils'
 import { CodecManager } from './codec-manager'
+import { TargetTypes } from './target-types'
 
 export class Parser extends CodecManager {
   // eslint-disable-next-line no-useless-constructor
@@ -18,7 +18,7 @@ export class Parser extends CodecManager {
 
   encode <T> (input: T, type?: TargetType<T>, options?: CodecOption): unknown {
     if (type === undefined) {
-      type = findTargetType(input)
+      type = TargetTypes.find(input)
     }
 
     const codec = this.findOrCreate(type)
@@ -34,16 +34,14 @@ export class Parser extends CodecManager {
 
     if (typeof type === 'function') {
       codec = this.createCodec(type)
-    } else if (type.type === Array) {
-      codec = this.createArrayCodec(type.subType) as unknown as Codec<T, unknown>
+    } else if (TargetTypes.isValidArray(type)) {
+      codec = this.createArrayCodec(type) as unknown as Codec<T, unknown>
+    } else {
+      throw new Error('No Codec was found and cannot dynamically create codec for given target type')
     }
 
-    if (codec !== undefined) {
-      this.push(codec)
-      return codec
-    }
-
-    throw new Error('No Codec was found and cannot dynamically create codec for given target type')
+    this.push(codec)
+    return codec
   }
 
   private createCodec <T, I extends AnyObject> (Type: AnyParamConstructor<T>): Codec<T, AnyObject, I> {
@@ -59,7 +57,7 @@ export class Parser extends CodecManager {
           if (inPropName in input) {
             output[outPropName] = this.decode(
               input[inPropName],
-              propDef.type !== undefined ? { type: propDef.designType, subType: propDef.type } : propDef.designType,
+              propDef.type,
               propDef.option
             ) as T[keyof T]
           } else if (!propDef.optional) {
@@ -77,7 +75,7 @@ export class Parser extends CodecManager {
           if (inPropName in input) {
             output[outPropName] = this.encode(
               input[inPropName],
-              propDef.type !== undefined ? { type: propDef.designType, subType: propDef.type } : propDef.designType,
+              propDef.type,
               propDef.option
             )
           } else if (!propDef.optional) {
@@ -89,18 +87,18 @@ export class Parser extends CodecManager {
     }
   }
 
-  private createArrayCodec<T> (type: AnyParamConstructor<T>): Codec<T[], unknown> {
+  private createArrayCodec<T> (type: TargetType<T>): Codec<T[], unknown[]> {
     return {
-      type: Array,
-      subType: type,
+      type: TargetTypes.array(type),
       decode: (input: unknown): T[] => {
         if (Array.isArray(input)) {
-          return input.map(value => this.decode(value, type))
+          const unarrayType = TargetTypes.unArray(type)
+          return input.map(value => this.decode(value, unarrayType))
         }
 
         throw new Error('Unknown input value type, must be an array')
       },
-      encode: (input: T[]): unknown => {
+      encode: (input: T[]): unknown[] => {
         return input.map(value => this.encode(value))
       }
     }

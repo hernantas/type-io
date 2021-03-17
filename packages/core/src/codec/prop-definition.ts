@@ -1,7 +1,6 @@
-import { AnyParamConstructor } from '../type'
-import { ReqPropOption, OptPropOption } from './prop-option'
+import { OptionalFor } from '../type'
+import { PropOption } from './prop-option'
 
-export interface PropDefinition extends Required<ReqPropOption>, OptPropOption {
+export interface PropDefinition extends OptionalFor<PropOption, 'option'> {
   name: string
-  designType: AnyParamConstructor
 }
