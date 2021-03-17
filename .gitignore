@@ -2,3 +2,5 @@
 node_modules/
 dist/
 tsconfig.build.tsbuildinfo
+.nyc_output/
+coverage/
