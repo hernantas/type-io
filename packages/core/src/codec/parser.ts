@@ -12,6 +12,10 @@ export class Parser extends CodecManager {
   }
 
   decode <T, I> (input: I, type: TargetType<T>, options?: CodecOption): T {
+    if (!TargetTypes.isValid(type)) {
+      throw new Error('Invalid target type')
+    }
+
     const codec = this.findOrCreate(type)
     return codec.decode(input, options)
   }
