@@ -1,0 +1,41 @@
+{
+  "name": "@type-io/core",
+  "version": "0.1.0",
+  "description": "Core package for `type-io`",
+  "main": "dist/index.js",
+  "author": "Zulfikar Raditya Hernanta <hernantas@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "test:coverage": "nyc yarn test"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/chai-datetime": "^0.0.36",
+    "@types/mocha": "^8.2.1",
+    "chai": "^4.3.0",
+    "chai-datetime": "^1.8.0",
+    "mocha": "^8.3.0",
+    "nyc": "^15.1.0",
+    "ts-node": "^9.1.1"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "include": [
+      "src/**/*"
+    ],
+    "reporter": [
+      "html",
+      "text"
+    ],
+    "all": true  
+  }
+}
