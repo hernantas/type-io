@@ -86,4 +86,34 @@ describe('Parse array', () => {
       }
     }
   }).to.throws())
+
+  class WithArrayOfArray {
+    @Prop({ type: TargetTypes.array(String) })
+    typeStrings: string[][]
+
+    constructor () {
+      this.typeStrings = []
+    }
+  }
+
+  it('Decode/Encode from array of array of string', () => {
+    const plain = {
+      typeStrings: [
+        [
+          '[Group 1] This is first string',
+          '[Group 1] This is second string',
+          '[Group 1] This is third string'
+        ],
+        [
+          '[Group 2] This is first string',
+          '[Group 2] This is second string',
+          '[Group 2] This is third string'
+        ]
+      ]
+    }
+    const decode = parser.decode(plain, WithArrayOfArray)
+    const encode = parser.encode(decode)
+    expect(decode).to.have.property('typeStrings').and.to.have.deep.members(plain.typeStrings)
+    expect(encode).to.have.property('typeStrings').and.to.have.deep.members(plain.typeStrings)
+  })
 })
