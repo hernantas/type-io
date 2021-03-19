@@ -24,9 +24,7 @@ export class Parser extends CodecManager {
     if (!TargetTypes.isValid(type)) {
       throw new Error('Invalid target type')
     }
-
-    const codec = this.findOrCreate(type)
-    return input.map(elm => codec.decode(elm, options))
+    return this.decode(input, TargetTypes.array(type), options)
   }
 
   encode <T> (input: T, type?: TargetType<T>, options?: CodecOption): unknown {
@@ -42,9 +40,7 @@ export class Parser extends CodecManager {
     if (type === undefined) {
       type = TargetTypes.unArray(TargetTypes.find(input))
     }
-
-    const codec = this.findOrCreate(type)
-    return input.map(elm => codec.decode(elm, options))
+    return this.encode(input, TargetTypes.array(type), options) as unknown[]
   }
 
   private findOrCreate <T> (type: TargetType<T>): Codec<T, unknown> {
@@ -57,7 +53,7 @@ export class Parser extends CodecManager {
     if (typeof type === 'function') {
       codec = this.createCodec(type)
     } else if (TargetTypes.isValidArray(type)) {
-      codec = this.createArrayCodec(type) as unknown as Codec<T, unknown>
+      codec = this.createArrayCodec(TargetTypes.unArray(type)) as unknown as Codec<T, unknown>
     } else {
       throw new Error('No Codec was found and cannot dynamically create codec for given target type')
     }
@@ -110,19 +106,19 @@ export class Parser extends CodecManager {
   }
 
   private createArrayCodec<T> (type: TargetType<T>): Codec<T[], unknown[]> {
+    const arrayType = TargetTypes.array(type)
+    const codec = this.findOrCreate(type)
     return {
-      type: TargetTypes.array(type),
+      type: arrayType,
       decode: (input: unknown): T[] => {
         if (Array.isArray(input)) {
-          const unarrayType = TargetTypes.unArray(type)
-          return this.decodeArray(input, unarrayType)
+          return input.map(val => codec.decode(val))
         }
 
         throw new Error('Unknown input value type, must be an array')
       },
       encode: (input: T[]): unknown[] => {
-        const unarrayType = TargetTypes.unArray(type)
-        return this.encodeArray(input, unarrayType)
+        return input.map(val => codec.encode(val))
       }
     }
   }
