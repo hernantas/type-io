@@ -9,7 +9,8 @@
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
-    "test:coverage": "nyc yarn test"
+    "test:coverage": "nyc yarn test",
+    "lint:fix": "yarn eslint --fix"
   },
   "devDependencies": {
     "@types/chai": "^4.2.15",
