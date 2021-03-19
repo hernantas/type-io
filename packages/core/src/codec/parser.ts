@@ -64,6 +64,10 @@ export class Parser extends CodecManager {
 
   private createCodec <T, I extends AnyObject> (Type: AnyParamConstructor<T>): Codec<T, AnyObject, I> {
     const propDefs = Metadata.getTypeDef(Type)
+    const codecs: Record<string, Codec<unknown>> = {}
+    for (const propDef of propDefs) {
+      codecs[propDef.name] = this.findOrCreate(propDef.type)
+    }
     return {
       type: Type,
       decode: (input: I): T => {
@@ -73,9 +77,8 @@ export class Parser extends CodecManager {
           const outPropName = propDef.name as keyof T
 
           if (inPropName in input) {
-            output[outPropName] = this.decode(
+            output[outPropName] = codecs[propDef.name].decode(
               input[inPropName],
-              propDef.type,
               propDef.option
             ) as T[keyof T]
           } else if (!propDef.optional) {
@@ -91,9 +94,8 @@ export class Parser extends CodecManager {
           const outPropName = propDef.outName
 
           if (inPropName in input) {
-            output[outPropName] = this.encode(
+            output[outPropName] = codecs[propDef.name].encode(
               input[inPropName],
-              propDef.type,
               propDef.option
             )
           } else if (!propDef.optional) {
