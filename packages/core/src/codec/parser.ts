@@ -1,9 +1,11 @@
 import { Metadata } from './metadata'
-import { AnyObject, AnyParamConstructor, TargetType } from '../type'
+import { AnyObject, AnyParamConstructor, CodecOf, TargetType } from '../type'
 import { Codec } from './codec'
 import { CodecOption } from './codec-option'
 import { CodecManager } from './codec-manager'
 import { TargetTypes } from './target-types'
+import { ObjectCodec } from './object-codec'
+import { ArrayCodec } from './array-codec'
 
 export class Parser extends CodecManager {
   // eslint-disable-next-line no-useless-constructor
@@ -62,66 +64,17 @@ export class Parser extends CodecManager {
     return codec
   }
 
-  private createCodec <T, I extends AnyObject> (Type: AnyParamConstructor<T>): Codec<T, AnyObject, I> {
-    const propDefs = Metadata.getTypeDef(Type)
+  private createCodec <T, I extends AnyObject> (type: AnyParamConstructor<T>): Codec<T, AnyObject, I> {
+    const propDefs = Metadata.getTypeDef(type)
     const codecs: Record<string, Codec<unknown>> = {}
     for (const propDef of propDefs) {
       codecs[propDef.name] = this.findOrCreate(propDef.type)
     }
-    return {
-      type: Type,
-      decode: (input: I): T => {
-        const output = new Type()
-        for (const propDef of propDefs) {
-          const inPropName = propDef.inName as keyof I
-          const outPropName = propDef.name as keyof T
-
-          if (inPropName in input) {
-            output[outPropName] = codecs[propDef.name].decode(
-              input[inPropName],
-              propDef.option
-            ) as T[keyof T]
-          } else if (!propDef.optional) {
-            throw new Error(`'${propDef.inName}' property is required but do not exist in given input when decoding`)
-          }
-        }
-        return output
-      },
-      encode: (input: T): AnyObject => {
-        const output: AnyObject = {}
-        for (const propDef of propDefs) {
-          const inPropName = propDef.name as keyof T
-          const outPropName = propDef.outName
-
-          if (inPropName in input) {
-            output[outPropName] = codecs[propDef.name].encode(
-              input[inPropName],
-              propDef.option
-            )
-          } else if (!propDef.optional) {
-            throw new Error(`'${propDef.name}' property is required but do not exist in given input when encoding`)
-          }
-        }
-        return output
-      }
-    }
+    return new ObjectCodec(type, propDefs, codecs as CodecOf<T>)
   }
 
   private createArrayCodec<T> (type: TargetType<T>): Codec<T[], unknown[]> {
-    const arrayType = TargetTypes.array(type)
     const codec = this.findOrCreate(type)
-    return {
-      type: arrayType,
-      decode: (input: unknown): T[] => {
-        if (Array.isArray(input)) {
-          return input.map(val => codec.decode(val))
-        }
-
-        throw new Error('Unknown input value type, must be an array')
-      },
-      encode: (input: T[]): unknown[] => {
-        return input.map(val => codec.encode(val))
-      }
-    }
+    return new ArrayCodec(type, codec)
   }
 }
