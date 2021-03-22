@@ -5,10 +5,6 @@ export class BufferBsonCodec implements Codec<Buffer, Binary> {
   type = Buffer
 
   decode (value: unknown): Buffer {
-    if (typeof value === 'string') {
-      return Buffer.from(value)
-    }
-
     if (value instanceof Buffer) {
       return value
     }
@@ -17,7 +13,7 @@ export class BufferBsonCodec implements Codec<Buffer, Binary> {
       return value.buffer
     }
 
-    if (value instanceof Uint8Array || isNumberArray(value)) {
+    if (typeof value === 'string' || value instanceof Uint8Array || isNumberArray(value)) {
       return Buffer.from(value)
     }
 
