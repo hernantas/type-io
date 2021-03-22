@@ -16,6 +16,19 @@
   },
   "dependencies": {
     "@type-io/core": "*"
-  }
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "include": [
+      "src/**/*"
+    ],
+    "reporter": [
+      "html",
+      "text"
+    ],
+    "all": true
   }
 }
