@@ -1,6 +1,19 @@
 import { Codec, CodecOption } from '@type-io/core'
 
-type BufferEncoding = 'ascii' | 'utf8' | 'utf-8' | 'utf16le' | 'ucs2' | 'ucs-2' | 'base64' | 'latin1' | 'binary' | 'hex'
+const BUFFER_ENCODINGS = [
+  'ascii',
+  'utf8',
+  'utf-8',
+  'utf16le',
+  'ucs2',
+  'ucs-2',
+  'base64',
+  'latin1',
+  'binary',
+  'hex'
+] as const
+
+type BufferEncoding = typeof BUFFER_ENCODINGS[number]
 
 export class BufferCodec implements Codec<Buffer, string> {
   type = Buffer
@@ -13,7 +26,7 @@ export class BufferCodec implements Codec<Buffer, string> {
     if (typeof value === 'string') {
       if (options !== undefined && options.encoding !== undefined && typeof options.encoding === 'string') {
         const encoding = options.encoding
-        if (encoding in supportedEncoding) {
+        if (isValidEncoding(encoding)) {
           return Buffer.from(value, encoding)
         }
       }
@@ -34,7 +47,7 @@ export class BufferCodec implements Codec<Buffer, string> {
 }
 
 function isValidEncoding (value: unknown): value is BufferEncoding {
-  return typeof value === 'string'
+  return typeof value === 'string' && BUFFER_ENCODINGS.includes(value as BufferEncoding)
 }
 
 function isNumberArray (values: unknown): values is number[] {
