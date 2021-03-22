@@ -11,7 +11,7 @@ import { ObjectIdBsonCodec } from './objectid-bson-codec'
 import { StringBsonCodec } from './string-bson-codec'
 import { TimestampBsonCodec } from './timestamp-bson-codec'
 
-export class PlainBsonParser extends Parser {
+export class BsonParser extends Parser {
   constructor (codecs?: AnyParamConstructor<Codec<unknown>>[]) {
     super((codecs !== undefined ? codecs : []).concat([
       StringBsonCodec,

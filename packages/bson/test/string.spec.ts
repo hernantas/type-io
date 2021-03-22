@@ -1,9 +1,9 @@
-import { PlainBsonParser } from '../src'
+import { BsonParser } from '../src'
 import { Decimal128, Double, Int32, Long, ObjectId, Timestamp } from 'bson'
 import { expect } from 'chai'
 
 describe('[BSON] Plain Parser (String Codec)', () => {
-  const parser = new PlainBsonParser()
+  const parser = new BsonParser()
   it('Decode/Encode from string', () => {
     const value = 'This is string'
     const decode = parser.decode(value, String)
