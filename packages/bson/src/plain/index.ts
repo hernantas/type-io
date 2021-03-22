@@ -1,4 +1,5 @@
 export * from './boolean-bson-codec'
+export * from './buffer-bson-codec'
 export * from './date-bson-codec'
 export * from './decimal128-bson-codec'
 export * from './double-bson-codec'
