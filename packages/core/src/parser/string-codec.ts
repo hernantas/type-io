@@ -1,6 +1,6 @@
-import { Codec } from '../../codec/codec'
+import { Codec } from '../codec/codec'
 
-export class StringPlainCodec implements Codec<string> {
+export class StringCodec implements Codec<string> {
   type = String
 
   decode (val: unknown): string {

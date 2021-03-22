@@ -1,6 +1,6 @@
-import { Codec } from '../../codec/codec'
+import { Codec } from '../codec/codec'
 
-export class NumberPlainCodec implements Codec<number> {
+export class NumberCodec implements Codec<number> {
   type = Number
 
   decode (val: unknown): number {

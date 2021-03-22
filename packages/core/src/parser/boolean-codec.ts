@@ -1,6 +1,6 @@
-import { Codec } from '../../codec/codec'
+import { Codec } from '../codec/codec'
 
-export class BooleanPlainCodec implements Codec<boolean> {
+export class BooleanCodec implements Codec<boolean> {
   type = Boolean
 
   decode (val: unknown): boolean {

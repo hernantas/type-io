@@ -1,1 +1,1 @@
-export { DatePlainCodec as DateBsonCodec } from '@type-io/core'
+export { DateCodec as DateBsonCodec } from '@type-io/core'

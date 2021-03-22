@@ -1,1 +1,1 @@
-export { BooleanPlainCodec as BooleanBsonCodec } from '@type-io/core'
+export { BooleanCodec as BooleanBsonCodec } from '@type-io/core'
