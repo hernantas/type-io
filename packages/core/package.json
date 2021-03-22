@@ -13,14 +13,8 @@
     "lint:fix": "eslint --fix"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.15",
     "@types/chai-datetime": "^0.0.36",
-    "@types/mocha": "^8.2.1",
-    "chai": "^4.3.0",
-    "chai-datetime": "^1.8.0",
-    "mocha": "^8.3.0",
-    "nyc": "^15.1.0",
-    "ts-node": "^9.1.1"
+    "chai-datetime": "^1.8.0"
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13"
@@ -37,6 +31,6 @@
       "html",
       "text"
     ],
-    "all": true  
+    "all": true
   }
 }
