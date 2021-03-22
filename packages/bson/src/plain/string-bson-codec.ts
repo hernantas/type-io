@@ -1,5 +1,5 @@
 import { Codec } from '@type-io/core'
-import { Decimal128, Long, ObjectID, ObjectId, Timestamp } from 'bson'
+import { Decimal128, Long, Int32, ObjectID, ObjectId, Timestamp, Double } from 'bson'
 
 export class StringBsonCodec implements Codec<string> {
   type = String
@@ -19,6 +19,10 @@ export class StringBsonCodec implements Codec<string> {
 
     if (value instanceof ObjectId || value instanceof ObjectID) {
       return value.toHexString()
+    }
+
+    if (value instanceof Double || value instanceof Int32) {
+      return value.value.toString()
     }
 
     if (value instanceof Long || value instanceof Timestamp || value instanceof Decimal128) {
