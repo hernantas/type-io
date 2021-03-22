@@ -53,7 +53,7 @@ export class Parser extends CodecManager {
     }
 
     if (typeof type === 'function') {
-      codec = this.createCodec(type)
+      codec = this.createObjectCodec(type)
     } else if (TargetTypes.isValidArray(type)) {
       codec = this.createArrayCodec(TargetTypes.unArray(type)) as unknown as Codec<T, unknown>
     } else {
@@ -64,7 +64,7 @@ export class Parser extends CodecManager {
     return codec
   }
 
-  private createCodec <T, I extends AnyObject> (type: AnyParamConstructor<T>): Codec<T, AnyObject, I> {
+  private createObjectCodec <T, I extends AnyObject> (type: AnyParamConstructor<T>): Codec<T, AnyObject, I> {
     const propDefs = Metadata.getTypeDef(type)
     const codecs: Record<string, Codec<unknown>> = {}
     for (const propDef of propDefs) {
