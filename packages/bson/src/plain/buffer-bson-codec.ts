@@ -17,7 +17,7 @@ export class BufferBsonCodec implements Codec<Buffer, Binary> {
       return value.buffer
     }
 
-    if (Array.isArray(value) && isNumberArray(value)) {
+    if (value instanceof Uint8Array || isNumberArray(value)) {
       return Buffer.from(value)
     }
 
@@ -29,7 +29,11 @@ export class BufferBsonCodec implements Codec<Buffer, Binary> {
   }
 }
 
-function isNumberArray (values: unknown[]): values is number[] {
+function isNumberArray (values: unknown): values is number[] {
+  if (!Array.isArray(values)) {
+    return false
+  }
+
   for (const value of values) {
     if (typeof value !== 'number') {
       return false
