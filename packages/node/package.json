@@ -1,0 +1,8 @@
+{
+  "name": "@type-io/node",
+  "version": "0.1.0",
+  "description": "Node.js support for Type-IO",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "private": true
+}

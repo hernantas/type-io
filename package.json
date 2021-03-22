@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "core": "yarn workspace @type-io/core",
+    "nodejs": "yarn workspace @type-io/node",
     "bson": "yarn workspace @type-io/bson"
   },
   "devDependencies": {
