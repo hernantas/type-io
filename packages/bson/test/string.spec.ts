@@ -1,5 +1,5 @@
-import { PlainBsonParser } from '../../src/plain'
-import { Decimal128, Double, Int32, Long, ObjectID, ObjectId, Timestamp } from 'bson'
+import { PlainBsonParser } from '../src'
+import { Decimal128, Double, Int32, Long, ObjectId, Timestamp } from 'bson'
 import { expect } from 'chai'
 
 describe('[BSON] Plain Parser (String Codec)', () => {
