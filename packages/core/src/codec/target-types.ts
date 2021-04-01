@@ -101,8 +101,8 @@ export class TargetTypes {
   /**
    * Check if given type is valid. Valid type is:
    *
-   * - Non object class constructor or Array constructor
-   * - Array of class constructor with 2 (two) or more element
+   * - Any class such as `String`, `Number`, `Boolean`, etc but not `Object` and `Array`
+   * - Array of class at least 2 element
    *
    * @param type Type to be checked
    * @returns true if given type is valid, false otherwise
