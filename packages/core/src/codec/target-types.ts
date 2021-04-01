@@ -89,7 +89,7 @@ export class TargetTypes {
   }
 
   /**
-   * Merge 2 `TargetType`
+   * Merge 2 `TargetType` sequentally
    *
    * @param t1 Origin type to be merged, used as base of output type
    * @param t2 Type to be merged
