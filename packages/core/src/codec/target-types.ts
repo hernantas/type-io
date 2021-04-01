@@ -70,6 +70,15 @@ export class TargetTypes {
     return this.merge<T[], T>(Array, type)
   }
 
+  /**
+   * Remove `Array` from `TargetType` by shifting the target type. For example:
+   *
+   * - [`Array`, `String`] will result in `String`
+   * - However, [`Array`, `Array`, `String`] will result in [`Array`, `String`]
+   *
+   * @param type Target type to be removed
+   * @returns Target type without array
+   */
   static unArray <T> (type: TargetType<T | T[]>): TargetType<T> {
     if (this.isValidArray(type)) {
       type = type.slice(1)
