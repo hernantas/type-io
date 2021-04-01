@@ -57,7 +57,11 @@ export class TargetTypes {
   }
 
   /**
-   * Construct `TargetType` from given type that describe it as `Array` of given type
+   * Construct `TargetType` from given type that describe it as `Array` of given
+   * type. For example:
+   *
+   * - `Array` of `String` will result in `[Array, String]` target type
+   * - `Array` of `Array` of `String` (String[][]) will result in `[Array, Array, String]` target type
    *
    * @param type Type of element in array
    * @returns Array target type for given type
