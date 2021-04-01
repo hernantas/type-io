@@ -29,7 +29,7 @@ export class ObjectCodec<T> implements Codec<T, AnyObject> {
           output[outPropName] = this.codecs[outPropName].decode(
             input[inPropName],
             propDef.option
-          ) as T[keyof T]
+          )
         } else if (!propDef.optional) {
           throw new Error(`'${propDef.inName}' property is required but do not exist in given input when decoding`)
         }
