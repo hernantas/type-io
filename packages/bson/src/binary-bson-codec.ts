@@ -1,7 +1,7 @@
 import { Codec } from '@type-io/core'
 import { Binary } from 'bson'
 
-export class BufferBsonCodec implements Codec<Buffer, Binary> {
+export class BinaryBsonCodec implements Codec<Buffer, Binary> {
   type = Buffer
 
   decode (value: unknown): Buffer {
