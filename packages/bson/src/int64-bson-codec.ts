@@ -13,7 +13,7 @@ export class Int64BsonCodec implements Codec<string, Long> {
       return Long.fromNumber(value).toString()
     }
 
-    if (value instanceof Double || value instanceof Int32) {
+    if (value instanceof Int32 || value instanceof Double) {
       return Long.fromNumber(value.value).toString()
     }
 
