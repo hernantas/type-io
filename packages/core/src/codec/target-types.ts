@@ -1,4 +1,4 @@
-import { AnyParamConstructor, TargetType } from '../type'
+import { SingleType, SingleUnionType, TargetType, NestedType, EnumType } from '../type'
 import { findCtor } from './utils'
 
 /**
@@ -15,17 +15,32 @@ export class TargetTypes {
   static find <T> (input: T[]): TargetType<T[]>
   static find <T> (input: T): TargetType<T>
   static find <T> (input: T | T[]): TargetType<T> | TargetType<T[]> {
+    let ctor
     try {
-      const ctor = findCtor(input)
-
-      if (Array.isArray(input)) {
-        return TargetTypes.array(ctor)
-      }
-
-      return ctor
+      ctor = findCtor(input)
     } catch (e) {
       throw new Error('Cannot find target type from empty array')
     }
+
+    if (Array.isArray(input)) {
+      return TargetTypes.array(ctor)
+    }
+
+    return ctor
+  }
+
+  static isValid (type: TargetType): boolean {
+    if (this.isSingle(type)) {
+      return type !== Object && type !== Array
+    } else if (this.isNested(type)) {
+      for (let i = 0; i < type.length; i++) {
+        if (type[i] === Array && i === type.length - 1) {
+          return false
+        }
+      }
+    }
+
+    return true
   }
 
   /**
@@ -38,22 +53,74 @@ export class TargetTypes {
    * @param in2 Second type to be compared
    * @returns True if equal, false otherwise
    */
-  static equal <T> (in1: TargetType<T>, in2: TargetType<T>): boolean {
-    if (Array.isArray(in1) && Array.isArray(in2)) {
+  static equal (in1: TargetType, in2: TargetType): boolean {
+    return this.equalSingle(in1, in2) || this.equalSingleUnion(in1, in2) || this.equalNested(in1, in2)
+  }
+
+  static equalNested (in1: TargetType, in2: TargetType): boolean {
+    if (this.isNested(in1) && this.isNested(in2)) {
       if (in1.length !== in2.length) {
         return false
       }
 
       for (let i = 0; i < in1.length; i++) {
-        if (in1[i] !== in2[i]) {
+        const elem1 = in1[i]
+        const elem2 = in2[i]
+
+        if (this.isSingle(elem1) && this.isSingle(elem2)) {
+          if (elem1 !== elem2) {
+            return false
+          }
+        } else if (this.isEnum(elem1) && this.isEnum(elem2)) {
+          if (this.equalEnum(elem1, elem2)) {
+            return false
+          }
+        } else {
           return false
         }
       }
+
       return true
-    } else if (!Array.isArray(in1) && !Array.isArray(in2)) {
+    }
+    return false
+  }
+
+  static equalSingleUnion (in1: TargetType, in2: TargetType): boolean {
+    if (this.isSingleUnion(in1) && this.isSingleUnion(in2)) {
+      return this.equalEnum(in1[0], in2[0])
+    }
+    return false
+  }
+
+  static equalEnum (union1: EnumType, union2: EnumType): boolean {
+    if (union1.length !== union2.length) {
+      return false
+    }
+
+    for (let i = 0; i < union1.length; i++) {
+      if (union1[i] !== union2[i]) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  static equalSingle (in1: TargetType, in2: TargetType): boolean {
+    if (this.isSingle(in1) && this.isSingle(in2)) {
       return in1 === in2
     }
     return false
+  }
+
+  /**
+   * Create target type from enum
+   *
+   * @param enumObject Enum object
+   * @returns Target type of single enum
+   */
+  static enum (enumObject: Record<string | number, string | number>): TargetType {
+    return [Object.values(enumObject)]
   }
 
   /**
@@ -71,7 +138,7 @@ export class TargetTypes {
   }
 
   /**
-   * Remove `Array` from `TargetType` by shifting the target type. For example:
+   * Remove one `Array` from `TargetType` by shifting the target type. For example:
    *
    * - [`Array`, `String`] will result in `String`
    * - However, [`Array`, `Array`, `String`] will result in [`Array`, `String`]
@@ -80,21 +147,18 @@ export class TargetTypes {
    * @returns Target type without array
    */
   static unArray <T> (type: TargetType<T | T[]>): TargetType<T> {
-    if (this.isValidArray(type)) {
-      type = type.slice(1)
-    }
-    return (Array.isArray(type) && type.length === 1 ? type[0] : type) as TargetType<T>
-  }
+    if (this.isNested(type)) {
+      if (type[0] === Array) {
+        const sliced = type.slice(1)
 
-  /**
-   * Check if given `TargetType` is valid `TargetType` for array (TargetType<T[]>). Valid
-   * array `TargetType` is represented as `[Array, ...]`
-   *
-   * @param type Type to be checked
-   * @returns true if given `TargetType` is valid array, false otherwise
-   */
-  static isValidArray <T> (type: TargetType<T>): type is AnyParamConstructor<T>[] {
-    return Array.isArray(type) && type.length > 1 && type[0] === Array
+        return sliced.length >= 2
+          ? sliced as NestedType
+          : Array.isArray(sliced[0])
+            ? sliced as SingleUnionType
+            : sliced[0] as SingleType<T>
+      }
+    }
+    return type as TargetType<T>
   }
 
   /**
@@ -108,20 +172,46 @@ export class TargetTypes {
     return [
       ...(Array.isArray(t1) ? t1 : [t1]),
       ...(Array.isArray(t2) ? t2 : [t2])
-    ]
+    ] as TargetType<T>
   }
 
-  /**
-   * Check if given type is valid. Valid type is:
-   *
-   * - Any class such as `String`, `Number`, `Boolean`, etc but not `Object` and `Array`
-   * - Array of class at least 2 element
-   *
-   * @param type Type to be checked
-   * @returns true if given type is valid, false otherwise
-   */
-  static isValid (type: TargetType): boolean {
-    return (Array.isArray(type) && type.length > 1) ||
-      (typeof type === 'function' && type !== Object && type !== Array)
+  static is <T = unknown> (type: unknown): type is TargetType<T> {
+    return this.isSingle(type) || this.isSingleUnion(type) || this.isNested(type)
+  }
+
+  static isNested (type: unknown): type is NestedType {
+    if (!Array.isArray(type) || type.length < 2) {
+      return false
+    }
+
+    for (const t of type) {
+      if (!this.isSingle(t) && !this.isEnum(t)) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  static isSingleUnion (type: unknown): type is SingleUnionType {
+    return Array.isArray(type) && type.length === 1 && this.isEnum(type[0])
+  }
+
+  static isEnum (type: unknown): type is EnumType {
+    if (!Array.isArray(type)) {
+      return false
+    }
+
+    for (const t of type) {
+      if (!(typeof t === 'string' || typeof t === 'number')) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  static isSingle <T> (type: unknown): type is SingleType<T> {
+    return !Array.isArray(type) && typeof type === 'function'
   }
 }

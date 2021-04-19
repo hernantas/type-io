@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Codec, Parser, Prop } from '../../src/'
+import { Codec, Parser, Prop, TargetType } from '../../src/'
 
 describe('Codec functionality', () => {
   class StringCodec implements Codec<string> {
@@ -18,7 +18,7 @@ describe('Codec functionality', () => {
   }
 
   class StringNumberCodec implements Codec<string, number> {
-    type = [String, Number]
+    type: TargetType = [String, Number]
 
     decode (value: unknown): string {
       const str = this.decodeToString(value)

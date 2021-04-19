@@ -6,6 +6,7 @@ import { CodecManager } from './codec-manager'
 import { TargetTypes } from './target-types'
 import { ObjectCodec } from './object-codec'
 import { ArrayCodec } from './array-codec'
+import { EnumCodec } from './enum-codec'
 
 export class Parser extends CodecManager {
   // eslint-disable-next-line no-useless-constructor
@@ -54,8 +55,10 @@ export class Parser extends CodecManager {
 
     if (typeof type === 'function') {
       codec = this.createObjectCodec(type)
-    } else if (TargetTypes.isValidArray(type)) {
+    } else if (TargetTypes.isNested(type) && type[0] === Array) {
       codec = this.createArrayCodec(TargetTypes.unArray(type)) as unknown as Codec<T, unknown>
+    } else if (TargetTypes.isSingleUnion(type)) {
+      codec = new EnumCodec(type, type[0]) as unknown as Codec<T, unknown>
     } else {
       throw new Error('No Codec was found and cannot dynamically create codec for given target type')
     }

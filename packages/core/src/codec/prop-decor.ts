@@ -23,7 +23,11 @@ export function Prop (options?: PropOption): PropertyDecorator {
           if (designType === Array) {
             def.type = TargetTypes.array(options.type)
           } else if (designType !== Object) {
-            def.type = TargetTypes.merge(designType, options.type)
+            if (TargetTypes.isSingleUnion(options.type)) {
+              def.type = options.type
+            } else {
+              def.type = TargetTypes.merge(designType, options.type)
+            }
           } else {
             def.type = options.type
           }
