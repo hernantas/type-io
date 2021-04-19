@@ -1,8 +1,8 @@
-import { Codec } from '@type-io/core'
+import { Codec, TargetType } from '@type-io/core'
 import { Double, Int32, Long } from 'bson'
 
 export class Int64BsonCodec implements Codec<string, Long> {
-  type = [String, Long]
+  type: TargetType = [String, Long]
 
   decode (value: unknown): string {
     if (value instanceof Long) {

@@ -1,8 +1,8 @@
 import { Long, Timestamp } from 'bson'
-import { Codec } from '@type-io/core'
+import { Codec, TargetType } from '@type-io/core'
 
 export class TimestampBsonCodec implements Codec<string, Timestamp> {
-  type = [String, Timestamp]
+  type: TargetType = [String, Timestamp]
 
   decode (value: unknown): string {
     if (value instanceof Timestamp) {

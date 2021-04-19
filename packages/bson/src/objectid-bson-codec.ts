@@ -2,7 +2,7 @@ import { Codec } from '@type-io/core'
 import { ObjectID, ObjectId } from 'bson'
 
 export class ObjectIdBsonCodec implements Codec<string, ObjectId> {
-  type = [String, ObjectId]
+  type: TargetType = [String, ObjectId]
 
   decode (value: unknown): string {
     if (value instanceof ObjectId || value instanceof ObjectID) {

@@ -1,8 +1,8 @@
 import { Decimal128, Double, Int32, Long } from 'bson'
-import { Codec } from '@type-io/core'
+import { Codec, TargetType } from '@type-io/core'
 
 export class Decimal128BsonCodec implements Codec<string, Decimal128> {
-  type = [String, Decimal128]
+  type: TargetType = [String, Decimal128]
 
   decode (value: unknown): string {
     if (value instanceof Decimal128) {
