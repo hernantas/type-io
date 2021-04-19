@@ -1,7 +1,7 @@
 import { Codec, TargetType } from '@type-io/core'
 import { Double, Int32 } from 'bson'
 
-export class DoubleBsonCodec implements Codec<number, Double> {
+export class NumberDoubleBsonCodec implements Codec<number, Double> {
   type: TargetType = [Number, Double]
 
   decode (value: unknown): number {
@@ -26,5 +26,37 @@ export class DoubleBsonCodec implements Codec<number, Double> {
 
   encode (value: number): Double {
     return new Double(value)
+  }
+}
+
+export class DoubleBsonCodec implements Codec<Double> {
+  type: TargetType = Double
+
+  decode (value: unknown): Double {
+    if (value instanceof Double) {
+      return value
+    }
+
+    if (typeof value === 'number') {
+      return new Double(value)
+    }
+
+    if (typeof value === 'string') {
+      return new Double(parseFloat(value))
+    }
+
+    if (value instanceof Int32) {
+      return new Double(value.value)
+    }
+
+    if (typeof value === 'boolean') {
+      return new Double(value ? 1 : 0)
+    }
+
+    throw new Error('Unknown value type')
+  }
+
+  encode (value: Double): Double {
+    return value
   }
 }
