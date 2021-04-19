@@ -14,7 +14,7 @@ export class Parser extends CodecManager {
     super(codecCtors)
   }
 
-  decode <T, I> (input: I, type: TargetType<T>, options?: CodecOption): T {
+  decode <T = unknown, I = unknown> (input: I, type: TargetType<T>, options?: CodecOption): T {
     if (!TargetTypes.isValid(type)) {
       throw new Error('Invalid target type')
     }
@@ -23,14 +23,14 @@ export class Parser extends CodecManager {
     return codec.decode(input, options)
   }
 
-  decodeArray <T, I> (input: I[], type: TargetType<T>, options?: CodecOption): T[] {
+  decodeArray <T = unknown, I = unknown> (input: I[], type: TargetType<T>, options?: CodecOption): T[] {
     if (!TargetTypes.isValid(type)) {
       throw new Error('Invalid target type')
     }
     return this.decode(input, TargetTypes.array(type), options)
   }
 
-  encode <T> (input: T, type?: TargetType<T>, options?: CodecOption): unknown {
+  encode <T = unknown> (input: T, type?: TargetType<T>, options?: CodecOption): unknown {
     if (type === undefined) {
       type = TargetTypes.find(input)
     }
@@ -39,7 +39,7 @@ export class Parser extends CodecManager {
     return codec.encode(input, options)
   }
 
-  encodeArray <T> (input: T[], type?: TargetType<T>, options?: CodecOption): unknown[] {
+  encodeArray <T = unknown> (input: T[], type?: TargetType<T>, options?: CodecOption): unknown[] {
     if (type === undefined) {
       type = TargetTypes.unArray(TargetTypes.find(input))
     }
