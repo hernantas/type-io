@@ -7,7 +7,7 @@ import { DoubleBsonCodec } from './double-bson-codec'
 import { Int32BsonCodec } from './int32-bson-codec'
 import { Int64BsonCodec } from './int64-bson-codec'
 import { NumberBsonCodec } from './number-bson-codec'
-import { ObjectIdBsonCodec } from './objectid-bson-codec'
+import { ObjectIdBsonCodec, StringObjectIdBsonCodec } from './objectid-bson-codec'
 import { StringBsonCodec } from './string-bson-codec'
 import { TimestampBsonCodec } from './timestamp-bson-codec'
 
@@ -23,6 +23,7 @@ export class BsonParser extends Parser {
       DoubleBsonCodec,
       Decimal128BsonCodec,
       ObjectIdBsonCodec,
+      StringObjectIdBsonCodec,
       BufferBsonCodec,
       TimestampBsonCodec
     ]))
