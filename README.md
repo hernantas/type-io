@@ -89,7 +89,7 @@ We also need to verify if the input is matching or allowed by our model.
 
 Lastly, sometimes we also need our data model need to be as portable as possible so we can reuse it both on front-end and back-end (or in electron client)
 
-**Hence, this parsed based transformer is created.**
+**Hence, this parser/codec based transformer is created.**
 
 ## Installation
 
