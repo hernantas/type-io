@@ -1,7 +1,7 @@
 import { Codec } from '@type-io/core'
 import { Binary } from 'bson'
 
-export class BinaryBsonCodec implements Codec<Buffer, Binary> {
+export class BufferBsonCodec implements Codec<Buffer, Binary> {
   type = Buffer
 
   decode (value: unknown): Buffer {
@@ -22,6 +22,40 @@ export class BinaryBsonCodec implements Codec<Buffer, Binary> {
 
   encode (value: Buffer): Binary {
     return new Binary(value)
+  }
+}
+
+abstract class BinaryBsonBaseCodec<O> implements Codec<Binary, O> {
+  type = Binary
+
+  decode (value: unknown): Binary {
+    if (value instanceof Binary) {
+      return value
+    }
+
+    if (value instanceof Buffer) {
+      return new Binary(value)
+    }
+
+    if (typeof value === 'string' || value instanceof Uint8Array || isNumberArray(value)) {
+      return new Binary(Buffer.from(value))
+    }
+
+    throw new Error('Unknown value type')
+  }
+
+  abstract encode (value: Binary): O
+}
+
+export class BinaryBsonCodec extends BinaryBsonBaseCodec<Binary> {
+  encode (value: Binary): Binary {
+    return value
+  }
+}
+
+export class BinaryPlainBsonCodec extends BinaryBsonBaseCodec<string> {
+  encode (value: Binary): string {
+    return value.buffer.toString()
   }
 }
 

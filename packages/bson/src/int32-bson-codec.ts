@@ -29,7 +29,7 @@ export class NumberInt32BsonCodec implements Codec<number, Int32> {
   }
 }
 
-export class Int32BsonCodec implements Codec<Int32> {
+abstract class Int32BsonBaseCodec<O> implements Codec<Int32, O> {
   type: TargetType = Int32
 
   decode (value: unknown): Int32 {
@@ -52,7 +52,17 @@ export class Int32BsonCodec implements Codec<Int32> {
     throw new Error('Unknown value type')
   }
 
+  abstract encode (value: Int32): O
+}
+
+export class Int32BsonCodec extends Int32BsonBaseCodec<Int32> {
   encode (value: Int32): Int32 {
     return value
+  }
+}
+
+export class Int32PlainBsonCodec extends Int32BsonBaseCodec<number> {
+  encode (value: Int32): number {
+    return value.value
   }
 }

@@ -33,7 +33,7 @@ export class StringInt64BsonCodec implements Codec<string, Long> {
   }
 }
 
-export class Int64BsonCodec implements Codec<Long> {
+abstract class Int64BsonBaseCodec<O> implements Codec<Long, O> {
   type: TargetType = Long
 
   decode (value: unknown): Long {
@@ -60,7 +60,17 @@ export class Int64BsonCodec implements Codec<Long> {
     throw new Error('Unknown value type')
   }
 
+  abstract encode (value: Long): O
+}
+
+export class Int64BsonCodec extends Int64BsonBaseCodec<Long> {
   encode (value: Long): Long {
     return value
+  }
+}
+
+export class Int64PlainBsonCodec extends Int64BsonBaseCodec<string> {
+  encode (value: Long): string {
+    return value.toString()
   }
 }

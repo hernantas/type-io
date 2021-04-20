@@ -1,6 +1,6 @@
 import { AnyParamConstructor, Codec, Parser } from '@type-io/core'
 import { BooleanBsonCodec } from './boolean-bson-codec'
-import { BinaryBsonCodec } from './binary-bson-codec'
+import { BinaryBsonCodec, BufferBsonCodec } from './binary-bson-codec'
 import { DateBsonCodec } from './date-bson-codec'
 import { Decimal128BsonCodec, StringDecimal128BsonCodec } from './decimal128-bson-codec'
 import { DoubleBsonCodec, NumberDoubleBsonCodec } from './double-bson-codec'
@@ -35,6 +35,7 @@ export class BsonParser extends Parser {
       StringObjectIdBsonCodec,
       // Binary
       BinaryBsonCodec,
+      BufferBsonCodec,
       // Timestamp
       TimestampBsonCodec,
       StringTimestampBsonCodec

@@ -21,7 +21,7 @@ export class StringObjectIdBsonCodec implements Codec<string, ObjectId> {
   }
 }
 
-export class ObjectIdBsonCodec implements Codec<ObjectId> {
+abstract class ObjectIdBsonBaseCodec<O> implements Codec<ObjectId, O> {
   type = ObjectId
 
   decode (value: unknown): ObjectId {
@@ -36,7 +36,17 @@ export class ObjectIdBsonCodec implements Codec<ObjectId> {
     throw new Error('Unknown value type')
   }
 
-  encode (value: ObjectId): ObjectId {
+  abstract encode (value: ObjectId): O
+}
+
+export class ObjectIdBsonCodec extends ObjectIdBsonBaseCodec<ObjectId> {
+  encode (value: ObjectID): ObjectID {
     return value
+  }
+}
+
+export class ObjectIdPlainBsonCodec extends ObjectIdBsonBaseCodec<string> {
+  encode (value: ObjectID): string {
+    return value.toHexString()
   }
 }

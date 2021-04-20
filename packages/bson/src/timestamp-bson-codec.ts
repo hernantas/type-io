@@ -29,7 +29,7 @@ export class StringTimestampBsonCodec implements Codec<string, Timestamp> {
   }
 }
 
-export class TimestampBsonCodec implements Codec<Timestamp> {
+abstract class TimestampBsonBaseCodec<O> implements Codec<Timestamp, O> {
   type: TargetType = Timestamp
 
   decode (value: unknown): Timestamp {
@@ -52,7 +52,17 @@ export class TimestampBsonCodec implements Codec<Timestamp> {
     throw new Error('Unknown value type')
   }
 
+  abstract encode (value: Timestamp): O
+}
+
+export class TimestampBsonCodec extends TimestampBsonBaseCodec<Timestamp> {
   encode (value: Timestamp): Timestamp {
     return value
+  }
+}
+
+export class TimestampPlainBsonCodec extends TimestampBsonBaseCodec<string> {
+  encode (value: Timestamp): string {
+    return value.toString()
   }
 }

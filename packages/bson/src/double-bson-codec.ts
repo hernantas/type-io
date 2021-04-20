@@ -29,7 +29,7 @@ export class NumberDoubleBsonCodec implements Codec<number, Double> {
   }
 }
 
-export class DoubleBsonCodec implements Codec<Double> {
+abstract class DoubleBsonBaseCodec<O> implements Codec<Double, O> {
   type: TargetType = Double
 
   decode (value: unknown): Double {
@@ -56,7 +56,17 @@ export class DoubleBsonCodec implements Codec<Double> {
     throw new Error('Unknown value type')
   }
 
+  abstract encode (value: Double): O
+}
+
+export class DoubleBsonCodec extends DoubleBsonBaseCodec<Double> {
   encode (value: Double): Double {
     return value
+  }
+}
+
+export class DoublePlainBsonCodec extends DoubleBsonBaseCodec<number> {
+  encode (value: Double): number {
+    return value.value
   }
 }
