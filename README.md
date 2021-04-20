@@ -10,7 +10,7 @@ Typescript decorator-based encoding/decoding transformation for I/O
 
 There're 4 problem we are trying to solve on this package:
 
-### Problem #1
+### Problem #1: Data Modeling
 
 Eventhough the data in Javascript/JSON can be in any shape and format, we still need the data to match our data model so we can manipulate it safely. Oftentimes, we model our data using classes or schemas.
 
@@ -53,7 +53,7 @@ fetch('/api/users').then((users: User[]) => {
 
 In above code, you can access `users` by using `users[0].id` or `users[0].firstName` and it is valid in Javascript. However, since its an not class instances rather than plain objects, you cannot call `getName()` method on it.
 
-### Problem #2
+### Problem #2: Input/Output Format
 
 In addition, we also want to transform our class instance to different form of object format. Eventhough we don't really need to care about data outside our model, we still need the transform our data to be formatted in such a way that compatible with others such as database or client.
 
@@ -81,11 +81,11 @@ String Only:
 }
 ```
 
-### Problem #3
+### Problem #3: Validation
 
 We also need to verify if the input is matching or allowed by our model.
 
-### Problem #4
+### Problem #4: Reusable Data Model
 
 Lastly, sometimes we also need our data model need to be as portable as possible so we can reuse it both on front-end and back-end (or in electron client)
 
