@@ -2,9 +2,19 @@
 
 Typescript decorator-based encoding/decoding transformation for I/O
 
+## BETA
+
+`type-io` is still in beta. Expect bugs!
+
 ## The Idea
 
-Sometimes we want to transform our plain object to the ES6 class such as above. For example, when you are loading a json in your backend using `JSON.parse`, you get plain object instead of instance of the class you need.
+There're 4 problem we are trying to solve on this package:
+
+### Problem #1
+
+Eventhough the data in Javascript/JSON can be in any shape and format, we still need the data to match our data model so we can manipulate it safely. Oftentimes, we model our data using classes or schemas.
+
+For example:
 
 Plain:
 
@@ -17,7 +27,7 @@ Plain:
 }
 ```
 
-Model:
+Model (Class):
 
 ```ts
 class User {
@@ -32,7 +42,7 @@ class User {
 }
 ```
 
-And when you `fetch` it from API server:
+And then you `fetch` it from API server:
 
 ```ts
 fetch('/api/users').then((users: User[]) => {
@@ -41,9 +51,13 @@ fetch('/api/users').then((users: User[]) => {
 })
 ```
 
-In above code, you can access `users` by using `users[0].id` or `users[0].firstName` but since its an not class instance rather than plain object, you cannot call `getName()` method on it
+In above code, you can access `users` by using `users[0].id` or `users[0].firstName` and it is valid in Javascript. However, since its an not class instances rather than plain objects, you cannot call `getName()` method on it.
 
-Othertime we want to transform our class instance to different form of object format such as BSON object when working with MongoDb or to String only for other purpose.
+### Problem #2
+
+In addition, we also want to transform our class instance to different form of object format. Eventhough we don't really need to care about data outside our model, we still need the transform our data to be formatted in such a way that compatible with others such as database or client.
+
+For example, when we need to output our model to BSON object when working with MongoDb, it need to be shaped into:
 
 BSON:
 ```ts
@@ -54,6 +68,9 @@ BSON:
   money: Decimal128("5891892202.14")
 }
 ```
+
+Or when you need it to be string-only value:
+
 String Only:
 ```ts
 {
@@ -64,9 +81,15 @@ String Only:
 }
 ```
 
-In addition, we also need to verify if the input is exactly match with our model.
+### Problem #3
 
-Hence, this parsed based transformer is created.
+We also need to verify if the input is matching or allowed by our model.
+
+### Problem #4
+
+Lastly, sometimes we also need our data model need to be as portable as possible so we can reuse it both on front-end and back-end (or in electron client)
+
+**Hence, this parsed based transformer is created.**
 
 ## Installation
 
@@ -123,7 +146,7 @@ Or when we want to encode it to BSON based object using `@type-io/bson`
 
 ```ts
 // define BSON based object parser
-const parser = new BSONParser()
+const parser = new BsonParser()
 
 // encode it to BSON based object
 const myBSONObject = parser.encode(myClassObject)
@@ -133,10 +156,10 @@ Or you can create custom parser using:
 
 ```ts
 const parser = new Parser([
-  StringPlainCodec,
-  NumberPlainCodec,
-  BooleanPlainCodec,
-  DatePlainCodec,
+  StringCodec,
+  NumberCodec,
+  BooleanCodec,
+  DateCodec,
   // ... other codec here
 ])
 ```
@@ -145,43 +168,15 @@ This way when you need to parse from/to `DB` type, you can use appropiate DB par
 
 ## Package
 
-This packages is designed to be as portable as possible so model should be able to be defined on both client (web) or server (node)
+This project is designed to be as portable as possible so model should be able to be defined on both client (web) or server (node)
 
-However, `Parser` is not as portable since some parser require to be run on specific environment.
+However, `Parser` is not as portable since some parser require to be run on specific environment. So, there are multiple package that can be used depend on usage.
 
-### `@type-io/core`
-
-Used to define our data model. This package can be run anywhere. In addition it also contain:
-
-- `PlainParser`: parser from/to plain object
-- `StringPlainCodec`: codec for `string` plain object
-- `BooleanPlainCodec`: codec for `boolean` plain object
-- `NumberPlainCodec`: codec for `number` plain object
-- `DatePlainCodec`: codec for `Date` plain object
+- `@type-io/core`: Used to define our data model. This package can be run on both front-end and back-end
+- `@type-io/node`: Add support for Node data type such as `Buffer`. This can only be run on Node
+- `@type-io/bson`: Add support for Bson data type such as `Decimal128`, `Int32` and more. This can be run on both front-end and back-end
 
 ## To Do
 
 - Circular type
-- Enum
-
-### `@type-io/bson`
-
-Used to transform object from/to BSON object.
-
-- `BSONParser`: parser from/to BSON object
-- `StringBSONCodec`: codec for `String` BSON
-- `BooleanBSONCodec`: codec for `Boolean` BSON
-- `Int32BSONCodec`: codec for `Int32` BSON
-- `Int64BSONCodec`: codec for `Int64` BSON
-- `DoubleBSONCodec`: codec for `Double` BSON
-- `Decimal128BSONCodec`: codec for `Decimal128` BSON
-- `DateBSONCodec`: codec for `Date` BSON
-- `TimestampBSONCodec`: codec for `Timestamp` BSON
-- `ObjectIdBSONCodec`: codec for `ObjectId` BSON
-- `BinaryBSONCodec`: codec for `Binary` BSON
-
-### `@type-io/mongo`
-
-Used to transform object from/to MongoDb object.
-
-- `@Id`: Property decorator which will map `_id` property from mongo to `id` property in object class
+- `@type-io/mongo`: Used to transform object from/to MongoDb object.
