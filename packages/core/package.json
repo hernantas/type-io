@@ -8,6 +8,7 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [ "dist/**/*" ],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
