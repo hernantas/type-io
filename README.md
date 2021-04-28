@@ -6,15 +6,15 @@ Typescript decorator-based encoding/decoding transformation for I/O
 
 ## Documentation
 
-- [The Idea](docs/pages/01-the-idea)
-- [Getting Started](docs/pages/02-getting-started)
-  - [Installation](docs/pages/02-getting-started#installation)
-  - [Basic Usage](docs/pages/02-getting-started#basic-usage)
-- [Data Model](docs/pages/03-data-model)
-- [Parsing](docs/pages/04-parsing)
-- [Codec](docs/pages/05-codec)
-- [Target Type](docs/pages/06-target-type)
-- [`TargetTypes` utility](docs/pages/07-util)
+- [The Idea](docs/pages/01-the-idea.md)
+- [Getting Started](docs/pages/02-getting-started.md)
+  - [Installation](docs/pages/02-getting-started#installation.md)
+  - [Basic Usage](docs/pages/02-getting-started#basic-usage.md)
+- [Data Model](docs/pages/03-data-model.md)
+- [Parsing](docs/pages/04-parsing.md)
+- [Codec](docs/pages/05-codec.md)
+- [Target Type](docs/pages/06-target-type.md)
+- [`TargetTypes` utility](docs/pages/07-util.md)
 
 ## Packages
 
