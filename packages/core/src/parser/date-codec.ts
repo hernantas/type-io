@@ -1,6 +1,6 @@
-import { Codec } from '../../codec'
+import { Codec } from '../codec/codec'
 
-export class DatePlainCodec implements Codec<Date> {
+export class DateCodec implements Codec<Date> {
   type = Date
 
   decode (value: unknown): Date {

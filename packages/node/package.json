@@ -1,7 +1,7 @@
 {
-  "name": "@type-io/bson",
+  "name": "@type-io/node",
   "version": "0.1.0",
-  "description": "BSON support for Type-IO",
+  "description": "Node.js support for Type-IO",
   "repository": "https://github.com/hernantas/type-io.git",
   "author": "Zulfikar Raditya Hernanta <hernantas@gmail.com>",
   "license": "MIT",
@@ -10,18 +10,16 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/**/*.spec.ts",
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test:coverage": "nyc yarn test",
     "lint:fix": "eslint --fix",
     "prepublish": "yarn build"
   },
   "devDependencies": {
-    "@types/node": "^14.14.32",
-    "tsconfig-paths": "^3.9.0"
+    "@types/node": "^14.14.35"
   },
   "dependencies": {
-    "@type-io/core": "*",
-    "bson": "^4.2.3"
+    "@type-io/core": "*"
   },
   "nyc": {
     "extension": [

@@ -23,7 +23,11 @@ export function Prop (options?: PropOption): PropertyDecorator {
           if (designType === Array) {
             def.type = TargetTypes.array(options.type)
           } else if (designType !== Object) {
-            def.type = TargetTypes.merge(designType, options.type)
+            if (TargetTypes.isSingleUnion(options.type)) {
+              def.type = options.type
+            } else {
+              def.type = TargetTypes.merge(designType, options.type)
+            }
           } else {
             def.type = options.type
           }
@@ -36,7 +40,7 @@ export function Prop (options?: PropOption): PropertyDecorator {
       }
 
       if (!TargetTypes.isValid(def.type)) {
-        throw new Error(`${def.name} has unknown or invalid type, make sure to specify the correct type`)
+        throw new Error(`"${def.name}" property has unknown or invalid type, make sure to specify the correct type`)
       }
 
       const defs = Metadata.getTypeDef(target.constructor as AnyParamConstructor)
