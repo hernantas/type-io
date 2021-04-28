@@ -1,6 +1,6 @@
 # @type-io/core
 
-Core package of [type-io](../../README.md). Used for:
+Core package of [type-io](/README.md). Used for:
 
 - Define data model
 - Decoding/encoding from plain Javascript object to class instance and back to plain object if necessary

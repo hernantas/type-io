@@ -1,6 +1,6 @@
 # @type-io/bson
 
-Add BSON data type support to [type-io](../../README.md) which can be used for MongoDb
+Add BSON data type support to [type-io](/README.md) which can be used for MongoDb
 
 ## Installation
 
