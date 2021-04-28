@@ -1,6 +1,6 @@
 # @type-io/node
 
-Add Node.js class support to [type-io](../../README.md)
+Add Node.js class support to [type-io](/README.md)
 
 ## Installation
 
