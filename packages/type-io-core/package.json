@@ -11,14 +11,14 @@
     "dist/**/*"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
+    "build": "tsc --build",
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test:coverage": "nyc yarn test",
     "lint:fix": "eslint --fix",
     "prepublish": "yarn build"
   },
   "devDependencies": {
-    "@types/chai-datetime": "^0.0.36",
+    "@types/chai-datetime": "^0.0.37",
     "chai-datetime": "^1.8.0"
   },
   "dependencies": {

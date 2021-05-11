@@ -1,7 +1,14 @@
 
+# Node
 node_modules/
+
+# Typescript
 dist/
 *.tsbuildinfo
+
+# Instanbul/Nyc
 .nyc_output/
 coverage/
+
+# Mac
 .DS_Store
