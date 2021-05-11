@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Codec, Parser, Prop, TargetType } from '../../src/'
+import { Codec, Parser, Prop, TargetType } from '../../src'
 
 describe('Codec functionality', () => {
   class StringCodec implements Codec<string> {

@@ -1,6 +1,6 @@
 import { ObjectId } from 'bson'
 import { expect } from 'chai'
-import { BsonParser } from '../src/'
+import { BsonParser } from '../src'
 
 describe('[BSON] Bson Parser (ObjectId Codec)', () => {
   const parser = new BsonParser()
