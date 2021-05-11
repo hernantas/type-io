@@ -9,7 +9,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc -b tsconfig.build.json",
+    "build": "tsc --build",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register test/**/*.spec.ts",
     "test:coverage": "nyc yarn test",
     "lint:fix": "eslint --fix",

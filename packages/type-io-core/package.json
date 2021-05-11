@@ -11,7 +11,7 @@
     "dist/**/*"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
+    "build": "tsc --build",
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test:coverage": "nyc yarn test",
     "lint:fix": "eslint --fix",
