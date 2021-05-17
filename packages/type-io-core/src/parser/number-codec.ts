@@ -1,4 +1,4 @@
-import { Codec } from '../codec/codec'
+import { Codec } from '../core/codec'
 
 export class NumberCodec implements Codec<number> {
   type = Number

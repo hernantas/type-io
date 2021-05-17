@@ -1,4 +1,4 @@
-import { Codec } from '../codec/codec'
+import { Codec } from '../core/codec'
 
 export class DateCodec implements Codec<Date> {
   type = Date

@@ -1,4 +1,4 @@
-import { Codec } from '../codec/codec'
+import { Codec } from '../core/codec'
 
 export class BooleanCodec implements Codec<boolean> {
   type = Boolean

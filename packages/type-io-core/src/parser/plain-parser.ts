@@ -1,5 +1,5 @@
 import { AnyParamConstructor } from '../type'
-import { Codec, Parser } from '../codec'
+import { Codec, Parser } from '../core'
 import { BooleanCodec } from './boolean-codec'
 import { NumberCodec } from './number-codec'
 import { StringCodec } from './string-codec'
