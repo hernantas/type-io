@@ -1,6 +1,6 @@
 import { AnyObject, AnyParamConstructor, CodecOf } from '../type'
-import { Codec } from './codec'
-import { PropDefinition } from './prop-definition'
+import { Codec } from '../core/codec'
+import { PropDefinition } from '../core/prop-definition'
 
 /**
  * Dynamic codec to decode object to class and encode it back to codec

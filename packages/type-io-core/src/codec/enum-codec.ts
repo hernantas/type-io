@@ -1,5 +1,5 @@
 import { TargetType } from '../type'
-import { Codec } from './codec'
+import { Codec } from '../core/codec'
 
 export class EnumCodec implements Codec<string | number> {
   type: TargetType

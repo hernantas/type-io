@@ -1,6 +1,6 @@
 import { TargetType } from '../type'
-import { Codec } from './codec'
-import { TargetTypes } from './target-types'
+import { Codec } from '../core/codec'
+import { TargetTypes } from '../core/target-types'
 
 /**
  * Dynamic codec for given element

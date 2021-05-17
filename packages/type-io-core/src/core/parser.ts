@@ -4,9 +4,9 @@ import { Codec } from './codec'
 import { CodecOption } from './codec-option'
 import { CodecManager } from './codec-manager'
 import { TargetTypes } from './target-types'
-import { ObjectCodec } from './object-codec'
-import { ArrayCodec } from './array-codec'
-import { EnumCodec } from './enum-codec'
+import { ObjectCodec } from '../codec/object-codec'
+import { ArrayCodec } from '../codec/array-codec'
+import { EnumCodec } from '../codec/enum-codec'
 
 export class Parser extends CodecManager {
   // eslint-disable-next-line no-useless-constructor
