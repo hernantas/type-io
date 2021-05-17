@@ -58,31 +58,32 @@ export class TargetTypes {
   }
 
   static equalNested (in1: TargetType, in2: TargetType): boolean {
-    if (this.isNested(in1) && this.isNested(in2)) {
-      if (in1.length !== in2.length) {
-        return false
-      }
+    if (!this.isNested(in1) || !this.isNested(in2)) {
+      return false
+    }
 
-      for (let i = 0; i < in1.length; i++) {
-        const elem1 = in1[i]
-        const elem2 = in2[i]
+    if (in1.length !== in2.length) {
+      return false
+    }
 
-        if (this.isSingle(elem1) && this.isSingle(elem2)) {
-          if (elem1 !== elem2) {
-            return false
-          }
-        } else if (this.isEnum(elem1) && this.isEnum(elem2)) {
-          if (!this.equalEnum(elem1, elem2)) {
-            return false
-          }
-        } else {
+    for (let i = 0; i < in1.length; i++) {
+      const elem1 = in1[i]
+      const elem2 = in2[i]
+
+      if (this.isSingle(elem1) && this.isSingle(elem2)) {
+        if (elem1 !== elem2) {
           return false
         }
+      } else if (this.isEnum(elem1) && this.isEnum(elem2)) {
+        if (!this.equalEnum(elem1, elem2)) {
+          return false
+        }
+      } else {
+        return false
       }
-
-      return true
     }
-    return false
+
+    return true
   }
 
   static equalSingleUnion (in1: TargetType, in2: TargetType): boolean {
