@@ -72,7 +72,7 @@ export class TargetTypes {
             return false
           }
         } else if (this.isEnum(elem1) && this.isEnum(elem2)) {
-          if (this.equalEnum(elem1, elem2)) {
+          if (!this.equalEnum(elem1, elem2)) {
             return false
           }
         } else {
