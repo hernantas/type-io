@@ -1,4 +1,3 @@
-export * from './util'
 export * from './ArrayIdentity'
 export * from './Codec'
 export * from './CodecOption'
