@@ -1,11 +1,11 @@
-import { TargetType } from '../type'
-import { CodecOption } from './codec-option'
+import { TargetType } from './TargetType'
+import { CodecOption } from './CodecOption'
 
 export interface Decoder<T, I = unknown> {
   /**
-   * Supported type from property of data model
+   * `TargetType` of this decoder
    */
-  readonly type: TargetType
+  readonly target: TargetType<T>
 
   /**
    * Decode given value into `<T>` type
