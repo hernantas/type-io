@@ -1,5 +1,5 @@
-import { TargetType } from '../type'
-import { CodecOption } from './codec-option'
+import { TargetType } from './TargetType'
+import { CodecOption } from './CodecOption'
 
 export interface PropOption {
   type?: TargetType
