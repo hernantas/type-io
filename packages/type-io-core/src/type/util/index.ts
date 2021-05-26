@@ -1,4 +1,5 @@
 export * from './CodecOf'
+export * from './OptionalOf'
 export * from './TargetMemberOf'
 export * from './TargetRecordOf'
 export * from './TargetTypeOf'
