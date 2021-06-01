@@ -1,6 +1,6 @@
-import { ConstructorValue, PropDefinition, PropOption } from '../type'
+import { ConstructorValue, PropertyInfo, PropOption } from '../type'
 import { array } from './type'
-import { getDesignType, getTypeDef, setTypeDef } from './util'
+import { getDesignType, getSchema, setSchema } from './util'
 
 export function Prop (options?: PropOption): PropertyDecorator {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -8,7 +8,7 @@ export function Prop (options?: PropOption): PropertyDecorator {
     if (typeof propKey === 'string') {
       const designType = getDesignType(target, propKey)
 
-      const def: PropDefinition = {
+      const def: PropertyInfo = {
         name: propKey,
         type: designType,
         optional: false,
@@ -33,14 +33,14 @@ export function Prop (options?: PropOption): PropertyDecorator {
         def.outName = options.outName ?? options.inName ?? def.name
       }
 
-      const defs = getTypeDef(target.constructor as ConstructorValue)
-      const index = defs.findIndex(def => def.name === propKey)
+      const schema = getSchema(target.constructor as ConstructorValue)
+      const index = schema.findIndex(def => def.name === propKey)
       if (index === -1) {
-        defs.push(def)
+        schema.push(def)
       } else {
-        defs[index] = def
+        schema[index] = def
       }
-      setTypeDef(target.constructor as ConstructorValue, defs)
+      setSchema(target.constructor as ConstructorValue, schema)
     }
   }
 }

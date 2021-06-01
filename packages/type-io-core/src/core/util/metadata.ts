@@ -1,11 +1,11 @@
 import 'reflect-metadata'
-import { ConstructorValue, PropDefinition } from '../../type'
+import { ConstructorValue, ObjectSchema, PropertyInfo } from '../../type'
 
 const METADATA_KEY_DESIGN_TYPE = 'design:type'
-const METADATA_KEY_TYPE = 'typeio:type'
+const METADATA_KEY_SCHEMA = 'typeio:schema'
 
-function isPropDefinition (obj: unknown): obj is PropDefinition {
-  const def = obj as PropDefinition
+function isPropertyInfo (obj: unknown): obj is PropertyInfo {
+  const def = obj as PropertyInfo
   return def.type !== undefined ||
     def.name !== undefined ||
     def.inName !== undefined ||
@@ -14,7 +14,7 @@ function isPropDefinition (obj: unknown): obj is PropDefinition {
 }
 
 /**
- * Get design type for given object
+ * Get design type of property for given object
  *
  * @param target Target object
  * @param propertyKey Property key of target object
@@ -26,27 +26,24 @@ export function getDesignType (target: Object, propertyKey: string | symbol): Co
 }
 
 /**
- * Get Property definitions of target type
+ * Get object schema for given type
  *
  * @param constructor Target type constructor
- * @returns Array of property definition
+ * @returns Object schema
  */
-export function getTypeDef (constructor: ConstructorValue): PropDefinition[] {
-  const defs = Reflect.getMetadata(METADATA_KEY_TYPE, constructor)
-
-  if (Array.isArray(defs)) {
-    return defs.filter(isPropDefinition)
-  }
-
-  return []
+export function getSchema (constructor: ConstructorValue): ObjectSchema {
+  const schema = Reflect.getMetadata(METADATA_KEY_SCHEMA, constructor)
+  return schema !== undefined && Array.isArray(schema)
+    ? schema.filter(isPropertyInfo)
+    : []
 }
 
 /**
- * Set Property definitions of target type
+ * Set object schema for given type
  *
  * @param constructor Target type constructor
- * @param defs Array of property definition
+ * @param schema Object schema
  */
-export function setTypeDef (constructor: ConstructorValue, defs: PropDefinition[]): void {
-  Reflect.defineMetadata(METADATA_KEY_TYPE, defs, constructor)
+export function setSchema <T> (constructor: ConstructorValue<T>, schema: ObjectSchema): void {
+  Reflect.defineMetadata(METADATA_KEY_SCHEMA, schema, constructor)
 }
