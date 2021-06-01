@@ -1,4 +1,4 @@
-import { ConstructorValue, TargetType, TypeKind, ConstructorIdentity, RecordValue, RecordIdentity, LiteralValue, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberValue, MemberType } from '../type'
+import { ConstructorValue, TargetType, TypeKind, ConstructorIdentity, RecordValue, RecordIdentity, LiteralValue, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberValue, MemberIdentity } from '../type'
 import { TargetMemberOf, TargetRecordOf, UnionOf } from '../type/util'
 
 export function type <T> (type: ConstructorValue<T>): TypeIdentity<T> {
@@ -33,14 +33,14 @@ export function tuple <T extends MemberValue> (...members: TargetMemberOf<T>): T
   return {
     kind: TypeKind.Tuple,
     members
-  } as MemberType<T>
+  } as MemberIdentity<T>
 }
 
 export function union <T extends MemberValue> (...members: TargetMemberOf<T>): TypeIdentity<UnionOf<T>> {
   return {
     kind: TypeKind.Union,
     members
-  } as MemberType<T>
+  } as MemberIdentity<T>
 }
 
 export function isConstructorValue <T> (target: TargetType<T>): target is ConstructorValue<T> {
@@ -63,7 +63,7 @@ export function isArrayType <T> (target: TypeIdentity<T>): target is ArrayIdenti
   return target.kind === TypeKind.Array
 }
 
-export function isMemberType <T extends MemberValue> (target: TypeIdentity<T>): target is MemberType<T> {
+export function isMemberType <T extends MemberValue> (target: TypeIdentity<T>): target is MemberIdentity<T> {
   return target.kind === TypeKind.Tuple || target.kind === TypeKind.Union || target.kind === TypeKind.Intersection
 }
 
