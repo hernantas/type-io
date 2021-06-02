@@ -1,4 +1,4 @@
-import { ConstructorValue, TargetType, TypeKind, ConstructorIdentity, RecordValue, RecordIdentity, LiteralValue, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberValue, MemberIdentity } from '../type'
+import { ConstructorValue, TargetType, TypeKind, ConstructorIdentity, RecordValue, RecordIdentity, LiteralValue, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberValue, MemberIdentity, EnumValue } from '../type'
 import { TargetMemberOf, TargetRecordOf, UnionOf } from '../type/util'
 
 export function type <T> (type: ConstructorValue<T>): TypeIdentity<T> {
@@ -47,6 +47,11 @@ export function union <T extends MemberValue> (...members: TargetMemberOf<T>): T
     members
   }
   return id
+}
+
+export function fromEnum <T extends EnumValue> (enumValue: T): TypeIdentity<T> {
+  const a = Object.keys(enumValue).map(key => literal(enumValue[key]))
+  return union(...a)
 }
 
 export function isConstructorValue <T> (target: TargetType<T>): target is ConstructorValue<T> {
