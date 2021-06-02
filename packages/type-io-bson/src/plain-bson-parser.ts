@@ -12,7 +12,7 @@ import { StringBsonCodec } from './string-bson-codec'
 import { TimestampPlainBsonCodec } from './timestamp-bson-codec'
 
 export class PlainBsonParser extends Parser {
-  constructor (codecs?: AnyParamConstructor<Codec<unknown>>[]) {
+  constructor (codecs?: Array<AnyParamConstructor<Codec<unknown>>>) {
     super((codecs !== undefined ? codecs : []).concat([
       StringBsonCodec,
       NumberBsonCodec,

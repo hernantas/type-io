@@ -13,5 +13,5 @@ export interface Decoder<T, I = unknown> {
    * @param value value to be decoded
    * @param options options to be used to decode
    */
-  decode(value: I, options?: CodecOption): T
+  decode: (value: I, options?: CodecOption) => T
 }

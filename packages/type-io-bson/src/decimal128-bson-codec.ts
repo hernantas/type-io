@@ -60,7 +60,7 @@ abstract class Decimal128BsonBaseCodec<O> implements Codec<Decimal128, O> {
     throw new Error('Unknown value type')
   }
 
-  abstract encode(value: Decimal128): O
+  abstract encode (value: Decimal128): O
 }
 
 export class Decimal128BsonCodec extends Decimal128BsonBaseCodec<Decimal128> {

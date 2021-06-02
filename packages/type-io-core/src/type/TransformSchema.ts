@@ -1,3 +1,3 @@
 import { TransformProperty } from './TransformProperty'
 
-export type TransformSchema<T> = TransformProperty<T[keyof T]>[]
+export type TransformSchema<T> = Array<TransformProperty<T[keyof T]>>
