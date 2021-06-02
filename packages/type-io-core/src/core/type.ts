@@ -2,45 +2,51 @@ import { ConstructorValue, TargetType, TypeKind, ConstructorIdentity, RecordValu
 import { TargetMemberOf, TargetRecordOf, UnionOf } from '../type/util'
 
 export function type <T> (type: ConstructorValue<T>): TypeIdentity<T> {
-  return {
+  const id: ConstructorIdentity<T> = {
     kind: TypeKind.Constructor,
     type
-  } as ConstructorIdentity<T>
+  }
+  return id
 }
 
 export function record <T extends RecordValue> (props: TargetRecordOf<T>): TypeIdentity<T> {
-  return {
+  const id: RecordIdentity<T> = {
     kind: TypeKind.Record,
     props
-  } as RecordIdentity<T>
+  }
+  return id
 }
 
 export function literal <T extends LiteralValue> (value: T): TypeIdentity<T> {
-  return {
+  const id: LiteralIdentity<T> = {
     kind: TypeKind.Literal,
     value
-  } as LiteralIdentity<T>
+  }
+  return id
 }
 
 export function array <T> (type: TargetType<T>): TypeIdentity<T[]> {
-  return {
+  const id: ArrayIdentity<T> = {
     kind: TypeKind.Array,
     type
-  } as ArrayIdentity<T>
+  }
+  return id
 }
 
 export function tuple <T extends MemberValue> (...members: TargetMemberOf<T>): TypeIdentity<T> {
-  return {
+  const id: MemberIdentity<T> = {
     kind: TypeKind.Tuple,
     members
-  } as MemberIdentity<T>
+  }
+  return id
 }
 
 export function union <T extends MemberValue> (...members: TargetMemberOf<T>): TypeIdentity<UnionOf<T>> {
-  return {
+  const id: MemberIdentity<T> = {
     kind: TypeKind.Union,
     members
-  } as MemberIdentity<T>
+  }
+  return id
 }
 
 export function isConstructorValue <T> (target: TargetType<T>): target is ConstructorValue<T> {
