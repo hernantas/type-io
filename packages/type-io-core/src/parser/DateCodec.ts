@@ -1,7 +1,8 @@
-import { Codec } from '../core/codec'
+import { type } from '../core'
+import { Codec } from '../type/Codec'
 
 export class DateCodec implements Codec<Date> {
-  type = Date
+  readonly target = type(Date)
 
   decode (value: unknown): Date {
     if (value instanceof Date) {

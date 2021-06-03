@@ -1,10 +1,11 @@
-import { Codec } from '../core/codec'
+import { type } from '../core'
+import { Codec } from '../type/Codec'
 
 export class BooleanCodec implements Codec<boolean> {
-  type = Boolean
+  readonly target = type(String)
 
   decode (val: unknown): boolean {
-    return !!val
+    return Boolean(val)
   }
 
   encode (val: boolean): boolean {

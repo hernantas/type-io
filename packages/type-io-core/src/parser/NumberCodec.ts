@@ -1,7 +1,8 @@
-import { Codec } from '../core/codec'
+import { type } from '../core'
+import { Codec } from '../type/Codec'
 
 export class NumberCodec implements Codec<number> {
-  type = Number
+  readonly target = type(Number)
 
   decode (val: unknown): number {
     if (typeof val === 'number') {

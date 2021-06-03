@@ -1,7 +1,8 @@
-import { Codec } from '../core/codec'
+import { type } from '../core'
+import { Codec } from '../type/Codec'
 
 export class StringCodec implements Codec<string> {
-  type = String
+  readonly target = type(String)
 
   decode (val: unknown): string {
     if (typeof val === 'string') {
