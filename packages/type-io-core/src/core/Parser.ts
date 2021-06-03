@@ -31,14 +31,14 @@ export class Parser extends CodecManager {
   }
 
   private findOrCreate <T> (target: TargetType<T>): Codec<T, unknown> {
+    if (isConstructorValue(target)) {
+      target = type(target)
+    }
+
     let codec = this.find(target)
 
     if (codec !== undefined) {
       return codec
-    }
-
-    if (isConstructorValue(target)) {
-      target = type(target)
     }
 
     if (isConstructorIdentity(target)) {
