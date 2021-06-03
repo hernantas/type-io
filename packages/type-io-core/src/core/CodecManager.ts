@@ -1,4 +1,4 @@
-import { ConstructorValue, TargetType } from '../type'
+import { ConstructorValue, TargetType, TypeIdentity } from '../type'
 import { Codec } from '../type/Codec'
 import { isTargetType } from './type'
 
@@ -13,7 +13,7 @@ export class CodecManager {
     return this.#codecs.push(...codecs)
   }
 
-  find <T> (target: TargetType<T>): Codec<T, unknown> | undefined {
+  find <T> (target: TypeIdentity<T>): Codec<T, unknown> | undefined {
     const codecs = this.#codecs.filter(codec => isTargetType(target, codec.target)) as Array<Codec<T, unknown>>
     return codecs.length > 0 ? codecs[0] : undefined
   }
