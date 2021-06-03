@@ -1,8 +1,8 @@
-import { array, isConstructorValue, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity } from './type'
+import { array, isConstructorValue, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity } from './type'
 import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity } from '../type'
 import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec } from './codec'
 import { CodecManager } from './CodecManager'
-import { findCtor, getSchema } from './util'
+import { getSchema } from './util'
 
 export class Parser extends CodecManager {
   decode <T = unknown, I = unknown> (input: I, target: TargetType<T>, options?: CodecOption): T {
@@ -16,7 +16,7 @@ export class Parser extends CodecManager {
 
   encode <T = unknown> (input: T, target?: TargetType<T>, options?: CodecOption): unknown {
     if (target === undefined) {
-      target = findCtor(input)
+      target = findIdentity(input)
     }
 
     const codec = this.findOrCreate(target)

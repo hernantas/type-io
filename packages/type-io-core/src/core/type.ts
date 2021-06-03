@@ -1,5 +1,6 @@
 import { ConstructorValue, TargetType, TypeKind, ConstructorIdentity, RecordValue, RecordIdentity, LiteralValue, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberValue, MemberIdentity, EnumValue } from '../type'
 import { TargetMemberOf, TargetRecordOf, UnionOf } from '../type/util'
+import { findCtor } from './util'
 
 export function type <T> (type: ConstructorValue<T>): TypeIdentity<T> {
   const id: ConstructorIdentity<T> = {
@@ -108,4 +109,13 @@ export function isTargetType<T> (source: TargetType<T>, destination: TargetType)
   }
 
   return false
+}
+
+export function findIdentity <T> (value: T): TypeIdentity<T> {
+  if (Array.isArray(value)) {
+    const elements = value.map(val => findIdentity(val))
+    const notUniformElements = elements.filter(e => e !== elements[0])
+    return notUniformElements.length === 0 ? array(elements[0]) : tuple(...elements)
+  }
+  return type(findCtor(value))
 }
