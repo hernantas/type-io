@@ -33,6 +33,10 @@ export function Prop (options?: PropertyOption): PropertyDecorator {
         def.outName = options.outName ?? options.inName ?? def.name
       }
 
+      if (def.type === Array) {
+        throw new Error('\'type\' option must be specified when property is an array')
+      }
+
       const schema = getSchema(target.constructor as ConstructorValue)
       const index = schema.findIndex(def => def.name === propKey)
       if (index === -1) {
