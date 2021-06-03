@@ -17,16 +17,8 @@ export function Prop (options?: PropertyOption): PropertyDecorator {
       }
 
       if (options !== undefined) {
-        if (options.type !== undefined) {
-          // Autofix target type
-          if (designType === Array) {
-            def.type = array(options.type)
-          } else {
-            // Skip design:type
-            def.type = options.type
-          }
-        }
-
+        // Skip design:type
+        def.type = options.type ?? def.type
         def.option = options.option
         def.optional = options.optional ?? false
         def.inName = options.inName ?? options.outName ?? def.name
