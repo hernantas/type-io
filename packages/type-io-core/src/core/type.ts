@@ -62,43 +62,43 @@ export function isTypeIdentity <T> (target: TargetType<T>): target is TypeIdenti
   return typeof target === 'object' && !Array.isArray(target)
 }
 
-export function isConstructorType <T> (target: TypeIdentity<T>): target is ConstructorIdentity<T> {
+export function isConstructorIdentity <T> (target: TypeIdentity<T>): target is ConstructorIdentity<T> {
   return target.kind === TypeKind.Constructor
 }
 
-export function isLiteralType <T extends LiteralValue> (target: TypeIdentity<T>): target is LiteralIdentity<T> {
+export function isLiteralIdentity <T extends LiteralValue> (target: TypeIdentity<T>): target is LiteralIdentity<T> {
   return target.kind === TypeKind.Literal
 }
 
-export function isArrayType <T> (target: TypeIdentity<T>): target is ArrayIdentity<T> {
+export function isArrayIdentity <T> (target: TypeIdentity<T>): target is ArrayIdentity<T> {
   return target.kind === TypeKind.Array
 }
 
-export function isMemberType <T extends MemberValue> (target: TypeIdentity<T>): target is MemberIdentity<T> {
+export function isMemberIdentity <T extends MemberValue> (target: TypeIdentity<T>): target is MemberIdentity<T> {
   return target.kind === TypeKind.Tuple || target.kind === TypeKind.Union || target.kind === TypeKind.Intersection
 }
 
-export function isEqualType (target1: TargetType, target2: TargetType): boolean {
-  if (isConstructorValue(target1) && isConstructorValue(target2)) {
-    return target1 === target2
-  } else if (isTypeIdentity(target1) && isTypeIdentity(target2)) {
-    if (target1.kind !== target2.kind) {
+export function isTargetType<T> (source: TargetType<T>, destination: TargetType): destination is TargetType<T> {
+  if (isConstructorValue(source) && isConstructorValue(destination)) {
+    return source === destination
+  } else if (isTypeIdentity(source) && isTypeIdentity(destination)) {
+    if (source.kind !== destination.kind) {
       return false
     }
 
-    if (isConstructorType(target1) && isConstructorType(target2)) {
-      return target1.type === target2.type
-    } else if (isLiteralType(target1) && isLiteralType(target2)) {
-      return target1.value === target2.value
-    } else if (isArrayType(target1) && isArrayType(target2)) {
-      return isEqualType(target1.type, target2.type)
-    } else if (isMemberType(target1) && isMemberType(target2)) {
-      if (target1.kind !== target2.kind || target1.members.length !== target2.members.length) {
+    if (isConstructorIdentity(source) && isConstructorIdentity(destination)) {
+      return source.type === destination.type
+    } else if (isLiteralIdentity(source) && isLiteralIdentity(destination)) {
+      return source.value === destination.value
+    } else if (isArrayIdentity(source) && isArrayIdentity(destination)) {
+      return isTargetType(source.type, destination.type)
+    } else if (isMemberIdentity(source) && isMemberIdentity(destination)) {
+      if (source.kind !== destination.kind || source.members.length !== destination.members.length) {
         return false
       }
 
-      for (let i = 0; i < target1.members.length; i++) {
-        if (!isEqualType(target1.members[i], target2.members[i])) {
+      for (let i = 0; i < source.members.length; i++) {
+        if (!isTargetType(source.members[i], destination.members[i])) {
           return false
         }
       }
