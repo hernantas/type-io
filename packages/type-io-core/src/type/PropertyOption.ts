@@ -1,7 +1,7 @@
 import { TargetType } from './TargetType'
 import { CodecOption } from './CodecOption'
 
-export interface PropOption {
+export interface PropertyOption {
   type?: TargetType
   optional?: boolean
   inName?: string

@@ -1,8 +1,8 @@
-import { ConstructorValue, PropertyInfo, PropOption } from '../type'
+import { ConstructorValue, PropertyInfo, PropertyOption } from '../type'
 import { array } from './type'
 import { getDesignType, getSchema, setSchema } from './util'
 
-export function Prop (options?: PropOption): PropertyDecorator {
+export function Prop (options?: PropertyOption): PropertyDecorator {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return (target: Object, propKey: string | symbol): void => {
     if (typeof propKey === 'string') {
