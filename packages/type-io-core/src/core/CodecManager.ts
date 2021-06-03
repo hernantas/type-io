@@ -5,8 +5,8 @@ import { isTargetType } from './type'
 export class CodecManager {
   readonly #codecs: Array<Codec<unknown>> = []
 
-  constructor (codecCtors?: Array<ConstructorValue<Codec<any>>>) {
-    this.push(...(codecCtors ?? []).map(CodecCtor => new CodecCtor()))
+  constructor (...codecCtors: Array<ConstructorValue<Codec<any>>>) {
+    this.push(...((codecCtors ?? []).map(CodecCtor => new CodecCtor())))
   }
 
   push (...codecs: Array<Codec<any>>): number {
