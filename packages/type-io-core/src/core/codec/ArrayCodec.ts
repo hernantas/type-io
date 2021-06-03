@@ -1,16 +1,15 @@
-import { TargetType } from '../type'
-import { Codec } from '../core/codec'
-import { TargetTypes } from '../core/target-types'
+import { ArrayIdentity } from '../../type'
+import { Codec } from '../../type/Codec'
 
 /**
  * Dynamic codec for given element
  */
 export class ArrayCodec<T> implements Codec<T[], unknown[]> {
-  type: TargetType<T[]>
+  target: ArrayIdentity<T>
   codec: Codec<T, unknown>
 
-  constructor (type: TargetType<T>, codec: Codec<T, unknown>) {
-    this.type = TargetTypes.array(type)
+  constructor (target: ArrayIdentity<T>, codec: Codec<T, unknown>) {
+    this.target = target
     this.codec = codec
   }
 
