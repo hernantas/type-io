@@ -51,8 +51,8 @@ export function union <T extends MemberValue> (...members: TargetMemberOf<T>): T
 }
 
 export function fromEnum <T extends EnumValue> (enumValue: T): TypeIdentity<T> {
-  const a = Object.keys(enumValue).map(key => literal(enumValue[key]))
-  return union(...a)
+  const type = Object.keys(enumValue).map(key => literal(enumValue[key]))
+  return union(...type)
 }
 
 export function isConstructorValue <T> (target: TargetType<T>): target is ConstructorValue<T> {
