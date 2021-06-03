@@ -10,10 +10,6 @@ export class Parser extends CodecManager {
     return codec.decode(input, options)
   }
 
-  decodeArray <T = unknown, I = unknown> (input: I[], target: TargetType<T>, options?: CodecOption): T[] {
-    return this.decode(input, array(target), options)
-  }
-
   encode <T = unknown> (input: T, target?: TargetType<T>, options?: CodecOption): unknown {
     if (target === undefined) {
       target = findIdentity(input)
@@ -21,13 +17,6 @@ export class Parser extends CodecManager {
 
     const codec = this.findOrCreate(target)
     return codec.encode(input, options)
-  }
-
-  encodeArray <T = unknown> (input: T[], target?: TargetType<T>, options?: CodecOption): unknown[] {
-    if (target === undefined) {
-      target = findCtor(input)
-    }
-    return this.encode(input, array(target), options) as unknown[]
   }
 
   private findOrCreate <T> (target: TargetType<T>): Codec<T, unknown> {
