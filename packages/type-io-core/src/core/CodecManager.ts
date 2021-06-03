@@ -1,4 +1,4 @@
-import { ConstructorValue, TargetType, TypeIdentity } from '../type'
+import { ConstructorValue, TypeIdentity } from '../type'
 import { Codec } from '../type/Codec'
 import { isTargetType } from './type'
 
