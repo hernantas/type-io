@@ -79,7 +79,7 @@ export function isMemberIdentity <T extends MemberValue> (target: TypeIdentity<T
   return target.kind === TypeKind.Tuple || target.kind === TypeKind.Union || target.kind === TypeKind.Intersection
 }
 
-export function isTargetType<T> (source: TargetType<T>, destination: TargetType): destination is TargetType<T> {
+export function isEqual<T> (source: TargetType<T>, destination: TargetType): destination is TargetType<T> {
   if (isConstructorValue(source) && isConstructorValue(destination)) {
     return source === destination
   } else if (isTypeIdentity(source) && isTypeIdentity(destination)) {
@@ -92,14 +92,14 @@ export function isTargetType<T> (source: TargetType<T>, destination: TargetType)
     } else if (isLiteralIdentity(source) && isLiteralIdentity(destination)) {
       return source.value === destination.value
     } else if (isArrayIdentity(source) && isArrayIdentity(destination)) {
-      return isTargetType(source.type, destination.type)
+      return isEqual(source.type, destination.type)
     } else if (isMemberIdentity(source) && isMemberIdentity(destination)) {
       if (source.members.length !== destination.members.length) {
         return false
       }
 
       for (let i = 0; i < source.members.length; i++) {
-        if (!isTargetType(source.members[i], destination.members[i])) {
+        if (!isEqual(source.members[i], destination.members[i])) {
           return false
         }
       }
