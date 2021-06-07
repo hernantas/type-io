@@ -42,17 +42,19 @@ export function array <T> (type: TargetType<T>, variant?: TargetType): TypeIdent
   return id
 }
 
-export function tuple <T extends MemberValue> (...members: TargetMemberOf<T>): TypeIdentity<T> {
+export function tuple <T extends MemberValue> (members: TargetMemberOf<T>, variant?: TargetType): TypeIdentity<T> {
   const id: MemberIdentity<T> = {
     kind: TypeKind.Tuple,
+    variant,
     members
   }
   return id
 }
 
-export function union <T extends MemberValue> (...members: TargetMemberOf<T>): TypeIdentity<UnionOf<T>> {
+export function union <T extends MemberValue> (members: TargetMemberOf<T>, variant?: TargetType): TypeIdentity<UnionOf<T>> {
   const id: MemberIdentity<T> = {
     kind: TypeKind.Union,
+    variant,
     members
   }
   return id
@@ -64,9 +66,9 @@ export function variant <T> (source: TargetType<T>, variant?: TargetType): TypeI
   return id
 }
 
-export function fromEnum <T extends EnumValue> (enumValue: T, v?: TargetType): TypeIdentity<T> {
+export function fromEnum <T extends EnumValue> (enumValue: T, variant?: TargetType): TypeIdentity<T> {
   const type = Object.keys(enumValue).map(key => literal(enumValue[key]))
-  return variant(union(...type), v)
+  return union(type, variant)
 }
 
 export function isConstructorValue <T> (target: TargetType<T>): target is ConstructorValue<T> {
@@ -140,7 +142,7 @@ export function findIdentity <T> (value: T): TypeIdentity<T> {
   if (Array.isArray(value)) {
     const elements = value.map(val => findIdentity(val))
     const notUniformElements = elements.filter(e => e !== elements[0])
-    return notUniformElements.length === 0 ? array(elements[0]) : tuple(...elements)
+    return notUniformElements.length === 0 ? array(elements[0]) : tuple(elements)
   }
   return type(findCtor(value))
 }
