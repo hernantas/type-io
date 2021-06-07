@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { PlainParser, Prop, TargetTypes } from '../../src'
+import { fromEnum, PlainParser, Prop } from '../../src'
 
 describe('Enum functionality', () => {
   const parser = new PlainParser()
@@ -13,7 +13,7 @@ describe('Enum functionality', () => {
     }
 
     class DefaultEnumClass {
-      @Prop({ type: TargetTypes.enum(DefaultEnum) })
+      @Prop({ type: fromEnum(DefaultEnum) })
       type: DefaultEnum = DefaultEnum.ENUM_0
     }
 
@@ -36,7 +36,7 @@ describe('Enum functionality', () => {
     }
 
     class DefaultEnumClass {
-      @Prop({ type: TargetTypes.enum(DefaultEnum) })
+      @Prop({ type: fromEnum(DefaultEnum) })
       type: DefaultEnum = DefaultEnum.ENUM_2
     }
 
@@ -59,7 +59,7 @@ describe('Enum functionality', () => {
     }
 
     class DefaultEnumClass {
-      @Prop({ type: TargetTypes.enum(DefaultEnum) })
+      @Prop({ type: fromEnum(DefaultEnum) })
       type: DefaultEnum = DefaultEnum.ENUM_1
     }
 
@@ -80,10 +80,10 @@ describe('Enum functionality', () => {
     }
 
     class DefaultEnumClass {
-      @Prop({ type: TargetTypes.enum(DefaultEnum) })
+      @Prop({ type: fromEnum(DefaultEnum) })
       firstType: DefaultEnum = DefaultEnum.ENUM_0
 
-      @Prop({ type: TargetTypes.enum(DefaultEnum) })
+      @Prop({ type: fromEnum(DefaultEnum) })
       secondType: DefaultEnum = DefaultEnum.ENUM_0
     }
 

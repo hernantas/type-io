@@ -1,9 +1,9 @@
 import { expect } from 'chai'
-import { TargetTypes, PlainParser, Prop } from '../../src'
+import { array, PlainParser, Prop } from '../../src'
 
 describe('Parse array', () => {
   class WithArray {
-    @Prop({ type: String })
+    @Prop({ type: array(String) })
     typeStrings: string[]
 
     constructor () {
@@ -42,38 +42,18 @@ describe('Parse array', () => {
       { typeString: 'This is second string' },
       { typeString: 'This is third string' }
     ]
-    const decode = parser.decode(plains, TargetTypes.array(Basic))
+    const decode = parser.decode(plains, array(Basic))
     const encode = parser.encode(decode)
     expect(decode).to.deep.members(plains)
     expect(encode).to.deep.members(plains)
   })
 
-  it('Decode/Encode from plain array using decodeArray/encodeArray', () => {
-    const plains = [
-      { typeString: 'This is first string' },
-      { typeString: 'This is second string' },
-      { typeString: 'This is third string' }
-    ]
-    const decode = parser.decodeArray(plains, Basic)
-    const encode = parser.encodeArray(decode)
-    expect(decode).to.deep.members(plains)
-    expect(encode).to.deep.members(plains)
-  })
-
   it('Decode/Encode from empty array', () => {
-    const decode = parser.decode([], TargetTypes.array(Basic))
-    const encode = parser.encode(decode, TargetTypes.array(Basic))
+    const decode = parser.decode([], array(Basic))
+    const encode = parser.encode(decode, array(Basic))
     expect(decode).to.be.eql([])
     expect(encode).to.be.eql([])
     expect(() => parser.encode([])).to.throws()
-  })
-
-  it('Decode/Encode from empty array using decodeArray/encodeArray', () => {
-    const decode = parser.decodeArray([], Basic)
-    const encode = parser.encodeArray(decode, Basic)
-    expect(decode).to.be.eql([])
-    expect(encode).to.be.eql([])
-    expect(() => parser.encodeArray([])).to.throws()
   })
 
   it('Define class with array property without specify type', () => expect(() => {
@@ -88,7 +68,7 @@ describe('Parse array', () => {
   }).to.throws())
 
   class WithArrayOfArray {
-    @Prop({ type: TargetTypes.array(String) })
+    @Prop({ type: array(array(String)) })
     typeStrings: string[][]
 
     constructor () {
@@ -96,7 +76,7 @@ describe('Parse array', () => {
     }
   }
 
-  it('Decode/Encode from array of array of string', () => {
+  it('Decode/Encode from object with array of array of string', () => {
     const plain = {
       typeStrings: [
         [
@@ -115,5 +95,22 @@ describe('Parse array', () => {
     const encode = parser.encode(decode)
     expect(decode).to.have.property('typeStrings').and.to.have.deep.members(plain.typeStrings)
     expect(encode).to.have.property('typeStrings').and.to.have.deep.members(plain.typeStrings)
+  })
+
+  it('Decode/Encode from deep array', () => {
+    const plain: string[][][] = []
+    for (let section = 0; section < 5; section++) {
+      plain.push([])
+      for (let group = 0; group < 5; group++) {
+        plain[section].push([])
+        for (let i = 0; i < 5; i++) {
+          plain[section][group].push(`[Section #${section}][Group #${group}] The #${i} string`)
+        }
+      }
+    }
+    const decode = parser.decode(plain, array(array(array(String))))
+    const encode = parser.encode(decode)
+    expect(decode).to.have.deep.members(plain)
+    expect(encode).to.have.deep.members(plain)
   })
 })
