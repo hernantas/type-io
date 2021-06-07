@@ -26,10 +26,10 @@ export function literal <T extends LiteralValue> (value: T): TypeIdentity<T> {
   return id
 }
 
-export function array <T> (type: TargetType<T>): TypeIdentity<T[]> {
+export function array <T> (target: TargetType<T>): TypeIdentity<T[]> {
   const id: ArrayIdentity<T> = {
     kind: TypeKind.Array,
-    type
+    type: isConstructorValue(target) ? type(target) : target
   }
   return id
 }
