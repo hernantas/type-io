@@ -2,6 +2,10 @@ import { ConstructorValue, TargetType, TypeKind, ConstructorIdentity, RecordValu
 import { TargetMemberOf, TargetRecordOf, UnionOf } from '../type/util'
 import { findCtor } from './util'
 
+export function toIdentity <T> (target: TargetType<T>): TypeIdentity<T> {
+  return isConstructorValue(target) ? type(target) : target
+}
+
 export function type <T> (type: ConstructorValue<T>): TypeIdentity<T> {
   const id: ConstructorIdentity<T> = {
     kind: TypeKind.Constructor,
