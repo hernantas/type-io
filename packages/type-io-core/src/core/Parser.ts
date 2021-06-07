@@ -1,4 +1,4 @@
-import { array, isConstructorValue, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity } from './type'
+import { isConstructorValue, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity } from './type'
 import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity } from '../type'
 import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec } from './codec'
 import { CodecManager } from './CodecManager'
