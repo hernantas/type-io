@@ -1,5 +1,4 @@
 import { ConstructorValue, PropertyInfo, PropertyOption } from '../type'
-import { array } from './type'
 import { getDesignType, getSchema, setSchema } from './util'
 
 export function Prop (options?: PropertyOption): PropertyDecorator {
