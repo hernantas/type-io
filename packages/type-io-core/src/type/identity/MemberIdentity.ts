@@ -1,4 +1,4 @@
-import { MemberValue } from '../MemberValue'
+import { MemberValue } from '../value'
 import { TypeIdentity } from './TypeIdentity'
 import { TypeKind } from './TypeKind'
 import { TargetMemberOf } from '../util/TargetMemberOf'

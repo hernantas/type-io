@@ -1,4 +1,4 @@
-import { MemberValue } from '../MemberValue'
+import { MemberValue } from '../value'
 
 /**
  * Map array of value type into Union of value type
