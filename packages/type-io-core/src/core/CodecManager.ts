@@ -1,6 +1,6 @@
-import { ConstructorValue, TypeIdentity } from '../type'
+import { ConstructorValue, TargetType } from '../type'
 import { Codec } from '../type/Codec'
-import { isEqual } from './type'
+import { isEqual, isStrictEqual } from './type'
 
 export class CodecManager {
   readonly #codecs: Array<Codec<unknown>> = []
@@ -13,8 +13,12 @@ export class CodecManager {
     return this.#codecs.push(...codecs)
   }
 
-  find <T> (target: TypeIdentity<T>): Codec<T, unknown> | undefined {
+  find <T> (target: TargetType<T>): Codec<T, unknown> | undefined {
     const codecs = this.#codecs.filter(codec => isEqual(target, codec.target)) as Array<Codec<T, unknown>>
-    return codecs.length > 0 ? codecs[0] : undefined
+    if (codecs.length > 0) {
+      const strictCodecs = codecs.filter(codec => isStrictEqual(target, codec.target))
+      return strictCodecs.length > 0 ? strictCodecs[0] : codecs[0]
+    }
+    return undefined
   }
 }

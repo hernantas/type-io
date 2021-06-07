@@ -1,3 +1,4 @@
+import { TargetType } from '../TargetType'
 import { TypeKind } from './TypeKind'
 
 /**
@@ -5,4 +6,5 @@ import { TypeKind } from './TypeKind'
  */
 export interface TypeIdentity<T = unknown> {
   readonly kind: TypeKind
+  variant?: TargetType
 }
