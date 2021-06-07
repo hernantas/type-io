@@ -94,7 +94,7 @@ export function isTargetType<T> (source: TargetType<T>, destination: TargetType)
     } else if (isArrayIdentity(source) && isArrayIdentity(destination)) {
       return isTargetType(source.type, destination.type)
     } else if (isMemberIdentity(source) && isMemberIdentity(destination)) {
-      if (source.kind !== destination.kind || source.members.length !== destination.members.length) {
+      if (source.members.length !== destination.members.length) {
         return false
       }
 
