@@ -1,4 +1,4 @@
-import { ConstructorValue } from './ConstructorValue'
+import { ConstructorValue } from '../ConstructorValue'
 import { TypeIdentity } from './TypeIdentity'
 import { TypeKind } from './TypeKind'
 

@@ -1,7 +1,7 @@
-import { MemberValue } from './MemberValue'
+import { MemberValue } from '../MemberValue'
 import { TypeIdentity } from './TypeIdentity'
 import { TypeKind } from './TypeKind'
-import { TargetMemberOf } from './util/TargetMemberOf'
+import { TargetMemberOf } from '../util/TargetMemberOf'
 
 /**
  * `TypeIdentity` that provides information about member type of `<T>` type

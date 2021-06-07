@@ -1,5 +1,5 @@
 import { ConstructorValue } from './ConstructorValue'
-import { TypeIdentity } from './TypeIdentity'
+import { TypeIdentity } from './identity'
 
 /**
  * Convinient Type of "target" that can be used to determine information about type of `<T>`

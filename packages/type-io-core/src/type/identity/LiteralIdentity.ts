@@ -1,4 +1,4 @@
-import { LiteralValue } from './LiteralValue'
+import { LiteralValue } from '../LiteralValue'
 import { TypeIdentity } from './TypeIdentity'
 import { TypeKind } from './TypeKind'
 
