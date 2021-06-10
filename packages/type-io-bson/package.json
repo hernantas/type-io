@@ -15,8 +15,7 @@
     "prepublish": "yarn build"
   },
   "devDependencies": {
-    "@types/node": "^15.0.2",
-    "tsconfig-paths": "^3.9.0"
+    "@types/node": "^15.0.2"
   },
   "dependencies": {
     "@type-io/core": "*",
