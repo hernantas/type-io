@@ -60,8 +60,10 @@ export class Parser extends CodecManager {
     const schema = getSchema(identity.type)
     const transformSchema: TransformSchema<T> = schema
       .map(info => {
-        const transformProp = info as TransformProperty<unknown>
-        transformProp.codec = this.findOrCreate(info.type)
+        const transformProp: TransformProperty<unknown> = {
+          ...info,
+          codec: this.findOrCreate(info.type)
+        }
         return transformProp
       }) as TransformSchema<T>
     return new ClassCodec(identity, transformSchema)
