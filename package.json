@@ -12,7 +12,8 @@
   "scripts": {
     "core": "yarn workspace @type-io/core",
     "nodejs": "yarn workspace @type-io/node",
-    "bson": "yarn workspace @type-io/bson"
+    "bson": "yarn workspace @type-io/bson",
+    "lint:fix": "ts-standard --fix"
   },
   "devDependencies": {
     "@types/chai": "^4.2.15",
