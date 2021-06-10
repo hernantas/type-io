@@ -1,8 +1,8 @@
-import { Codec, TargetType } from '@type-io/core'
+import { Codec, variant } from '@type-io/core'
 import { Double, Int32, Long } from 'bson'
 
 export class StringInt64BsonCodec implements Codec<string, Long> {
-  type: TargetType = [String, Long]
+  readonly target = variant(String, Long)
 
   decode (value: unknown): string {
     if (value instanceof Long) {
@@ -33,8 +33,8 @@ export class StringInt64BsonCodec implements Codec<string, Long> {
   }
 }
 
-abstract class Int64BsonBaseCodec<O> implements Codec<Long, O> {
-  type: TargetType = Long
+abstract class Int64BaseCodec<O> implements Codec<Long, O> {
+  readonly target = Long
 
   decode (value: unknown): Long {
     if (value instanceof Long) {
@@ -63,13 +63,13 @@ abstract class Int64BsonBaseCodec<O> implements Codec<Long, O> {
   abstract encode (value: Long): O
 }
 
-export class Int64BsonCodec extends Int64BsonBaseCodec<Long> {
+export class Int64BsonCodec extends Int64BaseCodec<Long> {
   encode (value: Long): Long {
     return value
   }
 }
 
-export class Int64PlainBsonCodec extends Int64BsonBaseCodec<string> {
+export class Int64PlainBsonCodec extends Int64BaseCodec<string> {
   encode (value: Long): string {
     return value.toString()
   }

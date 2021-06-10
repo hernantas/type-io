@@ -1,8 +1,8 @@
-import { Codec } from '@type-io/core'
+import { Codec, type } from '@type-io/core'
 import { Decimal128, Long, Int32, ObjectID, ObjectId, Timestamp, Double } from 'bson'
 
 export class StringBsonCodec implements Codec<string> {
-  type = String
+  readonly target = type(String)
 
   decode (value: unknown): string {
     if (typeof value === 'string') {

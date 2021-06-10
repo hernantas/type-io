@@ -17,15 +17,19 @@ const BUFFER_ENCODINGS = [
 type BufferEncoding = typeof BUFFER_ENCODINGS[number]
 
 export class BufferBsonCodec implements Codec<Buffer, Binary> {
-  type = Buffer
+  readonly target = Buffer
 
   decode (value: unknown, options?: CodecOption): Buffer {
+    if (value instanceof Binary) {
+      return value.buffer
+    }
+
     if (value instanceof Buffer) {
       return value
     }
 
     if (typeof value === 'string') {
-      if (options !== undefined && options.encoding !== undefined && typeof options.encoding === 'string') {
+      if (typeof options?.encoding === 'string') {
         const encoding = options.encoding
         if (isValidEncoding(encoding)) {
           return Buffer.from(value, encoding)
@@ -33,10 +37,6 @@ export class BufferBsonCodec implements Codec<Buffer, Binary> {
       }
 
       return Buffer.from(value)
-    }
-
-    if (value instanceof Binary) {
-      return value.buffer
     }
 
     if (value instanceof Uint8Array || isNumberArray(value)) {
@@ -51,8 +51,8 @@ export class BufferBsonCodec implements Codec<Buffer, Binary> {
   }
 }
 
-abstract class BinaryBsonBaseCodec<O> implements Codec<Binary, O> {
-  type = Binary
+abstract class BinaryBaseCodec<O> implements Codec<Binary, O> {
+  readonly target = Binary
 
   decode (value: unknown, options?: CodecOption): Binary {
     if (value instanceof Binary) {
@@ -64,7 +64,7 @@ abstract class BinaryBsonBaseCodec<O> implements Codec<Binary, O> {
     }
 
     if (typeof value === 'string') {
-      if (options !== undefined && options.encoding !== undefined && typeof options.encoding === 'string') {
+      if (typeof options?.encoding === 'string') {
         const encoding = options.encoding
         if (isValidEncoding(encoding)) {
           return new Binary(Buffer.from(value, encoding))
@@ -84,16 +84,16 @@ abstract class BinaryBsonBaseCodec<O> implements Codec<Binary, O> {
   abstract encode (value: Binary, options?: CodecOption): O
 }
 
-export class BinaryBsonCodec extends BinaryBsonBaseCodec<Binary> {
+export class BinaryBsonCodec extends BinaryBaseCodec<Binary> {
   encode (value: Binary): Binary {
     return value
   }
 }
 
-export class BinaryPlainBsonCodec extends BinaryBsonBaseCodec<string> {
+export class BinaryPlainBsonCodec extends BinaryBaseCodec<string> {
   encode (value: Binary, options?: CodecOption): string {
     let encoding: BufferEncoding | undefined
-    if (options !== undefined && options.encoding !== undefined && typeof options.encoding === 'string') {
+    if (typeof options?.encoding === 'string') {
       const opt = options.encoding
       if (isValidEncoding(opt)) {
         encoding = opt

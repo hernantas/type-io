@@ -1,8 +1,8 @@
-import { Codec, TargetType } from '@type-io/core'
+import { Codec, variant } from '@type-io/core'
 import { ObjectID, ObjectId } from 'bson'
 
 export class StringObjectIdBsonCodec implements Codec<string, ObjectId> {
-  type: TargetType = [String, ObjectId]
+  readonly target = variant(String, ObjectId)
 
   decode (value: unknown): string {
     if (value instanceof ObjectId || value instanceof ObjectID) {
@@ -21,8 +21,8 @@ export class StringObjectIdBsonCodec implements Codec<string, ObjectId> {
   }
 }
 
-abstract class ObjectIdBsonBaseCodec<O> implements Codec<ObjectId, O> {
-  type = ObjectId
+abstract class ObjectIdBaseCodec<O> implements Codec<ObjectId, O> {
+  readonly target = ObjectId
 
   decode (value: unknown): ObjectId {
     if (value instanceof ObjectId || value instanceof ObjectID) {
@@ -39,13 +39,13 @@ abstract class ObjectIdBsonBaseCodec<O> implements Codec<ObjectId, O> {
   abstract encode (value: ObjectId): O
 }
 
-export class ObjectIdBsonCodec extends ObjectIdBsonBaseCodec<ObjectId> {
+export class ObjectIdBsonCodec extends ObjectIdBaseCodec<ObjectId> {
   encode (value: ObjectID): ObjectID {
     return value
   }
 }
 
-export class ObjectIdPlainBsonCodec extends ObjectIdBsonBaseCodec<string> {
+export class ObjectIdPlainBsonCodec extends ObjectIdBaseCodec<string> {
   encode (value: ObjectID): string {
     return value.toHexString()
   }

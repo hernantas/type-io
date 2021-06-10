@@ -1,8 +1,8 @@
-import { Codec } from '@type-io/core'
+import { Codec, type } from '@type-io/core'
 import { Double, Int32 } from 'bson'
 
 export class NumberBsonCodec implements Codec<number> {
-  type = Number
+  readonly target = type(Number)
 
   decode (value: unknown): number {
     if (typeof value === 'number') {

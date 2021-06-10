@@ -1,8 +1,8 @@
-import { Codec, TargetType } from '@type-io/core'
+import { Codec, variant } from '@type-io/core'
 import { Double, Int32 } from 'bson'
 
 export class NumberInt32BsonCodec implements Codec<number, Int32> {
-  type: TargetType = [Number, Int32]
+  readonly target = variant(Number, Int32)
 
   decode (value: unknown): number {
     if (value instanceof Int32 || value instanceof Double) {
@@ -29,8 +29,8 @@ export class NumberInt32BsonCodec implements Codec<number, Int32> {
   }
 }
 
-abstract class Int32BsonBaseCodec<O> implements Codec<Int32, O> {
-  type: TargetType = Int32
+abstract class Int32BaseCodec<O> implements Codec<Int32, O> {
+  readonly target = Int32
 
   decode (value: unknown): Int32 {
     if (value instanceof Int32) {
@@ -55,13 +55,13 @@ abstract class Int32BsonBaseCodec<O> implements Codec<Int32, O> {
   abstract encode (value: Int32): O
 }
 
-export class Int32BsonCodec extends Int32BsonBaseCodec<Int32> {
+export class Int32BsonCodec extends Int32BaseCodec<Int32> {
   encode (value: Int32): Int32 {
     return value
   }
 }
 
-export class Int32PlainBsonCodec extends Int32BsonBaseCodec<number> {
+export class Int32PlainBsonCodec extends Int32BaseCodec<number> {
   encode (value: Int32): number {
     return value.value
   }

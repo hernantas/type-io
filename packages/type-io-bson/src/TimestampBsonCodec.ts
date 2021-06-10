@@ -1,8 +1,8 @@
 import { Long, Timestamp } from 'bson'
-import { Codec, TargetType } from '@type-io/core'
+import { Codec, variant } from '@type-io/core'
 
 export class StringTimestampBsonCodec implements Codec<string, Timestamp> {
-  type: TargetType = [String, Timestamp]
+  readonly target = variant(String, Timestamp)
 
   decode (value: unknown): string {
     if (value instanceof Timestamp) {
@@ -29,8 +29,8 @@ export class StringTimestampBsonCodec implements Codec<string, Timestamp> {
   }
 }
 
-abstract class TimestampBsonBaseCodec<O> implements Codec<Timestamp, O> {
-  type: TargetType = Timestamp
+abstract class TimestampBaseCodec<O> implements Codec<Timestamp, O> {
+  readonly target = Timestamp
 
   decode (value: unknown): Timestamp {
     if (value instanceof Timestamp) {
@@ -55,13 +55,13 @@ abstract class TimestampBsonBaseCodec<O> implements Codec<Timestamp, O> {
   abstract encode (value: Timestamp): O
 }
 
-export class TimestampBsonCodec extends TimestampBsonBaseCodec<Timestamp> {
+export class TimestampBsonCodec extends TimestampBaseCodec<Timestamp> {
   encode (value: Timestamp): Timestamp {
     return value
   }
 }
 
-export class TimestampPlainBsonCodec extends TimestampBsonBaseCodec<string> {
+export class TimestampPlainBsonCodec extends TimestampBaseCodec<string> {
   encode (value: Timestamp): string {
     return value.toString()
   }

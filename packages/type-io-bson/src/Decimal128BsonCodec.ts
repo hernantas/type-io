@@ -1,8 +1,8 @@
 import { Decimal128, Double, Int32, Long } from 'bson'
-import { Codec, TargetType } from '@type-io/core'
+import { Codec, variant } from '@type-io/core'
 
 export class StringDecimal128BsonCodec implements Codec<string, Decimal128> {
-  type: TargetType = [String, Decimal128]
+  readonly target = variant(String, Decimal128)
 
   decode (value: unknown): string {
     if (value instanceof Decimal128) {
@@ -33,8 +33,8 @@ export class StringDecimal128BsonCodec implements Codec<string, Decimal128> {
   }
 }
 
-abstract class Decimal128BsonBaseCodec<O> implements Codec<Decimal128, O> {
-  type: TargetType = Decimal128
+abstract class Decimal128BaseCodec<O> implements Codec<Decimal128, O> {
+  readonly target = Decimal128
 
   decode (value: unknown): Decimal128 {
     if (value instanceof Decimal128) {
@@ -63,13 +63,13 @@ abstract class Decimal128BsonBaseCodec<O> implements Codec<Decimal128, O> {
   abstract encode (value: Decimal128): O
 }
 
-export class Decimal128BsonCodec extends Decimal128BsonBaseCodec<Decimal128> {
+export class Decimal128BsonCodec extends Decimal128BaseCodec<Decimal128> {
   encode (value: Decimal128): Decimal128 {
     return value
   }
 }
 
-export class Decimal128PlainBsonCodec extends Decimal128BsonBaseCodec<string> {
+export class Decimal128PlainBsonCodec extends Decimal128BaseCodec<string> {
   encode (value: Decimal128): string {
     return value.toString()
   }
