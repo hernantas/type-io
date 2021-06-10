@@ -6,7 +6,7 @@ export class CodecManager {
   readonly #codecs: Array<Codec<unknown>> = []
 
   constructor (...codecCtors: Array<ConstructorValue<Codec<any>>>) {
-    this.push(...((codecCtors ?? []).map(CodecCtor => new CodecCtor())))
+    this.push(...codecCtors.map(Ctor => new Ctor()))
   }
 
   push (...codecs: Array<Codec<any>>): number {
