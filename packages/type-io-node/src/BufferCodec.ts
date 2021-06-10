@@ -16,7 +16,7 @@ const BUFFER_ENCODINGS = [
 type BufferEncoding = typeof BUFFER_ENCODINGS[number]
 
 export class BufferCodec implements Codec<Buffer, string> {
-  type = Buffer
+  readonly target = Buffer
 
   decode (value: unknown, options?: CodecOption): Buffer {
     if (value instanceof Buffer) {
@@ -24,7 +24,7 @@ export class BufferCodec implements Codec<Buffer, string> {
     }
 
     if (typeof value === 'string') {
-      if (options !== undefined && options.encoding !== undefined && typeof options.encoding === 'string') {
+      if (options?.encoding !== undefined && typeof options.encoding === 'string') {
         const encoding = options.encoding
         if (isValidEncoding(encoding)) {
           return Buffer.from(value, encoding)
