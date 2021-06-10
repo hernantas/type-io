@@ -1,4 +1,4 @@
-import { BsonParser } from '../src'
+import { BsonParser } from '../../src'
 import { Decimal128, Double, Int32, Long, ObjectId, Timestamp } from 'bson'
 import { expect } from 'chai'
 
