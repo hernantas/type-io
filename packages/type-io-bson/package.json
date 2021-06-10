@@ -22,19 +22,5 @@
   "dependencies": {
     "@type-io/core": "*",
     "bson": "^4.2.3"
-  },
-  "nyc": {
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "include": [
-      "src/**/*"
-    ],
-    "reporter": [
-      "html",
-      "text"
-    ],
-    "all": true
   }
 }

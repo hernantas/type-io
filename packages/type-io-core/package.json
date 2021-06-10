@@ -23,19 +23,5 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13"
-  },
-  "nyc": {
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "include": [
-      "src/**/*"
-    ],
-    "reporter": [
-      "html",
-      "text"
-    ],
-    "all": true
   }
 }
