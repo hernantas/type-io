@@ -13,6 +13,7 @@
     "core": "yarn workspace @type-io/core",
     "nodejs": "yarn workspace @type-io/node",
     "bson": "yarn workspace @type-io/bson",
+    "build": "tsc -b",
     "test": "mocha -r ts-node/register packages/**/*.spec.ts",
     "lint:fix": "ts-standard --fix"
   },
