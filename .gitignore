@@ -6,6 +6,15 @@ node_modules/
 dist/
 *.tsbuildinfo
 
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
 # Instanbul/Nyc
 .nyc_output/
 coverage/
