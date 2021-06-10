@@ -57,6 +57,7 @@ describe('Parse array', () => {
   })
 
   it('Define class with array property without specify type', () => expect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     class WithArrayNoSpecify {
       @Prop()
       typeStrings: string[]

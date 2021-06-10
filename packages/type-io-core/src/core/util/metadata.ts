@@ -20,7 +20,6 @@ function isPropertyInfo (obj: unknown): obj is PropertyInfo {
  * @param propertyKey Property key of target object
  * @returns Target type
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function getDesignType (target: Object, propertyKey: string | symbol): ConstructorValue {
   return Reflect.getMetadata(METADATA_KEY_DESIGN_TYPE, target, propertyKey)
 }
