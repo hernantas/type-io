@@ -9,9 +9,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "ts-standard": {
-    "project": "packages/tsconfig.json"
-  },
   "scripts": {
     "core": "yarn workspace @type-io/core",
     "nodejs": "yarn workspace @type-io/node",

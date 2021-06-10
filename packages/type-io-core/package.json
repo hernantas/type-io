@@ -14,7 +14,7 @@
     "build": "tsc --build",
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test:coverage": "nyc yarn test",
-    "lint:fix": "eslint --fix",
+    "lint:fix": "ts-standard --fix",
     "prepublish": "yarn build"
   },
   "devDependencies": {
