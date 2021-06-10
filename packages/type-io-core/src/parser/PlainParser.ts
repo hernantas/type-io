@@ -7,7 +7,7 @@ import { Codec, ConstructorValue } from '../type'
 
 export class PlainParser extends Parser {
   constructor (...codecCtors: Array<ConstructorValue<Codec<any>>>) {
-    super(...(codecCtors !== undefined ? codecCtors : []), ...[
+    super(...codecCtors, ...[
       BooleanCodec,
       NumberCodec,
       StringCodec,
