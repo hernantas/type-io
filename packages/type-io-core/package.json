@@ -12,8 +12,6 @@
   ],
   "scripts": {
     "build": "tsc --build",
-    "test": "mocha -r ts-node/register test/**/*.spec.ts",
-    "test:coverage": "nyc yarn test",
     "prepublish": "yarn build"
   },
   "devDependencies": {
