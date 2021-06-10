@@ -5,14 +5,16 @@
   "repository": "https://github.com/hernantas/type-io.git",
   "author": "Zulfikar Raditya Hernanta <hernantas@gmail.com>",
   "license": "MIT",
-  "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "build": "tsc --build",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/**/*.spec.ts",
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test:coverage": "nyc yarn test",
-    "lint:fix": "eslint --fix",
+    "lint:fix": "ts-standard --fix",
     "prepublish": "yarn build"
   },
   "devDependencies": {
