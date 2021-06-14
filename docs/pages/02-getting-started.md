@@ -18,7 +18,7 @@ yarn add @type-io/core
 
 ## Basic Usage
 
-First is to define your data model. Property must be marked with `@Prop` decorator to be recognized
+First is to define your data model. Property must be marked with `@Prop` decorator to be recognized or will be ignored otherwise.
 
 ```ts
 class MyClass {
@@ -75,4 +75,6 @@ const parser = new Parser([
 ])
 ```
 
-This way when you need to parse from/to `DB` type, you can use appropiate DB parser. When you need to parse to `Plain` type, you can use plain parser. All with the same **Model**
+This way when you need to parse from/to `DB` type, you can use appropiate DB parser. When you need to parse to `Plain` type, you can use plain parser. All with the same **Model**.
+
+There're a lot of `Parser` and `Codec` to be used for your use case.

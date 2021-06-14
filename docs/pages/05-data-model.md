@@ -26,7 +26,7 @@ For `Array`, `type` option need to be specified:
 
 ```ts
 class MyData {
-  @Prop({ type: String })
+  @Prop({ type: array(String) })
   property1: string[]
 }
 ```
@@ -53,12 +53,16 @@ class Parent {
 
 ```ts
 class MyData {
-  @Prop({ type: [ 'ENUM_TYPE_FIRST', 'ENUM_TYPE_SECOND', 'ENUM_TYPE_THIRD' ] })
+  @Prop({ type: union(
+    literal('ENUM_TYPE_FIRST'), 
+    literal('ENUM_TYPE_SECOND'), 
+    literal('ENUM_TYPE_THIRD')) 
+  })
   property1: 'ENUM_TYPE_FIRST' | 'ENUM_TYPE_SECOND' | 'ENUM_TYPE_THIRD'
 }
 ```
 
-or using your enum object with util `TargetTypes.enum()` ([See More](#targettypes-util))
+Or by using `fromEnum()` function to convert typescript `Enum` to union type.
 
 ```ts
 enum MyEnum {
@@ -69,7 +73,7 @@ enum MyEnum {
 }
 
 class MyData {
-  @Prop({ type: TargetTypes.enum(MyEnum) })
+  @Prop({ type: fromEnum(MyEnum) })
   property1: MyEnum
 }
 ```
@@ -79,7 +83,7 @@ class MyData {
 There's case where only input name can be different. For example:
 
 ```ts
-const plain = {
+{
   _first_property: 'Some random string data'
 }
 ```
@@ -90,5 +94,13 @@ But the output is still using `_property1` name. You can use `inName` and `outNa
 class MyData {
   @Prop({ inName: '_first_property', outName: '_property1' })
   property1: string
+}
+```
+
+This will allow the same model to output:
+
+```ts
+{
+  _property1: 'Some random string data'
 }
 ```
