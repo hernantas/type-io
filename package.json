@@ -1,33 +1,28 @@
 {
   "name": "type-io",
-  "version": "0.1.0",
   "description": "Typescript decorator-based encoding/decoding transformation for I/O",
   "repository": "https://github.com/hernantas/type-io.git",
   "author": "Zulfikar Raditya Hernanta <hernantas@gmail.com>",
   "license": "MIT",
-  "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "core": "yarn workspace @type-io/core",
     "nodejs": "yarn workspace @type-io/node",
-    "bson": "yarn workspace @type-io/bson"
+    "bson": "yarn workspace @type-io/bson",
+    "build": "tsc -b tsconfig.build.json",
+    "test": "mocha -r ts-node/register packages/**/*.spec.ts",
+    "lint:fix": "ts-standard --fix"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.15",
+    "@types/chai": "^4.2.18",
     "@types/mocha": "^8.2.2",
-    "@typescript-eslint/eslint-plugin": "^4.14.2",
-    "@typescript-eslint/parser": "^4.14.2",
     "chai": "^4.3.4",
-    "eslint": "^7.19.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "mocha": "^8.3.2",
+    "mocha": "^9.0.0",
     "nyc": "^15.1.0",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.1.3"
+    "ts-node": "^10.0.0",
+    "ts-standard": "^10.0.0",
+    "typescript": "^4.3.2"
   }
 }

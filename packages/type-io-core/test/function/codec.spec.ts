@@ -1,9 +1,9 @@
 import { expect } from 'chai'
-import { Codec, Parser, Prop, TargetType } from '../../src'
+import { Codec, Parser, Prop, type, variant } from '../../src'
 
 describe('Codec functionality', () => {
   class StringCodec implements Codec<string> {
-    type = String
+    readonly target = type(String)
 
     decode (val: unknown): string {
       if (typeof val === 'string') {
@@ -18,7 +18,7 @@ describe('Codec functionality', () => {
   }
 
   class StringNumberCodec implements Codec<string, number> {
-    type: TargetType = [String, Number]
+    readonly target = variant(String, Number)
 
     decode (value: unknown): string {
       const str = this.decodeToString(value)
@@ -42,7 +42,7 @@ describe('Codec functionality', () => {
     @Prop()
     typeString: string
 
-    @Prop({ type: Number })
+    @Prop({ type: variant(String, Number) })
     typeStringNumber: string
 
     constructor () {
@@ -51,12 +51,12 @@ describe('Codec functionality', () => {
     }
   }
 
-  const parser = new Parser([
+  const parser = new Parser(
     StringCodec,
     StringNumberCodec
-  ])
+  )
 
-  it('Codec selection', () => {
+  it('Codec variant selection', () => {
     const plain = {
       typeString: 'This is string',
       typeStringNumber: 150
