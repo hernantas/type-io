@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "references": [
+    { "path": "./packages/type-io-core"},
+    { "path": "./packages/type-io-node"},
+    { "path": "./packages/type-io-bson"}
+  ],
+  "files": []
+}
