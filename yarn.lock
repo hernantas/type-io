@@ -387,13 +387,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@type-io/bson@workspace:packages/type-io-bson"
   dependencies:
-    "@type-io/core": "*"
+    "@type-io/core": "workspace:*"
     "@types/node": ^15.0.2
     bson: ^4.2.3
   languageName: unknown
   linkType: soft
 
-"@type-io/core@*, @type-io/core@workspace:packages/type-io-core":
+"@type-io/core@workspace:*, @type-io/core@workspace:packages/type-io-core":
   version: 0.0.0-use.local
   resolution: "@type-io/core@workspace:packages/type-io-core"
   dependencies:
@@ -407,7 +407,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@type-io/node@workspace:packages/type-io-node"
   dependencies:
-    "@type-io/core": "*"
+    "@type-io/core": "workspace:*"
     "@types/node": ^15.0.2
   languageName: unknown
   linkType: soft

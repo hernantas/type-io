@@ -14,6 +14,6 @@
     "@types/node": "^15.0.2"
   },
   "dependencies": {
-    "@type-io/core": "*"
+    "@type-io/core": "workspace:*"
   }
 }
