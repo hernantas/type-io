@@ -1,6 +1,6 @@
 {
   "name": "@type-io/bson",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "BSON support for Type-IO",
   "repository": "https://github.com/hernantas/type-io.git",
   "author": "Zulfikar Raditya Hernanta <hernantas@gmail.com>",
@@ -14,7 +14,7 @@
     "@types/node": "^15.0.2"
   },
   "dependencies": {
-    "@type-io/core": "*",
+    "@type-io/core": "workspace:*",
     "bson": "^4.2.3"
   }
 }
