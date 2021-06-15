@@ -13,7 +13,8 @@
     "bson": "yarn workspace @type-io/bson",
     "build": "tsc -b tsconfig.build.json",
     "test": "mocha -r ts-node/register packages/**/*.spec.ts",
-    "lint:fix": "ts-standard --fix"
+    "lint:fix": "ts-standard --fix",
+    "clean": "rimraf packages/*/dist packages/*/*.tsbuildinfo"
   },
   "devDependencies": {
     "@types/chai": "^4.2.18",
@@ -21,6 +22,7 @@
     "chai": "^4.3.4",
     "mocha": "^9.0.0",
     "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.0.0",
     "ts-standard": "^10.0.0",
     "typescript": "^4.3.2"
