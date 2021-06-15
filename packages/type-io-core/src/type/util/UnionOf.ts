@@ -1,6 +1,6 @@
-import { MemberValue } from '../value'
+import { MemberType } from '../common'
 
 /**
  * Map array of value type into Union of value type
  */
-export type UnionOf<T extends MemberValue> = T extends Array<infer R> ? R : never
+export type UnionOf<T extends MemberType> = T extends Array<infer R> ? R : never

@@ -1,4 +1,4 @@
-import { ConstructorValue } from '../value'
+import { ConstructorType } from '../common'
 import { TypeIdentity } from './TypeIdentity'
 import { TypeKind } from './TypeKind'
 
@@ -7,5 +7,5 @@ import { TypeKind } from './TypeKind'
  */
 export interface ConstructorIdentity<T> extends TypeIdentity<T> {
   readonly kind: TypeKind.Constructor
-  readonly type: ConstructorValue<T>
+  readonly type: ConstructorType<T>
 }

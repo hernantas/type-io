@@ -1,4 +1,4 @@
-import { ConstructorValue, PropertyInfo, PropertyOption } from '../type'
+import { ConstructorType, PropertyInfo, PropertyOption } from '../type'
 import { getDesignType, getSchema, setSchema } from './util'
 
 export function Prop (options?: PropertyOption): PropertyDecorator {
@@ -27,14 +27,14 @@ export function Prop (options?: PropertyOption): PropertyDecorator {
         throw new Error('\'type\' option must be specified when property is an array')
       }
 
-      const schema = getSchema(target.constructor as ConstructorValue)
+      const schema = getSchema(target.constructor as ConstructorType)
       const index = schema.findIndex(def => def.name === propKey)
       if (index === -1) {
         schema.push(def)
       } else {
         schema[index] = def
       }
-      setSchema(target.constructor as ConstructorValue, schema)
+      setSchema(target.constructor as ConstructorType, schema)
     }
   }
 }

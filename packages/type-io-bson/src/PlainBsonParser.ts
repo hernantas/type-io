@@ -1,4 +1,4 @@
-import { ConstructorValue, Codec, Parser } from '@type-io/core'
+import { ConstructorType, Codec, Parser } from '@type-io/core'
 import { BinaryPlainBsonCodec } from './BinaryBsonCodec'
 import { BooleanBsonCodec } from './BooleanBsonCodec'
 import { DateBsonCodec } from './DateBsonCodec'
@@ -12,7 +12,7 @@ import { StringBsonCodec } from './StringBsonCodec'
 import { TimestampPlainBsonCodec } from './TimestampBsonCodec'
 
 export class PlainBsonParser extends Parser {
-  constructor (...codecCtors: Array<ConstructorValue<Codec<any>>>) {
+  constructor (...codecCtors: Array<ConstructorType<Codec<any>>>) {
     super(...codecCtors,
       StringBsonCodec,
       NumberBsonCodec,

@@ -1,5 +1,5 @@
-import { isConstructorValue, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity } from './type'
-import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity, RecordValue, RecordIdentity } from '../type'
+import { isConstructorType, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity } from './type'
+import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity, RecordType, RecordIdentity } from '../type'
 import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec, RecordCodec } from './codec'
 import { CodecManager } from './CodecManager'
 import { getSchema } from './util'
@@ -20,7 +20,7 @@ export class Parser extends CodecManager {
   }
 
   private findOrCreate <T> (target: TargetType<T>): Codec<T, unknown> {
-    if (isConstructorValue(target)) {
+    if (isConstructorType(target)) {
       target = type(target)
     }
 
@@ -71,7 +71,7 @@ export class Parser extends CodecManager {
     return new ClassCodec(identity, transformSchema)
   }
 
-  private createRecordCodec <T extends RecordValue> (identity: RecordIdentity<T>): RecordCodec<T> {
+  private createRecordCodec <T extends RecordType> (identity: RecordIdentity<T>): RecordCodec<T> {
     const transformSchema = Object
       .keys(identity.props)
       .map(key => {

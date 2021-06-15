@@ -1,4 +1,4 @@
-import { Codec, RecordIdentity, RecordValue, TransformSchema } from '../../type'
+import { Codec, RecordIdentity, RecordType, TransformSchema } from '../../type'
 
 function decode <T, I = unknown> (schema: TransformSchema<T>, input: I, initial: T): T {
   if (typeof input === 'object' && input !== null) {
@@ -17,7 +17,7 @@ function decode <T, I = unknown> (schema: TransformSchema<T>, input: I, initial:
   throw new Error('Type of input must be an object when decoding')
 }
 
-function encode <T extends RecordValue> (schema: TransformSchema<T>, input: T, initial: RecordValue): RecordValue {
+function encode <T extends RecordType> (schema: TransformSchema<T>, input: T, initial: RecordType): RecordType {
   for (const propT of schema) {
     const inPropName = propT.name as keyof T
     const outPropName = propT.outName
@@ -31,7 +31,7 @@ function encode <T extends RecordValue> (schema: TransformSchema<T>, input: T, i
   return initial
 }
 
-export class RecordCodec<T extends RecordValue> implements Codec<T, RecordValue> {
+export class RecordCodec<T extends RecordType> implements Codec<T, RecordType> {
   readonly target: RecordIdentity<T>
   readonly schema: TransformSchema<T>
 
@@ -45,7 +45,7 @@ export class RecordCodec<T extends RecordValue> implements Codec<T, RecordValue>
     return decode(this.schema, input, {} as T)
   }
 
-  encode (input: T): RecordValue {
+  encode (input: T): RecordType {
     return encode(this.schema, input, {})
   }
 }

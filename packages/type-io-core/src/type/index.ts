@@ -1,5 +1,5 @@
 export * from './identity'
-export * from './value'
+export * from './common'
 export * from './Codec'
 export * from './CodecOption'
 export * from './Decoder'

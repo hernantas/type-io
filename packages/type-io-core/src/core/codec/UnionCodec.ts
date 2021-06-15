@@ -1,7 +1,7 @@
-import { Codec, MemberIdentity, MemberValue } from '../../type'
+import { Codec, MemberIdentity, MemberType } from '../../type'
 import { CodecOf, UnionOf } from '../../type/util'
 
-export class UnionCodec<T extends MemberValue> implements Codec<UnionOf<T>> {
+export class UnionCodec<T extends MemberType> implements Codec<UnionOf<T>> {
   readonly target: MemberIdentity<T>
   readonly codecs: CodecOf<T>
 

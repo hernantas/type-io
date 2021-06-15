@@ -1,4 +1,4 @@
-import { RecordValue } from '../value'
+import { RecordType } from '../common'
 import { TargetTypeOf } from './TargetTypeOf'
 
-export type TargetRecordOf<T extends RecordValue> = TargetTypeOf<T>
+export type TargetRecordOf<T extends RecordType> = TargetTypeOf<T>

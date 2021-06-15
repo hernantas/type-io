@@ -1,9 +1,9 @@
-import { Codec, ConstructorIdentity, RecordValue, TransformSchema } from '../../type'
+import { Codec, ConstructorIdentity, RecordType, TransformSchema } from '../../type'
 
 /**
  * Dynamic codec to decode object to class and encode it back to codec
  */
-export class ClassCodec<T> implements Codec<T, RecordValue> {
+export class ClassCodec<T> implements Codec<T, RecordType> {
   readonly target: ConstructorIdentity<T>
   readonly schema: TransformSchema<T>
 
@@ -33,8 +33,8 @@ export class ClassCodec<T> implements Codec<T, RecordValue> {
     throw new Error('Type of input must be an object when decoding')
   }
 
-  encode (input: T): RecordValue {
-    const output: RecordValue = {}
+  encode (input: T): RecordType {
+    const output: RecordType = {}
     for (const propT of this.schema) {
       const inPropName = propT.name as keyof T
       const outPropName = propT.outName

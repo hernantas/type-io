@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { ConstructorValue, ObjectSchema, PropertyInfo } from '../../type'
+import { ConstructorType, ObjectSchema, PropertyInfo } from '../../type'
 
 const METADATA_KEY_DESIGN_TYPE = 'design:type'
 const METADATA_KEY_SCHEMA = 'typeio:schema'
@@ -20,7 +20,7 @@ function isPropertyInfo (obj: unknown): obj is PropertyInfo {
  * @param propertyKey Property key of target object
  * @returns Target type
  */
-export function getDesignType (target: Object, propertyKey: string | symbol): ConstructorValue {
+export function getDesignType (target: Object, propertyKey: string | symbol): ConstructorType {
   return Reflect.getMetadata(METADATA_KEY_DESIGN_TYPE, target, propertyKey)
 }
 
@@ -30,7 +30,7 @@ export function getDesignType (target: Object, propertyKey: string | symbol): Co
  * @param constructor Target type constructor
  * @returns Object schema
  */
-export function getSchema (constructor: ConstructorValue): ObjectSchema {
+export function getSchema (constructor: ConstructorType): ObjectSchema {
   const schema = Reflect.getMetadata(METADATA_KEY_SCHEMA, constructor)
   return schema !== undefined && Array.isArray(schema)
     ? schema.filter(isPropertyInfo)
@@ -43,6 +43,6 @@ export function getSchema (constructor: ConstructorValue): ObjectSchema {
  * @param constructor Target type constructor
  * @param schema Object schema
  */
-export function setSchema <T> (constructor: ConstructorValue<T>, schema: ObjectSchema): void {
+export function setSchema <T> (constructor: ConstructorType<T>, schema: ObjectSchema): void {
   Reflect.defineMetadata(METADATA_KEY_SCHEMA, schema, constructor)
 }

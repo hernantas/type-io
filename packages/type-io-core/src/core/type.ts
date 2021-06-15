@@ -1,12 +1,12 @@
-import { ConstructorValue, TargetType, TypeKind, ConstructorIdentity, RecordValue, RecordIdentity, LiteralValue, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberValue, MemberIdentity, EnumValue } from '../type'
+import { ConstructorType, TargetType, TypeKind, ConstructorIdentity, RecordType, RecordIdentity, LiteralType, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberType, MemberIdentity, EnumType } from '../type'
 import { TargetMemberOf, TargetRecordOf, UnionOf } from '../type/util'
 import { findCtor } from './util'
 
 export function toIdentity <T> (target: TargetType<T>): TypeIdentity<T> {
-  return isConstructorValue(target) ? type(target) : target
+  return isConstructorType(target) ? type(target) : target
 }
 
-export function type <T> (type: ConstructorValue<T>, variant?: TargetType): TypeIdentity<T> {
+export function type <T> (type: ConstructorType<T>, variant?: TargetType): TypeIdentity<T> {
   const id: ConstructorIdentity<T> = {
     kind: TypeKind.Constructor,
     variant,
@@ -15,7 +15,7 @@ export function type <T> (type: ConstructorValue<T>, variant?: TargetType): Type
   return id
 }
 
-export function record <T extends RecordValue> (props: TargetRecordOf<T>, variant?: TargetType): TypeIdentity<T> {
+export function record <T extends RecordType> (props: TargetRecordOf<T>, variant?: TargetType): TypeIdentity<T> {
   const id: RecordIdentity<T> = {
     kind: TypeKind.Record,
     variant,
@@ -24,7 +24,7 @@ export function record <T extends RecordValue> (props: TargetRecordOf<T>, varian
   return id
 }
 
-export function literal <T extends LiteralValue> (value: T, variant?: TargetType): TypeIdentity<T> {
+export function literal <T extends LiteralType> (value: T, variant?: TargetType): TypeIdentity<T> {
   const id: LiteralIdentity<T> = {
     kind: TypeKind.Literal,
     variant,
@@ -42,7 +42,7 @@ export function array <T> (type: TargetType<T>, variant?: TargetType): TypeIdent
   return id
 }
 
-export function tuple <T extends MemberValue> (members: TargetMemberOf<T>, variant?: TargetType): TypeIdentity<T> {
+export function tuple <T extends MemberType> (members: TargetMemberOf<T>, variant?: TargetType): TypeIdentity<T> {
   const id: MemberIdentity<T> = {
     kind: TypeKind.Tuple,
     variant,
@@ -51,7 +51,7 @@ export function tuple <T extends MemberValue> (members: TargetMemberOf<T>, varia
   return id
 }
 
-export function union <T extends MemberValue> (members: TargetMemberOf<T>, variant?: TargetType): TypeIdentity<UnionOf<T>> {
+export function union <T extends MemberType> (members: TargetMemberOf<T>, variant?: TargetType): TypeIdentity<UnionOf<T>> {
   const id: MemberIdentity<T> = {
     kind: TypeKind.Union,
     variant,
@@ -61,17 +61,17 @@ export function union <T extends MemberValue> (members: TargetMemberOf<T>, varia
 }
 
 export function variant <T> (source: TargetType<T>, variant?: TargetType): TypeIdentity<T> {
-  const id = isConstructorValue(source) ? type(source) : source
+  const id = isConstructorType(source) ? type(source) : source
   id.variant = variant
   return id
 }
 
-export function fromEnum <T extends EnumValue> (enumValue: T, variant?: TargetType): TypeIdentity<T> {
+export function fromEnum <T extends EnumType> (enumValue: T, variant?: TargetType): TypeIdentity<T> {
   const type = Object.keys(enumValue).map(key => literal(enumValue[key]))
   return union(type, variant)
 }
 
-export function isConstructorValue <T> (target: TargetType<T>): target is ConstructorValue<T> {
+export function isConstructorType <T> (target: TargetType<T>): target is ConstructorType<T> {
   return typeof target === 'function'
 }
 
@@ -83,11 +83,11 @@ export function isConstructorIdentity <T> (target: TypeIdentity<T>): target is C
   return target.kind === TypeKind.Constructor
 }
 
-export function isRecordIdentity <T extends RecordValue> (target: TypeIdentity<T>): target is RecordIdentity<T> {
+export function isRecordIdentity <T extends RecordType> (target: TypeIdentity<T>): target is RecordIdentity<T> {
   return target.kind === TypeKind.Record
 }
 
-export function isLiteralIdentity <T extends LiteralValue> (target: TypeIdentity<T>): target is LiteralIdentity<T> {
+export function isLiteralIdentity <T extends LiteralType> (target: TypeIdentity<T>): target is LiteralIdentity<T> {
   return target.kind === TypeKind.Literal
 }
 
@@ -95,7 +95,7 @@ export function isArrayIdentity <T> (target: TypeIdentity<T>): target is ArrayId
   return target.kind === TypeKind.Array
 }
 
-export function isMemberIdentity <T extends MemberValue> (target: TypeIdentity<T>): target is MemberIdentity<T> {
+export function isMemberIdentity <T extends MemberType> (target: TypeIdentity<T>): target is MemberIdentity<T> {
   return target.kind === TypeKind.Tuple || target.kind === TypeKind.Union || target.kind === TypeKind.Intersection
 }
 
