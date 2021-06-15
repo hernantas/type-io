@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { array, PlainParser } from '../../src'
+import { array, isEqual, PlainParser } from '../../src'
 
 describe('Array functionality', () => {
   const parser = new PlainParser()
@@ -71,5 +71,14 @@ describe('Array functionality', () => {
 
     expect(decoded).to.have.deep.members(input)
     expect(encoded).to.have.deep.members(input)
+  })
+
+  it('Equality check', () => {
+    expect(isEqual(array(String), array(String))).to.be.eq(true)
+    expect(isEqual(array(array(String)), array(array(String)))).to.be.eq(true)
+
+    expect(isEqual(array(String), array(Number))).to.be.eq(false)
+    expect(isEqual(array(String), array(array(String)))).to.be.eq(false)
+    expect(isEqual(array(String), array(array(array(String))))).to.be.eq(false)
   })
 })

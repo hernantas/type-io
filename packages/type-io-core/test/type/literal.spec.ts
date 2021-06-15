@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { literal, PlainParser } from '../../src'
+import { isEqual, literal, PlainParser } from '../../src'
 
 describe('Literal functionality', () => {
   const parser = new PlainParser()
@@ -35,5 +35,18 @@ describe('Literal functionality', () => {
 
     expect(decoded).to.be.eq(input)
     expect(encoded).to.be.eq(input)
+  })
+
+  it('Equality check', () => {
+    expect(isEqual(literal('MY_STRING'), literal('MY_STRING'))).to.be.eql(true)
+    expect(isEqual(literal(8080), literal(8080))).to.be.eql(true)
+    expect(isEqual(literal(true), literal(true))).to.be.eql(true)
+
+    expect(isEqual(literal('MY_STRING'), literal(8080))).to.be.eql(false)
+    expect(isEqual(literal('MY_STRING'), literal(true))).to.be.eql(false)
+    expect(isEqual(literal(8080), literal('MY_STRING'))).to.be.eql(false)
+    expect(isEqual(literal(8080), literal(true))).to.be.eql(false)
+    expect(isEqual(literal(true), literal('MY_STRING'))).to.be.eql(false)
+    expect(isEqual(literal(true), literal(8080))).to.be.eql(false)
   })
 })

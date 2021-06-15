@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { PlainParser, tuple } from '../../src'
+import { isEqual, PlainParser, tuple } from '../../src'
 
 describe('Tuple functionality', () => {
   const parser = new PlainParser()
@@ -30,5 +30,13 @@ describe('Tuple functionality', () => {
 
     expect(decoded).to.have.deep.members(input)
     expect(encoded).to.have.deep.members(input)
+  })
+
+  it('Equality check', () => {
+    expect(isEqual(tuple([String, Number, Boolean, Date]), tuple([String, Number, Boolean, Date]))).to.be.eq(true)
+    expect(isEqual(tuple([String, String, String, Number, Number]), tuple([String, String, String, Number, Number]))).to.be.eq(true)
+
+    expect(isEqual(tuple([String, Number, Boolean, Date]), tuple([String, Number, Boolean]))).to.be.eq(false)
+    expect(isEqual(tuple([String, Number, Boolean, Date]), tuple([String, Number, Boolean, String]))).to.be.eq(false)
   })
 })
