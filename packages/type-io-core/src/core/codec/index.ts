@@ -1,5 +1,6 @@
 export * from './ArrayCodec'
 export * from './ClassCodec'
 export * from './LiteralCodec'
+export * from './RecordCodec'
 export * from './TupleCodec'
 export * from './UnionCodec'

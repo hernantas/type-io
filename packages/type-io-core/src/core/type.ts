@@ -83,6 +83,10 @@ export function isConstructorIdentity <T> (target: TypeIdentity<T>): target is C
   return target.kind === TypeKind.Constructor
 }
 
+export function isRecordIdentity <T extends RecordValue> (target: TypeIdentity<T>): target is RecordIdentity<T> {
+  return target.kind === TypeKind.Record
+}
+
 export function isLiteralIdentity <T extends LiteralValue> (target: TypeIdentity<T>): target is LiteralIdentity<T> {
   return target.kind === TypeKind.Literal
 }
