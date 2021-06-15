@@ -1,4 +1,4 @@
-import { isConstructorType, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity } from './type'
+import { isConstructorType, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity, toIdentity } from './type'
 import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity, RecordType, RecordIdentity } from '../type'
 import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec, RecordCodec } from './codec'
 import { CodecManager } from './CodecManager'
@@ -20,9 +20,7 @@ export class Parser extends CodecManager {
   }
 
   private findOrCreate <T> (target: TargetType<T>): Codec<T, unknown> {
-    if (isConstructorType(target)) {
-      target = type(target)
-    }
+    target = toIdentity(target)
 
     let codec = this.find(target)
 
