@@ -106,6 +106,22 @@ function isIdentityEqual <T> (source: TypeIdentity<T>, destination: TypeIdentity
 
   if (isConstructorIdentity(source) && isConstructorIdentity(destination)) {
     return source.type === destination.type
+  } else if (isRecordIdentity(source) && isRecordIdentity(destination)) {
+    const srcKeys = Object.keys(source.props)
+    const dstKeys = Object.keys(destination.props)
+
+    if (srcKeys.length !== dstKeys.length) {
+      return false
+    }
+
+    return [...srcKeys, ...dstKeys]
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .map(key => source.props[key] !== undefined &&
+        destination.props[key] !== undefined &&
+        isEqual(source.props[key], destination.props[key])
+      )
+      .filter(b => !b)
+      .length === 0
   } else if (isLiteralIdentity(source) && isLiteralIdentity(destination)) {
     return source.value === destination.value
   } else if (isArrayIdentity(source) && isArrayIdentity(destination)) {
