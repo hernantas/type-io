@@ -11,6 +11,7 @@
     "core": "yarn workspace @type-io/core",
     "nodejs": "yarn workspace @type-io/node",
     "bson": "yarn workspace @type-io/bson",
+    "mongo": "yarn workspace @type-io/mongo",
     "build": "tsc -b tsconfig.build.json",
     "test": "mocha -r ts-node/register packages/**/*.spec.ts",
     "lint:fix": "ts-standard --fix",
