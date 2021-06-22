@@ -1,9 +1,16 @@
-import { ConstructorType, TargetType, TypeKind, ConstructorIdentity, RecordType, RecordIdentity, LiteralType, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberType, MemberIdentity, EnumType } from '../type'
+import { ConstructorType, TargetType, TypeKind, ConstructorIdentity, RecordType, RecordIdentity, LiteralType, LiteralIdentity, TypeIdentity, ArrayIdentity, MemberType, MemberIdentity, EnumType, UnknownIdentity } from '../type'
 import { TargetMemberOf, TargetRecordOf, UnionOf } from '../type/util'
 import { findCtor } from './util'
 
 export function toIdentity <T> (target: TargetType<T>): TypeIdentity<T> {
   return isConstructorType(target) ? type(target) : target
+}
+
+export function unknown (): TypeIdentity<unknown> {
+  const id: UnknownIdentity = {
+    kind: TypeKind.Unknown
+  }
+  return id
 }
 
 export function type <T> (type: ConstructorType<T>, variant?: TargetType): TypeIdentity<T> {
@@ -79,6 +86,10 @@ export function isTypeIdentity <T> (target: TargetType<T>): target is TypeIdenti
   return typeof target === 'object' && !Array.isArray(target)
 }
 
+export function isUnknownIdentity (target: TypeIdentity): target is TypeIdentity<unknown> {
+  return target.kind === TypeKind.Unknown
+}
+
 export function isConstructorIdentity <T> (target: TypeIdentity<T>): target is ConstructorIdentity<T> {
   return target.kind === TypeKind.Constructor
 }
@@ -104,7 +115,9 @@ function isIdentityEqual <T> (source: TypeIdentity<T>, destination: TypeIdentity
     return false
   }
 
-  if (isConstructorIdentity(source) && isConstructorIdentity(destination)) {
+  if (isUnknownIdentity(source) && isUnknownIdentity(destination)) {
+    return true
+  } else if (isConstructorIdentity(source) && isConstructorIdentity(destination)) {
     return source.type === destination.type
   } else if (isRecordIdentity(source) && isRecordIdentity(destination)) {
     const srcKeys = Object.keys(source.props)

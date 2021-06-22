@@ -1,10 +1,15 @@
-import { isConstructorType, type, isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity, toIdentity } from './type'
-import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity, RecordType, RecordIdentity } from '../type'
+import { isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity, toIdentity } from './type'
+import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity, RecordType, RecordIdentity, ConstructorType } from '../type'
 import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec, RecordCodec } from './codec'
 import { CodecManager } from './CodecManager'
 import { getSchema } from './util'
+import { UnknownCodec } from './codec/UnknownCodec'
 
 export class Parser extends CodecManager {
+  constructor (...codecCtors: Array<ConstructorType<Codec<any>>>) {
+    super(...codecCtors, UnknownCodec)
+  }
+
   decode <T = unknown, I = unknown> (input: I, target: TargetType<T>, options?: CodecOption): T {
     const codec = this.findOrCreate(target)
     return codec.decode(input, options)
