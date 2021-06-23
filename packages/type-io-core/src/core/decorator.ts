@@ -1,4 +1,5 @@
-import { ConstructorType, PropertyInfo, PropertyOption } from '../type'
+import { ConstructorType, PropertyInfo, PropertyOption, TypeResolution } from '../type'
+import { unknown, variant } from './type'
 import { getDesignType, getSchema, setSchema } from './util'
 
 export function Prop (options?: PropertyOption): PropertyDecorator {
@@ -14,9 +15,23 @@ export function Prop (options?: PropertyOption): PropertyDecorator {
         outName: propKey
       }
 
+      const resolution = options?.typeResolution ?? TypeResolution.AUTO
+      switch (resolution) {
+        case TypeResolution.AUTO:
+          def.type = options?.type ?? designType
+          break
+        case TypeResolution.ORIGIN:
+          def.type = designType
+          break
+        case TypeResolution.OVERRIDE:
+          def.type = options?.type ?? unknown()
+          break
+        case TypeResolution.MERGE:
+          def.type = variant(designType, options?.type)
+          break
+      }
+
       if (options !== undefined) {
-        // Skip design:type
-        def.type = options.type ?? def.type
         def.option = options.option
         def.optional = options.optional ?? false
         def.inName = options.inName ?? options.outName ?? def.name
