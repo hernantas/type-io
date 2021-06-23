@@ -1,7 +1,7 @@
 import { MemberIdentity, MemberType, TargetType, TypeIdentity, TypeKind } from '../../type'
-import { TargetMemberOf, UnionOf } from '../../type/util'
+import { TargetTypeOf, UnionOf } from '../../type/util'
 
-export function tuple <T extends MemberType> (members: TargetMemberOf<T>, variant?: TargetType): TypeIdentity<T> {
+export function tuple <T extends MemberType> (members: TargetTypeOf<T>, variant?: TargetType): TypeIdentity<T> {
   const id: MemberIdentity<T> = {
     kind: TypeKind.Tuple,
     variant,
@@ -10,7 +10,7 @@ export function tuple <T extends MemberType> (members: TargetMemberOf<T>, varian
   return id
 }
 
-export function union <T extends MemberType> (members: TargetMemberOf<T>, variant?: TargetType): TypeIdentity<UnionOf<T>> {
+export function union <T extends MemberType> (members: TargetTypeOf<T>, variant?: TargetType): TypeIdentity<UnionOf<T>> {
   const id: MemberIdentity<T> = {
     kind: TypeKind.Union,
     variant,

@@ -1,7 +1,7 @@
-import { TargetRecordOf } from '../../type/util'
+import { TargetTypeOf } from '../../type/util'
 import { RecordIdentity, RecordType, TargetType, TypeIdentity, TypeKind } from '../../type'
 
-export function record <T extends RecordType> (props: TargetRecordOf<T>, variant?: TargetType): TypeIdentity<T> {
+export function record <T extends RecordType> (props: TargetTypeOf<T>, variant?: TargetType): TypeIdentity<T> {
   const id: RecordIdentity<T> = {
     kind: TypeKind.Record,
     variant,
