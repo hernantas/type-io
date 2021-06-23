@@ -39,8 +39,8 @@ describe('[BSON] Bson Parser (String Codec)', () => {
     const decode = parser.decode(value, String)
     const encode = parser.encode(decode, String)
 
-    expect(decode).to.equal(value.toString())
-    expect(encode).to.equal(value.toString())
+    expect(decode).to.equal(value.toHexString())
+    expect(encode).to.equal(value.toHexString())
   })
 
   it('Decode/Encode from Double', () => {
@@ -93,7 +93,7 @@ describe('[BSON] Bson Parser (String Codec)', () => {
     const decode = parser.decode(value, String)
     const encode = parser.encode(decode, String)
 
-    expect(decode).to.equal(value.toString())
-    expect(encode).to.equal(value.toString())
+    expect(decode).to.equal(String(value))
+    expect(encode).to.equal(String(value))
   })
 })
