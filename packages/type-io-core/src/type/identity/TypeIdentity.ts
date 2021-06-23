@@ -6,6 +6,6 @@ import { TypeKind } from './TypeKind'
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface TypeIdentity<T = unknown> {
-  readonly kind: TypeKind
+  readonly _kind: TypeKind
   variant?: TargetType
 }

@@ -1,3 +1,4 @@
+
 import { isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity, toIdentity } from './type'
 import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity, RecordType, RecordIdentity, ConstructorType } from '../type'
 import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec, RecordCodec } from './codec'
@@ -43,7 +44,7 @@ export class Parser extends CodecManager {
       codec = this.createArrayCodec(target) as unknown as Codec<T, unknown>
     } else if (isMemberIdentity(target)) {
       const codecs = target.members.map(member => this.findOrCreate(member))
-      switch (target.kind) {
+      switch (target._kind) {
         case TypeKind.Tuple:
           codec = new TupleCodec(target, codecs) as unknown as Codec<T, unknown>
           break

@@ -2,7 +2,7 @@ import { LiteralIdentity, LiteralType, TargetType, TypeIdentity, TypeKind } from
 
 export function literal <T extends LiteralType> (value: T, variant?: TargetType): TypeIdentity<T> {
   const id: LiteralIdentity<T> = {
-    kind: TypeKind.Literal,
+    _kind: TypeKind.Literal,
     variant,
     value
   }
@@ -10,5 +10,5 @@ export function literal <T extends LiteralType> (value: T, variant?: TargetType)
 }
 
 export function isLiteralIdentity <T extends LiteralType> (target: TypeIdentity<T>): target is LiteralIdentity<T> {
-  return target.kind === TypeKind.Literal
+  return target._kind === TypeKind.Literal
 }

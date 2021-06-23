@@ -3,7 +3,7 @@ import { RecordIdentity, RecordType, TargetType, TypeIdentity, TypeKind } from '
 
 export function record <T extends RecordType> (props: TargetTypeOf<T>, variant?: TargetType): TypeIdentity<T> {
   const id: RecordIdentity<T> = {
-    kind: TypeKind.Record,
+    _kind: TypeKind.Record,
     variant,
     props
   }
@@ -11,5 +11,5 @@ export function record <T extends RecordType> (props: TargetTypeOf<T>, variant?:
 }
 
 export function isRecordIdentity <T extends RecordType> (target: TypeIdentity<T>): target is RecordIdentity<T> {
-  return target.kind === TypeKind.Record
+  return target._kind === TypeKind.Record
 }

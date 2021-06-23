@@ -6,6 +6,6 @@ import { TypeKind } from './TypeKind'
  * `TypeIdentity` that provides information about literal value of `<T>` type
  */
 export interface LiteralIdentity<T extends LiteralType> extends TypeIdentity<T> {
-  readonly kind: TypeKind.Literal
+  readonly _kind: TypeKind.Literal
   readonly value: T
 }

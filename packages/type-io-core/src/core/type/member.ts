@@ -3,7 +3,7 @@ import { TargetTypeOf, UnionOf } from '../../type/util'
 
 export function tuple <T extends MemberType> (members: TargetTypeOf<T>, variant?: TargetType): TypeIdentity<T> {
   const id: MemberIdentity<T> = {
-    kind: TypeKind.Tuple,
+    _kind: TypeKind.Tuple,
     variant,
     members
   }
@@ -12,7 +12,7 @@ export function tuple <T extends MemberType> (members: TargetTypeOf<T>, variant?
 
 export function union <T extends MemberType> (members: TargetTypeOf<T>, variant?: TargetType): TypeIdentity<UnionOf<T>> {
   const id: MemberIdentity<T> = {
-    kind: TypeKind.Union,
+    _kind: TypeKind.Union,
     variant,
     members
   }
@@ -20,5 +20,5 @@ export function union <T extends MemberType> (members: TargetTypeOf<T>, variant?
 }
 
 export function isMemberIdentity <T extends MemberType> (target: TypeIdentity<T>): target is MemberIdentity<T> {
-  return target.kind === TypeKind.Tuple || target.kind === TypeKind.Union || target.kind === TypeKind.Intersection
+  return target._kind === TypeKind.Tuple || target._kind === TypeKind.Union || target._kind === TypeKind.Intersection
 }

@@ -2,7 +2,7 @@ import { ConstructorIdentity, ConstructorType, TargetType, TypeIdentity, TypeKin
 
 export function type <T> (type: ConstructorType<T>, variant?: TargetType): TypeIdentity<T> {
   const id: ConstructorIdentity<T> = {
-    kind: TypeKind.Constructor,
+    _kind: TypeKind.Constructor,
     variant,
     type
   }
@@ -10,5 +10,5 @@ export function type <T> (type: ConstructorType<T>, variant?: TargetType): TypeI
 }
 
 export function isConstructorIdentity <T> (target: TypeIdentity<T>): target is ConstructorIdentity<T> {
-  return target.kind === TypeKind.Constructor
+  return target._kind === TypeKind.Constructor
 }

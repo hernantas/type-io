@@ -8,7 +8,7 @@ import { isUnknownIdentity } from './unknown'
 import { isTypeIdentity, toIdentity } from './util'
 
 function isIdentityEqual <T> (source: TypeIdentity<T>, destination: TypeIdentity): destination is TypeIdentity<T> {
-  if (source.kind !== destination.kind) {
+  if (source._kind !== destination._kind) {
     return false
   }
 
