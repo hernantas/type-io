@@ -3,3 +3,4 @@ export { Binary, Decimal128, Double, Int32, Long, ObjectId, Timestamp } from 'bs
 
 export * from './codec'
 export * from './parser'
+export * from './decorator'
