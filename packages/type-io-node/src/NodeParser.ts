@@ -1,8 +1,8 @@
-import { Codec, ConstructorValue, PlainParser } from '@type-io/core'
+import { Codec, ConstructorType, PlainParser } from '@type-io/core'
 import { BufferCodec } from './BufferCodec'
 
 export class NodeParser extends PlainParser {
-  constructor (...codecCtors: Array<ConstructorValue<Codec<any>>>) {
+  constructor (...codecCtors: Array<ConstructorType<Codec<any>>>) {
     super(...codecCtors, BufferCodec)
   }
 }

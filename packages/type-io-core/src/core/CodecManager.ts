@@ -1,11 +1,11 @@
-import { ConstructorValue, TargetType } from '../type'
+import { ConstructorType, TargetType } from '../type'
 import { Codec } from '../type/Codec'
 import { isEqual, isStrictEqual } from './type'
 
 export class CodecManager {
   readonly #codecs: Array<Codec<unknown>> = []
 
-  constructor (...codecCtors: Array<ConstructorValue<Codec<any>>>) {
+  constructor (...codecCtors: Array<ConstructorType<Codec<any>>>) {
     this.push(...codecCtors.map(Ctor => new Ctor()))
   }
 

@@ -1,6 +1,6 @@
-import { Codec, LiteralIdentity, LiteralValue } from '../../type'
+import { Codec, LiteralIdentity, LiteralType } from '../../type'
 
-export class LiteralCodec<T extends LiteralValue> implements Codec<T> {
+export class LiteralCodec<T extends LiteralType> implements Codec<T> {
   readonly target: LiteralIdentity<T>
 
   constructor (target: LiteralIdentity<T>) {

@@ -1,7 +1,7 @@
-import { Codec, MemberIdentity, MemberValue } from '../../type'
+import { Codec, MemberIdentity, MemberType } from '../../type'
 import { CodecOf } from '../../type/util'
 
-export class TupleCodec<T extends MemberValue> implements Codec<T, unknown[]> {
+export class TupleCodec<T extends MemberType> implements Codec<T, unknown[]> {
   readonly target: MemberIdentity<T>
   readonly codecs: CodecOf<T>
 

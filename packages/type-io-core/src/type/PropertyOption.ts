@@ -1,10 +1,6 @@
-import { TargetType } from './TargetType'
-import { CodecOption } from './CodecOption'
+import { PropertyInfo } from './PropertyInfo'
+import { TypeResolution } from './TypeResolution'
 
-export interface PropertyOption {
-  type?: TargetType
-  optional?: boolean
-  inName?: string
-  outName?: string
-  option?: CodecOption
+export interface PropertyOption<T = unknown> extends Partial<PropertyInfo<T>> {
+  typeResolution?: TypeResolution
 }

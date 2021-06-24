@@ -11,18 +11,21 @@
     "core": "yarn workspace @type-io/core",
     "nodejs": "yarn workspace @type-io/node",
     "bson": "yarn workspace @type-io/bson",
+    "mongo": "yarn workspace @type-io/mongo",
     "build": "tsc -b tsconfig.build.json",
     "test": "mocha -r ts-node/register packages/**/*.spec.ts",
-    "lint:fix": "ts-standard --fix"
+    "lint:fix": "ts-standard --fix",
+    "clean": "rimraf packages/*/dist packages/*/*.tsbuildinfo"
   },
   "devDependencies": {
     "@types/chai": "^4.2.18",
     "@types/mocha": "^8.2.2",
     "chai": "^4.3.4",
-    "mocha": "^9.0.0",
+    "mocha": "^9.0.1",
     "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.0.0",
     "ts-standard": "^10.0.0",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.4"
   }
 }
