@@ -19,7 +19,7 @@ export function isConstructorType <T> (target: TargetType<T>): target is Constru
 }
 
 export function isTypeIdentity <T> (target: TargetType<T>): target is TypeIdentity<T> {
-  return typeof target === 'object' && !Array.isArray(target)
+  return typeof target === 'object'
 }
 
 export function findIdentity <T> (value: T): TypeIdentity<T> {
