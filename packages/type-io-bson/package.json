@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "@type-io/core": "workspace:*",
-    "bson": "^4.2.3"
+    "bson": "^4.4.0"
   }
 }

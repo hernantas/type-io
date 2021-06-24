@@ -389,7 +389,7 @@ __metadata:
   dependencies:
     "@type-io/core": "workspace:*"
     "@types/node": ^15.0.2
-    bson: ^4.2.3
+    bson: ^4.4.0
   languageName: unknown
   linkType: soft
 
@@ -889,7 +889,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^4.2.3":
+"bson@npm:^4.4.0":
   version: 4.4.0
   resolution: "bson@npm:4.4.0"
   dependencies:
@@ -3015,9 +3015,9 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"mocha@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "mocha@npm:9.0.0"
+"mocha@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "mocha@npm:9.0.1"
   dependencies:
     "@ungap/promise-all-settled": 1.1.2
     ansi-colors: 4.1.1
@@ -3047,7 +3047,7 @@ fsevents@~2.3.1:
   bin:
     _mocha: bin/_mocha
     mocha: bin/mocha
-  checksum: 5429a9ed5da8f10466c7a967b8adc9359d43d57039116f135680fea4aca0f4e4629fc70aa3fe5b12c9a3651c5d4745d078534f31d793af71d95f2f7a13d5da50
+  checksum: f3a5b0aad457a61fca644fd3e7781ea1388d112974b2f6a8eb87bebfec30111fb282b11734dbf1ddcb0a0c520f663bc389f61f6f70680fe2b30fda65f01e67e0
   languageName: node
   linkType: hard
 
@@ -4438,12 +4438,12 @@ resolve@^2.0.0-next.3:
     "@types/chai": ^4.2.18
     "@types/mocha": ^8.2.2
     chai: ^4.3.4
-    mocha: ^9.0.0
+    mocha: ^9.0.1
     nyc: ^15.1.0
     rimraf: ^3.0.2
     ts-node: ^10.0.0
     ts-standard: ^10.0.0
-    typescript: ^4.3.2
+    typescript: ^4.3.4
   languageName: unknown
   linkType: soft
 
@@ -4456,23 +4456,23 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-typescript@^4.3.2:
-  version: 4.3.2
-  resolution: "typescript@npm:4.3.2"
+typescript@^4.3.4:
+  version: 4.3.4
+  resolution: "typescript@npm:4.3.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 21e1285402e32fd240f6ad3f97b6fea81b90d2591f412677d01b570a8bd93151d1e08460d58f43689fc758671a5baaebb16fa93d3c8260181612c8e619bd24f7
+  checksum: 9791c5fe98db6cb70ec0efad8d3d2eb957b9643ee600b90bff49267de69768d0d5f59c41a8fd731cfd63df1ccfb2cb25505a2015d7b39ac10ea51f605a058e16
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.3.2#builtin<compat/typescript>":
-  version: 4.3.2
-  resolution: "typescript@patch:typescript@npm%3A4.3.2#builtin<compat/typescript>::version=4.3.2&hash=ddfc1b"
+"typescript@patch:typescript@^4.3.4#builtin<compat/typescript>":
+  version: 4.3.4
+  resolution: "typescript@patch:typescript@npm%3A4.3.4#builtin<compat/typescript>::version=4.3.4&hash=ddfc1b"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 68d48dc86dacfeab59a22414ff061c976c46b679a9717a3a710051ea7bab779fd23f4edb856434da8155e8e8646c90b3912e342cc0010dfd15ed321a42cb0578
+  checksum: c8766e84a4f71e925cc059af8286cc7f41819fe821d433b90c83e9b36729cbda7a8e4be3292d8a1433cd717d529c93217d58d173418f43862290b206bd88b284
   languageName: node
   linkType: hard
 
