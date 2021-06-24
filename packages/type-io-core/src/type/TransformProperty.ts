@@ -1,6 +1,6 @@
 import { Codec } from './Codec'
-import { PropertyInfo } from './PropertyInfo'
+import { PropertySignature } from './PropertySignature'
 
-export interface TransformProperty<P> extends PropertyInfo {
-  codec: Codec<P, unknown>
+export interface TransformProperty<T> extends PropertySignature<T> {
+  codec: Codec<T, unknown>
 }

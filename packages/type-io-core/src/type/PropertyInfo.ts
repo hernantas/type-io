@@ -1,9 +1,13 @@
-import { PropertyOption } from './PropertyOption'
-import { RequiredExceptOf } from './util'
+import { CodecOption } from './CodecOption'
+import { TargetType } from './TargetType'
 
 /**
- * Contain information of property of some object
+ * Provides information about property
  */
-export interface PropertyInfo extends RequiredExceptOf<Omit<PropertyOption, 'typeResolution'>, 'option'> {
-  name: string
+export interface PropertyInfo<T = unknown> {
+  type: TargetType<T>
+  optional: boolean
+  inName: string
+  outName: string
+  option?: CodecOption
 }

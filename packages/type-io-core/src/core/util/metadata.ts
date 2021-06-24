@@ -1,11 +1,11 @@
 import 'reflect-metadata'
-import { ConstructorType, ObjectSchema, PropertyInfo } from '../../type'
+import { ConstructorType, PropertySignature, RecordSignature, RecordType } from '../../type'
 
 const METADATA_KEY_DESIGN_TYPE = 'design:type'
-const METADATA_KEY_SCHEMA = 'typeio:schema'
+const METADATA_KEY_SIGNATURE = 'typeio:signature'
 
-function isPropertyInfo (obj: unknown): obj is PropertyInfo {
-  const def = obj as PropertyInfo
+function isPropertySignature <T> (obj: unknown): obj is PropertySignature<T> {
+  const def = obj as PropertySignature<T>
   return def.type !== undefined ||
     def.name !== undefined ||
     def.inName !== undefined ||
@@ -20,8 +20,8 @@ function isPropertyInfo (obj: unknown): obj is PropertyInfo {
  * @param propertyKey Property key of target object
  * @returns Target type
  */
-export function getDesignType (target: Object, propertyKey: string | symbol): ConstructorType {
-  return Reflect.getMetadata(METADATA_KEY_DESIGN_TYPE, target, propertyKey)
+export function getDesignType <T> (target: T, propertyKey: keyof T): ConstructorType<T[keyof T]> {
+  return Reflect.getMetadata(METADATA_KEY_DESIGN_TYPE, target, propertyKey as string | symbol)
 }
 
 /**
@@ -30,10 +30,10 @@ export function getDesignType (target: Object, propertyKey: string | symbol): Co
  * @param constructor Target type constructor
  * @returns Object schema
  */
-export function getSchema (constructor: ConstructorType): ObjectSchema {
-  const schema = Reflect.getMetadata(METADATA_KEY_SCHEMA, constructor)
+export function getSignature <T> (constructor: ConstructorType<T>): RecordSignature<T> {
+  const schema = Reflect.getMetadata(METADATA_KEY_SIGNATURE, constructor)
   return schema !== undefined && Array.isArray(schema)
-    ? schema.filter(isPropertyInfo)
+    ? schema.filter(isPropertySignature) as RecordSignature<T>
     : []
 }
 
@@ -41,8 +41,8 @@ export function getSchema (constructor: ConstructorType): ObjectSchema {
  * Set object schema for given type
  *
  * @param constructor Target type constructor
- * @param schema Object schema
+ * @param signature Object schema
  */
-export function setSchema <T> (constructor: ConstructorType<T>, schema: ObjectSchema): void {
-  Reflect.defineMetadata(METADATA_KEY_SCHEMA, schema, constructor)
+export function setSignature <T> (constructor: ConstructorType<T>, signature: RecordSignature<T>): void {
+  Reflect.defineMetadata(METADATA_KEY_SIGNATURE, signature, constructor)
 }

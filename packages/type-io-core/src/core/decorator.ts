@@ -1,18 +1,18 @@
-import { ConstructorType, PropertyInfo, PropertyOption, TypeResolution } from '../type'
+import { ConstructorType, PropertyOption, PropertySignature, RecordType, TypeResolution } from '../type'
 import { unknown, variant } from './type'
-import { getDesignType, getSchema, setSchema } from './util'
+import { getDesignType, getSignature, setSignature } from './util'
 
-export function Prop (options?: PropertyOption): PropertyDecorator {
-  return (target: Object, propKey: string | symbol): void => {
-    if (typeof propKey === 'string') {
-      const designType = getDesignType(target, propKey)
+export function Prop <T> (options?: PropertyOption<T>): PropertyDecorator {
+  return (target: Object, key: string | symbol): void => {
+    if (typeof key === 'string') {
+      const designType = getDesignType(target as RecordType, key)
 
-      const def: PropertyInfo = {
-        name: propKey,
+      const def: PropertySignature = {
+        name: key,
         type: designType,
         optional: false,
-        inName: propKey,
-        outName: propKey
+        inName: key,
+        outName: key
       }
 
       const resolution = options?.typeResolution ?? TypeResolution.AUTO
@@ -42,14 +42,15 @@ export function Prop (options?: PropertyOption): PropertyDecorator {
         throw new Error('\'type\' option must be specified when property is an array')
       }
 
-      const schema = getSchema(target.constructor as ConstructorType)
-      const index = schema.findIndex(def => def.name === propKey)
+      const ctor = target.constructor as ConstructorType<RecordType>
+      const signature = getSignature(ctor)
+      const index = signature.findIndex(def => def.name === key)
       if (index === -1) {
-        schema.push(def)
+        signature.push(def)
       } else {
-        schema[index] = def
+        signature[index] = def
       }
-      setSchema(target.constructor as ConstructorType, schema)
+      setSignature(ctor, signature)
     }
   }
 }

@@ -1,10 +1,8 @@
-
 import { isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity, toIdentity } from './type'
-import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity, RecordType, RecordIdentity, ConstructorType } from '../type'
+import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, ArrayIdentity, RecordType, RecordIdentity, ConstructorType, TransformProperty } from '../type'
 import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec, RecordCodec, UnknownCodec } from './codec'
 import { CodecManager } from './CodecManager'
-import { getSchema } from './util'
-import { UnknownCodec } from './codec/UnknownCodec'
+import { getSignature } from './util'
 
 export class Parser extends CodecManager {
   constructor (...codecCtors: Array<ConstructorType<Codec<any>>>) {
@@ -63,34 +61,29 @@ export class Parser extends CodecManager {
   }
 
   private createClassCodec <T> (identity: ConstructorIdentity<T>): ClassCodec<T> {
-    const schema = getSchema(identity.type)
-    const transformSchema = schema
-      .map(info => {
-        const transformProp: TransformProperty<unknown> = {
-          ...info,
-          codec: this.findOrCreate(info.type)
-        }
-        return transformProp
-      }) as TransformSchema<T>
-    return new ClassCodec(identity, transformSchema)
+    const signature = getSignature(identity.type)
+    const transform = signature.map(val => {
+      return {
+        ...val,
+        codec: this.findOrCreate(val.type)
+      }
+    })
+    return new ClassCodec(identity, transform)
   }
 
   private createRecordCodec <T extends RecordType> (identity: RecordIdentity<T>): RecordCodec<T> {
-    const transformSchema = Object
-      .keys(identity.props)
-      .map(key => {
-        const target = identity.props[key]
-        const transformProp: TransformProperty<T[string]> = {
-          name: key,
-          inName: key,
-          outName: key,
-          type: target,
-          optional: false,
-          codec: this.findOrCreate(target)
-        }
-        return transformProp
-      }) as TransformSchema<T>
-    return new RecordCodec(identity, transformSchema)
+    const transform = Object.keys(identity.props).map(key => {
+      const target = identity.props[key as keyof T]
+      return {
+        name: key,
+        inName: key,
+        outName: key,
+        type: target,
+        optional: false,
+        codec: this.findOrCreate(target)
+      }
+    })
+    return new RecordCodec(identity, transform)
   }
 
   private createArrayCodec<T> (type: ArrayIdentity<T>): ArrayCodec<T> {

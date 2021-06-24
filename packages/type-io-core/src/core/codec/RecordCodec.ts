@@ -1,9 +1,9 @@
-import { Codec, RecordIdentity, RecordType, TransformSchema } from '../../type'
+import { Codec, RecordIdentity, RecordType, TransformSignature } from '../../type'
 
-function decode <T, I = unknown> (schema: TransformSchema<T>, input: I, initial: T): T {
+export function recordDecode <T, I = unknown> (signature: TransformSignature<T>, input: I, initial: T): T {
   if (typeof input === 'object' && input !== null) {
-    for (const propT of schema) {
-      const inPropName = propT.inName as keyof typeof input
+    for (const propT of signature) {
+      const inPropName = propT.inName as keyof I
       const outPropName = propT.name as keyof T
 
       if (inPropName in input) {
@@ -17,8 +17,8 @@ function decode <T, I = unknown> (schema: TransformSchema<T>, input: I, initial:
   throw new Error('Type of input must be an object when decoding')
 }
 
-function encode <T extends RecordType> (schema: TransformSchema<T>, input: T, initial: RecordType): RecordType {
-  for (const propT of schema) {
+export function recordEncode <T> (signature: TransformSignature<T>, input: T, initial: RecordType): RecordType {
+  for (const propT of signature) {
     const inPropName = propT.name as keyof T
     const outPropName = propT.outName
 
@@ -33,19 +33,19 @@ function encode <T extends RecordType> (schema: TransformSchema<T>, input: T, in
 
 export class RecordCodec<T extends RecordType> implements Codec<T, RecordType> {
   readonly target: RecordIdentity<T>
-  readonly schema: TransformSchema<T>
+  readonly signature: TransformSignature<T>
 
-  constructor (target: RecordIdentity<T>, schema: TransformSchema<T>) {
+  constructor (target: RecordIdentity<T>, signature: TransformSignature<T>) {
     this.target = target
-    this.schema = schema
+    this.signature = signature
   }
 
   decode (input: unknown): T {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    return decode(this.schema, input, {} as T)
+    return recordDecode(this.signature, input, {} as T)
   }
 
   encode (input: T): RecordType {
-    return encode(this.schema, input, {})
+    return recordEncode(this.signature, input, {})
   }
 }

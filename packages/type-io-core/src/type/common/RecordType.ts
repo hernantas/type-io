@@ -1,4 +1,4 @@
 /**
  * Type alias for any object (object with properties)
  */
-export type RecordType = Record<string, unknown>
+export type RecordType = Record<string | symbol, unknown>
