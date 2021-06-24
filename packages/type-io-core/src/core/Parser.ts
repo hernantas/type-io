@@ -1,7 +1,7 @@
 
 import { isConstructorIdentity, isLiteralIdentity, isArrayIdentity, isMemberIdentity, findIdentity, isRecordIdentity, toIdentity } from './type'
 import { TargetType, CodecOption, Codec, TypeKind, ConstructorIdentity, TransformSchema, TransformProperty, ArrayIdentity, RecordType, RecordIdentity, ConstructorType } from '../type'
-import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec, RecordCodec } from './codec'
+import { LiteralCodec, TupleCodec, UnionCodec, ClassCodec, ArrayCodec, RecordCodec, UnknownCodec } from './codec'
 import { CodecManager } from './CodecManager'
 import { getSchema } from './util'
 import { UnknownCodec } from './codec/UnknownCodec'
