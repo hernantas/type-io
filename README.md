@@ -24,8 +24,8 @@ However, `Parser` is not as portable since some parser require to be run on spec
 - [@type-io/cores](packages/type-io-core/README.md): Used to define our data model. This package can be run on both front-end and back-end.
 - [@type-io/node](packages/type-io-node/README.md): Add support for Node data type such as `Buffer`. This can only be run on Node
 - [@type-io/bson](packages/type-io-bson/README.md): Add support for Bson data type such as `Decimal128`, `Int32` and more. This can be run on both front-end and back-end
+- [@type-io/mongo](packages/type-io-mongo/README.md): Add support for MongoDb data type such as `Decimal128`, `Int32` and more. In addition, `@MongoId` decorator let you map `_id` (`ObjectId`) to `id` (`string`)
 
 ## To Do
 
 - Circular type: Currently not supported
-- `@type-io/mongo`: Used to transform object from/to MongoDb object.

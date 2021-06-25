@@ -18,6 +18,29 @@ yarn add @type-io/bson
 
 ## Built-In
 
+### `@BsonId`
+
+Automatically map `ObjectId` to `string`
+
+For example:
+
+```ts
+class MyEntity {
+  @BsonId()
+  otherEntityId: string
+}
+```
+
+Can accept input or will produce output to:
+
+```ts
+{
+  otherEntityId: new ObjectId()
+}
+```
+
+### `BsonParser`
+
 How to read table bellow:
 
 ```ts
@@ -26,8 +49,6 @@ class Example {
   propertyName: <<Instanced Type>>
 }
 ```
-
-### `BsonParser`
 
 Supported type: All type from `PlainParser` and...
 
